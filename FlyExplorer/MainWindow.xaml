@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlyExplorer"
         mc:Ignorable="d"
-        Title="FlyExplorer" Height="350" Width="525" Opacity="0.99" FontFamily="Trajan Pro" WindowStyle="ThreeDBorderWindow">
+        Title="FlyExplorer" Height="350" Width="525" Opacity="0.99" FontFamily="Trajan Pro" WindowStyle="None">
     <Grid x:Name="MainGrid" Margin="0,0,0,-1">
         <Menu Height="17" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=MainWindow1, Mode=OneWay}" FontFamily="Trajan Pro">
             <MenuItem Header="Files" Height="17" Width="50">
@@ -17,7 +17,7 @@
         <ToolBar Height="25" Margin="0,17,0,0" VerticalAlignment="Top"/>
         <TabControl x:Name="TabControl" Margin="0,42,0,0">
             <TabItem Header="TabItem1">
-                <Grid/>
+                <Grid Background="#FFE5E5E5" />
             </TabItem>
             <TabItem Header="TabItem">
                 <Grid Background="#FFE5E5E5"/>
