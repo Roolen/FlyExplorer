@@ -98,7 +98,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Documentation\DiagramClasses.vsdx" />
-    <None Include="Documentation\DiagramEvents.vsdx" />
     <None Include="Documentation\DiagramMechanisms.vsdx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
