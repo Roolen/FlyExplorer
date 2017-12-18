@@ -41,6 +41,11 @@ namespace FlyExplorer.BasicElements
             }
         }
 
+        /// <summary>
+        /// Представляет собой логический диск фойловой системой.
+        /// </summary>
+        /// <param name="name">Имя логического диска</param>
+        /// <param name="label">Метка логического диска</param>
         public LogicDisk(string name, string label)
         {
             NameDisk = name;
@@ -55,13 +60,28 @@ namespace FlyExplorer.BasicElements
             
         }
 
+        private void SetNameDisk()
+        {
+
+        }
+
+        private void UpdateSize()
+        {
+
+        }
+
+        private void UpdateTypeFileSystem()
+        {
+
+        }
+
         /// <summary>
         /// Возвращает общий объем логического диска.
         /// </summary>
         /// <returns>Размер</returns>
         public ulong GetSizeDisk()
         {
-            return 3u;
+            return Size;
         }
 
         /// <summary>
@@ -70,7 +90,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>объем</returns>
         public ulong GetFreeVolume()
         {
-            return 4u;
+            return FreeVolume;
         }
 
         /// <summary>
@@ -79,7 +99,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Объем</returns>
         public ulong GetOccupiedVolume()
         {
-            return 5u;
+            return OccupiedVolume;
         }
 
         /// <summary>
@@ -88,7 +108,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Тип ФС</returns>
         public string GetTypeFileSystem()
         {
-            return "NTFS";
+            return typeFileSystem;
         }
     }
 }
