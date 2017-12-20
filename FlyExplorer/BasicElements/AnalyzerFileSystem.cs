@@ -25,12 +25,12 @@ namespace FlyExplorer.BasicElements
 
         static public FileDirectory GetDataInPosition(SByte numberPosition)
         {
-            return new FileDirectory();
+            return new FileDirectory(positions[numberPosition]);
         }
 
         static public LogicDisk GetLogicDisk(string nameDisk)
         {
-            return new LogicDisk();
+            return new LogicDisk("t", "jfj");
         }
 
         static public void GetPosition(sbyte numberPosition)

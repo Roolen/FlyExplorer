@@ -5,12 +5,13 @@ namespace FlyExplorer.BasicElements
 {
     internal class LogicDisk
     {
+        DriveInfo logicDisk;
         private string nameDisk;
-        private ulong Size;
-        private ulong FreeVolume;
-        private ulong OccupiedVolume;
+        private ulong size;
+        private ulong freeVolume;
+        private ulong occupiedVolume;
         private string labelDisk;
-        private string typeFileSystem;
+        private DriveType typeFileSystem;
 
 
         public string NameDisk
@@ -19,11 +20,6 @@ namespace FlyExplorer.BasicElements
             {
                 if (nameDisk != null) return nameDisk;
                 return ""; // todo add exception.
-            }
-            set
-            {
-                if (value != null) nameDisk = value;
-                // todo add exception.
             }
         }
 
@@ -34,11 +30,6 @@ namespace FlyExplorer.BasicElements
                 if (labelDisk != null) return labelDisk;
                 return ""; // todo add exception;
             }
-            set
-            {
-                if (value != null) labelDisk = value;
-                // todo add exception.
-            }
         }
 
         /// <summary>
@@ -48,8 +39,9 @@ namespace FlyExplorer.BasicElements
         /// <param name="label">Метка логического диска</param>
         public LogicDisk(string name, string label)
         {
-            NameDisk = name;
-            LabelDisk = label;
+            nameDisk = name;
+            labelDisk = label;
+            logicDisk = new DriveInfo(nameDisk);
         }
 
         /// <summary>
@@ -57,22 +49,35 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         public void UpdateDisk()
         {
-            
+            UpdateLabel();
+            UpdateSize();
+            UpdateTypeFileSystem();
         }
 
-        private void SetNameDisk()
+        /// <summary>
+        /// Обновляет метку тома.
+        /// </summary>
+        private void UpdateLabel()
         {
-
+            labelDisk = logicDisk.VolumeLabel;
         }
 
+        /// <summary>
+        /// Обновляет общий, занятый и свободный объем логического диска.
+        /// </summary>
         private void UpdateSize()
         {
-
+            size = (ulong)logicDisk.TotalSize;
+            freeVolume = (ulong)logicDisk.TotalFreeSpace;
+            occupiedVolume = (ulong)logicDisk.AvailableFreeSpace;
         }
 
+        /// <summary>
+        /// Обновляет тип файловой системы логического диска.
+        /// </summary>
         private void UpdateTypeFileSystem()
         {
-
+            typeFileSystem = logicDisk.DriveType;
         }
 
         /// <summary>
@@ -81,7 +86,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Размер</returns>
         public ulong GetSizeDisk()
         {
-            return Size;
+            return size;
         }
 
         /// <summary>
@@ -90,7 +95,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>объем</returns>
         public ulong GetFreeVolume()
         {
-            return FreeVolume;
+            return freeVolume;
         }
 
         /// <summary>
@@ -99,7 +104,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Объем</returns>
         public ulong GetOccupiedVolume()
         {
-            return OccupiedVolume;
+            return occupiedVolume;
         }
 
         /// <summary>
@@ -108,7 +113,16 @@ namespace FlyExplorer.BasicElements
         /// <returns>Тип ФС</returns>
         public string GetTypeFileSystem()
         {
-            return typeFileSystem;
+            return Convert.ToString(typeFileSystem);
+        }
+
+        /// <summary>
+        /// Изменяет метку логического диска.
+        /// </summary>
+        /// <param name="newLabel">Новая метка</param>
+        public void SetLabel(string newLabel)
+        {
+            labelDisk = newLabel;
         }
     }
 }

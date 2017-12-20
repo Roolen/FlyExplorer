@@ -17,7 +17,9 @@
         <ToolBar Height="25" Margin="0,17,0,0" VerticalAlignment="Top"/>
         <TabControl x:Name="TabControl" Margin="0,42,0,0">
             <TabItem Header="TabItem1">
-                <Grid Background="#FFE5E5E5" />
+                <Grid Background="#FFE5E5E5" >
+                    <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text"/>
+                </Grid>
             </TabItem>
             <TabItem Header="TabItem">
                 <Grid Background="#FFE5E5E5"/>
