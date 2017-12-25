@@ -21,6 +21,10 @@ namespace FlyExplorer.BasicElements
             set { nameDirectory = value; }
         }
 
+        /// <summary>
+        /// Создает экземпляр фойловой дериктории.
+        /// </summary>
+        /// <param name="path"></param>
         public FileDirectory(string path)
         {
             directory = new DirectoryInfo(path);

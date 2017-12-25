@@ -19,7 +19,7 @@ namespace FlyExplorer.BasicElements
             get
             {
                 if (nameDisk != null) return nameDisk;
-                return ""; // todo add exception.
+                return "";
             }
         }
 
@@ -37,10 +37,9 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="name">Имя логического диска</param>
         /// <param name="label">Метка логического диска</param>
-        public LogicDisk(string name, string label)
+        public LogicDisk(string name)
         {
             nameDisk = name;
-            labelDisk = label;
             logicDisk = new DriveInfo(nameDisk);
         }
 

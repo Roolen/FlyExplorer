@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FlyExplorer.BasicElements
 {
     static class DisplayController
     {
+        private delegate void analyzerFileSystem();
+
+        static DisplayController()
+        {
+            
+        }
     }
 }

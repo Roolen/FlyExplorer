@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FlyExplorer.BasicElements
@@ -18,9 +16,14 @@ namespace FlyExplorer.BasicElements
 
         }
 
-        static public void TransformPosition(String newPosition)
+        static public void Start()
         {
 
+        }
+
+        static public void TransformPosition(int oldPosition,string newPosition)
+        {
+            positions[oldPosition] = newPosition;
         }
 
         static public FileDirectory GetDataInPosition(SByte numberPosition)
@@ -30,12 +33,12 @@ namespace FlyExplorer.BasicElements
 
         static public LogicDisk GetLogicDisk(string nameDisk)
         {
-            return new LogicDisk("t", "jfj");
+            return new LogicDisk(nameDisk);
         }
 
-        static public void GetPosition(sbyte numberPosition)
+        static public string GetPosition(sbyte numberPosition)
         {
-
+            return positions[numberPosition];
         }
     }
 }
