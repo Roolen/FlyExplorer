@@ -9,6 +9,8 @@ namespace FlyExplorer.BasicElements
     {
         static List<LogicDisk> logicDisks = new List<LogicDisk>();
         static List<string> positions = new List<string>();
+        static List<DirectoryInfo> directorys = new List<DirectoryInfo>();
+        
 
 
         static AnalyzerFileSystem()
@@ -18,7 +20,12 @@ namespace FlyExplorer.BasicElements
 
         static public void Start()
         {
+            
+        }
 
+        static public void CreateNewPosition(string path)
+        {
+            positions.Add(path);
         }
 
         static public void TransformPosition(int oldPosition,string newPosition)

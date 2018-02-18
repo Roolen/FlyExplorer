@@ -5,23 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlyExplorer"
         mc:Ignorable="d"
-        Title="FlyExplorer" Height="350" Width="525" Opacity="0.99" FontFamily="Trajan Pro" WindowStyle="ThreeDBorderWindow">
+        Title="FlyExplorer" Height="350" Width="525" Opacity="0.99" WindowStyle="ThreeDBorderWindow" FontFamily="Source Code Pro" Background="#FF3855D8">
     <Grid x:Name="MainGrid" Margin="0,0,0,-1">
-        <Menu Height="17" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=MainWindow1, Mode=OneWay}" FontFamily="Trajan Pro">
-            <MenuItem Header="Files" Height="17" Width="50">
-                <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155"/>
+        <Menu Height="17" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=MainWindow1, Mode=OneWay}" FontFamily="Trajan Pro" Background="#FF3855D8">
+            <MenuItem Header="Files" Height="17" Width="50" Foreground="White" FontFamily="Trebuchet MS">
+                <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
             </MenuItem>
-            <MenuItem Header="Select" Height="17" Width="55"/>
-            <MenuItem Header="Commands" Height="17" Width="90"/>
+            <MenuItem Header="Select" Height="17" Width="55" Foreground="White" FontFamily="Trebuchet MS"/>
+            <MenuItem Header="Commands" Height="17" Width="90" Foreground="White" FontFamily="Trebuchet MS"/>
         </Menu>
-        <ToolBar Height="25" Margin="0,17,0,0" VerticalAlignment="Top"/>
-        <TabControl x:Name="TabControl" Margin="0,42,0,0">
-            <TabItem Header="TabItem1">
-                <Grid Background="#FFE5E5E5" >
-                    <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text"/>
+        <ToolBar Height="25" Margin="0,17,0,0" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+        <TabControl x:Name="TabControl" Margin="0,42,0,0" Background="#FF3855D8">
+            <TabItem Header="TabItem1"   Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00FFE3E3" IsSelected="True">
+                <Grid Background="#FF3855D8" >
+                    <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text" Foreground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
+            <TabItem Header="TabItem" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00ACACAC">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
