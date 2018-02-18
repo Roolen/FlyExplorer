@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FlyExplorer.BasicElements;
+using FlyExplorer.Core;
 using System.IO;
 
 namespace FlyExplorer
@@ -26,23 +27,24 @@ namespace FlyExplorer
         {
             InitializeComponent();
 
-            AnalyzerFileSystem.CreateNewPosition("d:\\Mathematic");
-            
-            FileDirectory dir = new FileDirectory("d:\\Mathematic");
-            FileInfo[] files = new FileInfo[dir.GetFiles().Length];
-            int cur = 0;
-            foreach (FileInfo str in dir.GetFiles())
+            MainText.Text = "";
+
+            AnalyzerFileSystem.CreateNewPosition("d://Mathematic");
+
+            string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
+
+            for (int i = 0; i < namesFiles.Length; i++)
             {
-                files[cur] = str;
-                cur++;
+                MainText.Text += namesFiles[i];
+                MainText.Text += "\n\n";
             }
 
-            for (int i = 0; i < files.Length; i++)
-            {
-                MainText.Text += files[i].Name;
-                MainText.Text += "\n";
-            }
-            
+        }
+
+        private void ExitElement_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            WindowLog winLog = new WindowLog();
+            winLog.Show();
         }
     }
 }

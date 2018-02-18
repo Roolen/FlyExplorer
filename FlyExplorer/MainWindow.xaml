@@ -9,6 +9,7 @@
     <Grid x:Name="MainGrid" Margin="0,0,0,-1">
         <Menu Height="17" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=MainWindow1, Mode=OneWay}" FontFamily="Trajan Pro" Background="#FF3855D8">
             <MenuItem Header="Files" Height="17" Width="50" Foreground="White" FontFamily="Trebuchet MS">
+                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click"/>
                 <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
             </MenuItem>
             <MenuItem Header="Select" Height="17" Width="55" Foreground="White" FontFamily="Trebuchet MS"/>
