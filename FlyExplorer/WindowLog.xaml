@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:FlyExplorer"
         mc:Ignorable="d"
         Title="WindowLog" Height="150" Width="300">
-    <Grid>
-        <TextBlock x:Name="TextBoxLog" TextWrapping="Wrap" Height="119" Width="292" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Black" Foreground="#FF0BC546"><Run Text="TextBlock"/></TextBlock>
+    <Grid x:Name="grid">
+        <TextBlock x:Name="TextBoxLog" TextWrapping="Wrap" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Background="Black" Foreground="#FF0BC546"><Run Text="TextBlock"/></TextBlock>
 
     </Grid>
 </Window>

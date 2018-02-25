@@ -8,9 +8,21 @@ namespace FlyExplorer.BasicElements
 {
     static class AnalyzerFileSystem
     {
+        /// <summary>
+        /// Список логических дисков.
+        /// </summary>
         static List<LogicDisk> logicDisks = new List<LogicDisk>();
+        /// <summary>
+        /// Список позиций анализатора файловой системы.
+        /// </summary>
         static List<string> positions = new List<string>();
+        /// <summary>
+        /// Список массивов, дерикторий анализатора файловой системы.
+        /// </summary>
         static List<DirectoryInfo> directorys = new List<DirectoryInfo>();
+        /// <summary>
+        /// Список массивов, файлов анализатора файловой системы.
+        /// </summary>
         static List<FileInfo[]> files = new List<FileInfo[]>();
 
 
@@ -20,14 +32,21 @@ namespace FlyExplorer.BasicElements
             Log.Write("Start AnalyzerFileSystem");
         }
 
-        static public void Start()
-        {
-            
-        }
-
         static public void Update()
         {
-            
+            Logging();
+        }
+
+        /// <summary>
+        /// Выводит в лог данные о состояние анализатора файловой системы.
+        /// </summary>
+        static private void Logging()
+        {
+            for (int i = 0; i < positions.Count; i++)
+            {
+                Log.Write($"AFS: position # {i} --- { positions[i] }");
+
+            }
         }
 
         /// <summary>
@@ -38,6 +57,8 @@ namespace FlyExplorer.BasicElements
         {
             positions.Add(path);
             directorys.Add( new DirectoryInfo( positions[positions.Count - 1] ) );
+
+            Log.Write($"AFS: NewPosition # {positions.Count - 1} --- { positions[positions.Count - 1] }");
         }
 
         /// <summary>
@@ -48,16 +69,20 @@ namespace FlyExplorer.BasicElements
         {
             positions.RemoveAt(numberPosition);
             directorys.RemoveAt(numberPosition);
+
+            Log.Write($"AFS: DeletePosition # {numberPosition}");
         }
 
         /// <summary>
         /// Задать новый путь позиции анализатора файловой системы.
         /// </summary>
         /// <param name="oldPosition">Индекс позиции</param>
-        /// <param name="newPosition">Новый путь позиции</param>
-        static public void TransformPosition(int numberPosition,string newPosition)
+        /// <param name="newPath">Новый путь позиции</param>
+        static public void TransformPosition(int numberPosition,string newPath)
         {
-            positions[numberPosition] = newPosition;
+            positions[numberPosition] = newPath;
+
+            Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");
         }
 
         /// <summary>

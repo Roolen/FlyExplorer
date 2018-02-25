@@ -32,6 +32,7 @@ namespace FlyExplorer
 
         private void ShowLog()
         {
+            //todo : Переписать реализацию с использованием более оптимизированных типов.
             for (int i = 0; i < Log.log.Count; i++)
             {
                 TextBoxLog.Text += Log.log[i];

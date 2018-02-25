@@ -18,8 +18,10 @@
         <ToolBar Height="25" Margin="0,17,0,0" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
         <TabControl x:Name="TabControl" Margin="0,42,0,0" Background="#FF3855D8">
             <TabItem Header="TabItem1"   Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00FFE3E3" IsSelected="True">
-                <Grid Background="#FF3855D8" >
-                    <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text" Foreground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+                <Grid x:Name="grid" Background="#FF3855D8" >
+                    <ScrollViewer Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text" Foreground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem Header="TabItem" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00ACACAC">

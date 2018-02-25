@@ -27,6 +27,8 @@ namespace FlyExplorer
         {
             InitializeComponent();
 
+            NewTab();
+
             MainText.Text = "";
 
             AnalyzerFileSystem.CreateNewPosition("d://Mathematic");
@@ -39,6 +41,15 @@ namespace FlyExplorer
                 MainText.Text += "\n\n";
             }
 
+            AnalyzerFileSystem.Update();
+
+        }
+
+        private void NewTab()
+        {
+            TabItem tab = new TabItem();
+            TabControl.Items.Add(tab);
+            tab.Header = "NewTab";
         }
 
         private void ExitElement_Copy_Click(object sender, RoutedEventArgs e)
