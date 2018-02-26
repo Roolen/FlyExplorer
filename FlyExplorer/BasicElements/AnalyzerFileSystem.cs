@@ -129,8 +129,47 @@ namespace FlyExplorer.BasicElements
             {
                 namesFiles[i] = files[i].Name;
             }
+
             return namesFiles;
             
         }
+
+        /// <summary>
+        /// Возвращает массив размеров файлов, из деректории, указанной позиции анализатора файловой системы.
+        /// </summary>
+        /// <param name="numberPosition">Номер позиции</param>
+        /// <returns>Массив размеров</returns>
+        static public long[] GetFilesSizeFromPosition(int numberPosition)
+        {
+            FileInfo[] files = directorys[numberPosition].GetFiles();
+
+            long[] sizeFiles = new long[files.Length];
+            for (int i = 0; i < files.Length; i++)
+            {
+                sizeFiles[i] = files[i].Length;
+            }
+
+            return sizeFiles;
+        }
+
+        /// <summary>
+        /// Возвращает массив "дат создания", из деректории, указанной позиции анализатора файловой системы.
+        /// </summary>
+        /// <param name="numberPosition">Номер позиции</param>
+        /// <returns>Массив дат создания</returns>
+        static public DateTime[] GetFilesCreationDateFromPosition(int numberPosition)
+        {
+            FileInfo[] files = directorys[numberPosition].GetFiles();
+
+            DateTime[] dateFiles = new DateTime[files.Length];
+            for (int i = 0; i < files.Length; i++)
+            {
+                dateFiles[i] = files[i].CreationTime;
+            }
+
+            return dateFiles;
+        }
+
+
     }
 }
