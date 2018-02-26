@@ -170,6 +170,22 @@ namespace FlyExplorer.BasicElements
             return dateFiles;
         }
 
+        /// <summary>
+        /// Возвращает массив "дат последнего изменения", из деректории, указанной позиции анализатора файловой системы.
+        /// </summary>
+        /// <param name="numberPosition">Номер позиции</param>
+        /// <returns>Массив дат последнего изменения</returns>
+        static public DateTime[] GetFilesLastWriteDateFromPosition(int numberPosition)
+        {
+            FileInfo[] files = directorys[numberPosition].GetFiles();
 
+            DateTime[] dateFiles = new DateTime[files.Length];
+            for (int i = 0; i < files.Length; i++)
+            {
+                dateFiles[i] = files[i].LastWriteTime;
+            }
+
+            return dateFiles;
+        }
     }
 }
