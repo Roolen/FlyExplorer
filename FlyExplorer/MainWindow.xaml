@@ -9,7 +9,7 @@
     <Grid x:Name="MainGrid" Margin="0,0,0,-1">
         <Menu Height="17" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=MainWindow1, Mode=OneWay}" FontFamily="Trajan Pro" Background="#FF3855D8">
             <MenuItem Header="Files" Height="17" Width="50" Foreground="White" FontFamily="Trebuchet MS">
-                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click"/>
+                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click" Background="#FFBA08FD"/>
                 <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
             </MenuItem>
             <MenuItem Header="Select" Height="17" Width="55" Foreground="White" FontFamily="Trebuchet MS"/>
@@ -20,6 +20,9 @@
             <TabItem Header="TabItem1"   Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00FFE3E3" IsSelected="True">
                 <Grid x:Name="grid" Background="#FF3855D8" >
                     <ScrollViewer Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <ScrollViewer.Background>
+                            <ImageBrush ImageSource="Documentation/MainWindow.jpg"/>
+                        </ScrollViewer.Background>
                         <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text" Foreground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
                     </ScrollViewer>
                 </Grid>
