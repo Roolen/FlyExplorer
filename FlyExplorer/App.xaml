@@ -3,7 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:FlyExplorer"
              StartupUri="MainWindow.xaml">
+
     <Application.Resources>
-         
+
+        <Style TargetType="TabItem">
+            <Style.Setters>
+                <Setter Property="Background" Value="#FFCAD0D3"/>
+            </Style.Setters>
+        </Style>
+
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Background" Value="AliceBlue"/>
+            </Style.Setters>
+        </Style>
+        
     </Application.Resources>
+
 </Application>

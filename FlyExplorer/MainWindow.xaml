@@ -7,39 +7,30 @@
         mc:Ignorable="d"
         Title="FlyExplorer" Height="764" Width="1512" FontFamily="Source Code Pro" Background="White" WindowStyle="ThreeDBorderWindow">
     <Grid x:Name="MainGrid" Margin="0,0,0,-1" Background="#FFE8EDFB">
-        <TabControl x:Name="TabControl" Margin="221,23,0,0" Background="#00CDD3EA" FontFamily="Berlin Sans FB" FontSize="18" BorderBrush="#FF8282ED">
-            <TabItem Header="TabItem1"   Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00FDE9E9" IsSelected="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="29*" MaxWidth="350"/>
+            <ColumnDefinition Width="159*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl x:Name="TabControl" Margin="0,28,0,0" Background="#00CDD3EA" FontFamily="Berlin Sans FB" FontSize="18" BorderBrush="#FF8282ED" Grid.Column="1">
+            <TabItem Header="TabItem1"   BorderBrush="#00FDE9E9" IsSelected="True">
                 <Grid x:Name="grid" Background="White" Margin="0,0,-3,0" >
                     <ScrollViewer x:Name="scrollViewer" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFE8EDFB">
-                        <StackPanel>
-                            <TextBlock x:Name="MainText" TextWrapping="Wrap" Text="Text" Foreground="Black" VerticalAlignment="Top" HorizontalAlignment="Center" ScrollViewer.CanContentScroll="True" Height="81.031" Width="94.736" Margin="0" RenderTransformOrigin="0.5,0.5">
-                                <TextBlock.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform AngleX="-0.274"/>
-                                        <RotateTransform/>
-                                        <TranslateTransform X="-0.745"/>
-                                    </TransformGroup>
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
-                            <Button Content="Button" HorizontalAlignment="Center" Height="78" Margin="0" Width="148.5"/>
-                            <Button x:Name="btt" Content="Button" HorizontalAlignment="Center" Height="249" Margin="0" Width="148.5"/>
-                        </StackPanel>
+                        <StackPanel x:Name="ContentArea"/>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00ACACAC">
+            <TabItem Header="TabItem" BorderBrush="#00ACACAC">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
-        <Rectangle x:Name="View" Fill="#FFF8F8F9" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=TabControl, Mode=OneWay}" Margin="37,23,0,0" Stroke="#FFF5F5F6" VerticalAlignment="Top" Width="184">
+        <Rectangle x:Name="View" Fill="#FFF8F8F9" Height="{Binding ActualHeight, ElementName=TabControl, Mode=OneWay}" Margin="37,23,0,0" Stroke="#FFF5F5F6" VerticalAlignment="Top">
             <Rectangle.Effect>
                 <DropShadowEffect ShadowDepth="2"/>
             </Rectangle.Effect>
         </Rectangle>
-        <GridSplitter HorizontalAlignment="Left" Height="549" Margin="221,70.5,0,0" VerticalAlignment="Top" Width="16.5"/>
+        <GridSplitter HorizontalAlignment="Left" Margin="0,23,0,0" Width="8" Grid.Column="1" Background="#00F0F0F0" ShowsPreview="True"/>
         <Rectangle x:Name="ToolBar" Fill="#FF8282ED" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=MainGrid, Mode=OneWay}" Stroke="#FF8181EB" VerticalAlignment="Top" Width="37"/>
-        <Menu Height="23" VerticalAlignment="Top" FontFamily="Berlin Sans FB" Background="#FFF8F8F9" Margin="37,0,0,0" FontSize="18">
+        <Menu Height="23" VerticalAlignment="Top" FontFamily="Berlin Sans FB" Background="#FFF8F8F9" Margin="37,0,0,0" FontSize="18" Grid.ColumnSpan="2">
             <Menu.Effect>
                 <DropShadowEffect ShadowDepth="1"/>
             </Menu.Effect>

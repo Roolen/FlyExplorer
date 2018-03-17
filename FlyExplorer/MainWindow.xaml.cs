@@ -29,16 +29,13 @@ namespace FlyExplorer
 
             NewTab();
 
-            MainText.Text = "";
-
             AnalyzerFileSystem.CreateNewPosition("d://Mathematic");
 
             string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
 
             for (int i = 0; i < namesFiles.Length; i++)
             {
-                MainText.Text += namesFiles[i];
-                MainText.Text += "\n\n";
+                ContentArea.Children.Add(new Button { Content = namesFiles[i] } );
             }
 
             AnalyzerFileSystem.Update();
