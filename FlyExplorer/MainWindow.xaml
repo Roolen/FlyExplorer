@@ -5,25 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlyExplorer"
         mc:Ignorable="d"
-        Title="FlyExplorer" Height="350" Width="525" Opacity="0.99" WindowStyle="ThreeDBorderWindow" FontFamily="Source Code Pro" Background="#FF3855D8">
-    <Grid x:Name="MainGrid" Margin="0,0,0,-1">
-        <Menu Height="17" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=MainWindow1, Mode=OneWay}" FontFamily="Trajan Pro" Background="#FF3855D8">
-            <MenuItem Header="Files" Height="17" Width="50" Foreground="White" FontFamily="Trebuchet MS">
-                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click" Background="#FFBA08FD"/>
-                <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
-            </MenuItem>
-            <MenuItem Header="Select" Height="17" Width="55" Foreground="White" FontFamily="Trebuchet MS"/>
-            <MenuItem Header="Commands" Height="17" Width="90" Foreground="White" FontFamily="Trebuchet MS"/>
-        </Menu>
-        <ToolBar Height="25" Margin="0,17,0,0" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
-        <TabControl x:Name="TabControl" Margin="0,42,0,0" Background="#FF3855D8">
-            <TabItem Header="TabItem1"   Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00FFE3E3" IsSelected="True">
-                <Grid x:Name="grid" Background="#FF3855D8" >
-                    <ScrollViewer Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <ScrollViewer.Background>
-                            <ImageBrush ImageSource="Documentation/MainWindow.jpg"/>
-                        </ScrollViewer.Background>
-                        <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text" Foreground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+        Title="FlyExplorer" Height="764" Width="1512" FontFamily="Source Code Pro" Background="White" WindowStyle="ThreeDBorderWindow">
+    <Grid x:Name="MainGrid" Margin="0,0,0,-1" Background="#FFE8EDFB">
+        <TabControl x:Name="TabControl" Margin="221,23,0,0" Background="#00CDD3EA" FontFamily="Berlin Sans FB" FontSize="18" BorderBrush="#FF8282ED">
+            <TabItem Header="TabItem1"   Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00FDE9E9" IsSelected="True">
+                <Grid x:Name="grid" Background="White" Margin="0,0,-3,0" >
+                    <ScrollViewer x:Name="scrollViewer" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFE8EDFB">
+                        <StackPanel>
+                            <TextBlock x:Name="MainText" TextWrapping="Wrap" Text="Text" Foreground="Black" VerticalAlignment="Top" HorizontalAlignment="Center" ScrollViewer.CanContentScroll="True" Height="81.031" Width="94.736" Margin="0" RenderTransformOrigin="0.5,0.5">
+                                <TextBlock.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform AngleX="-0.274"/>
+                                        <RotateTransform/>
+                                        <TranslateTransform X="-0.745"/>
+                                    </TransformGroup>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <Button Content="Button" HorizontalAlignment="Center" Height="78" Margin="0" Width="148.5"/>
+                            <Button x:Name="btt" Content="Button" HorizontalAlignment="Center" Height="249" Margin="0" Width="148.5"/>
+                        </StackPanel>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
@@ -31,5 +32,23 @@
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
+        <Rectangle x:Name="View" Fill="#FFF8F8F9" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=TabControl, Mode=OneWay}" Margin="37,23,0,0" Stroke="#FFF5F5F6" VerticalAlignment="Top" Width="184">
+            <Rectangle.Effect>
+                <DropShadowEffect ShadowDepth="2"/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <GridSplitter HorizontalAlignment="Left" Height="549" Margin="221,70.5,0,0" VerticalAlignment="Top" Width="16.5"/>
+        <Rectangle x:Name="ToolBar" Fill="#FF8282ED" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=MainGrid, Mode=OneWay}" Stroke="#FF8181EB" VerticalAlignment="Top" Width="37"/>
+        <Menu Height="23" VerticalAlignment="Top" FontFamily="Berlin Sans FB" Background="#FFF8F8F9" Margin="37,0,0,0" FontSize="18">
+            <Menu.Effect>
+                <DropShadowEffect ShadowDepth="1"/>
+            </Menu.Effect>
+            <MenuItem Header="Files" Height="21" Width="53" Foreground="Black" FontFamily="Berlin Sans FB">
+                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click" Background="#FFBA08FD"/>
+                <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
+            </MenuItem>
+            <MenuItem Header="Select" Height="21" Width="59" Foreground="Black" FontFamily="Berlin Sans FB"/>
+            <MenuItem Header="Commands" Height="21" Width="98" Foreground="Black" FontFamily="Berlin Sans FB"/>
+        </Menu>
     </Grid>
 </Window>
