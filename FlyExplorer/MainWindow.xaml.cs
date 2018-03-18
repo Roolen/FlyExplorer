@@ -38,7 +38,8 @@ namespace FlyExplorer
                     ContentArea.Children.Add(new Button { Content = namesFiles[i] });
                 }
 
-                AnalyzerFileSystem.Update();
+            AnalyzerFileSystem.Update();
+            OutputTreeElement();
 
         }
 
@@ -53,6 +54,18 @@ namespace FlyExplorer
         {
             WindowLog winLog = new WindowLog();
             winLog.Show();
+        }
+
+        private void OutputTreeElement()
+        {
+            DriveInfo[] logDisks = DriveInfo.GetDrives();
+            TreeViewItem tvi = new TreeViewItem() { Header = "Computer", FontFamily = new FontFamily("Segoe UI"), Foreground = new SolidColorBrush(Color.FromArgb(255, 130, 130, 237)) };
+
+            for (int i = 0; i < logDisks.Length; i++)
+            {
+                tvi.Items.Add(new MenuItem { Header = logDisks[i].Name, Width = 150, FontSize = 14 });
+            }
+                treeView.Items.Add(tvi);
         }
     }
 }

@@ -10,17 +10,18 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
-                        <Border Name="Panel" CornerRadius="3">
+                        <TextBlock Name="Panel">
                             <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"
                                         Margin="10,2"/>
-                        </Border>
+                        </TextBlock>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="Panel" Property="Background" Value="#FF8282ED" />
-                                <Setter TargetName="Panel" Property="Margin" Value="5,-2"/>
+                                <Setter TargetName="Panel" Property="Margin" Value="0,-2"/>
+                                <Setter TargetName="Panel" Property="Foreground" Value="white"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
                                 <Setter TargetName="Panel" Property="Background" Value="White" />
@@ -37,26 +38,39 @@
             </Style.Setters>
         </Style>
 
+        <Style TargetType="Button" x:Key="TreeButton">
+            <Style.Setters>
+                <Setter Property="Background" Value="AliceBlue"/>
+                <Setter Property="Width" Value="50"/>
+            </Style.Setters>
+        </Style>
+
         <Style TargetType="Button" x:Key="AddressButton">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="AddresButton" Background="#FFF8F8F9" Margin="1,0" CornerRadius="5" BorderBrush="#00636D72" BorderThickness="1" >
+                        <TextBlock x:Name="AddresButton" Background="#FFF8F8F9" Margin="1,0">
                             <ContentPresenter x:Name="ContentSite"
                                               ContentSource="Content"
                                               Margin="5,0"/>
-                        </Border>
+                        </TextBlock>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="AddresButton" Property="Background" Value="#FF70E7F3"/>
-                                <Setter TargetName="AddresButton" Property="BorderThickness" Value="2"/>
-                                    <Setter TargetName="AddresButton" Property="Margin" Value="0, -2"/>
+                                <Setter TargetName="AddresButton" Property="Background" Value="#FF66CC99"/>
+                                <Setter TargetName="AddresButton" Property="Foreground" Value="white"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <Style TargetType="TreeViewItem">
+            <Style.Setters>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="FontSize" Value="24"/>
+            </Style.Setters>
         </Style>
 
     </Application.Resources>

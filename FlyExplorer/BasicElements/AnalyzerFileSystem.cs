@@ -35,6 +35,8 @@ namespace FlyExplorer.BasicElements
         static public void Update()
         {
             Logging();
+
+            DriveInfo[] drive = DriveInfo.GetDrives();
         }
 
         /// <summary>
@@ -93,6 +95,15 @@ namespace FlyExplorer.BasicElements
         static public LogicDisk GetLogicDisk(string nameDisk)
         {
             return new LogicDisk(nameDisk);
+        }
+
+        /// <summary>
+        /// Возвращает массив логических дисков.
+        /// </summary>
+        /// <returns>Массив дисков.</returns>
+        static public LogicDisk[] GetAllLogicDisk()
+        {
+            return logicDisks.ToArray();
         }
 
         /// <summary>

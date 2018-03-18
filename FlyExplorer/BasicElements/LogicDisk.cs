@@ -5,7 +5,7 @@ namespace FlyExplorer.BasicElements
 {
     internal class LogicDisk
     {
-        DriveInfo logicDisk;
+        private DriveInfo logicDisk;
         private string nameDisk;
         private ulong size;
         private ulong freeVolume;
@@ -30,6 +30,10 @@ namespace FlyExplorer.BasicElements
                 if (labelDisk != null) return labelDisk;
                 return ""; // todo add exception;
             }
+        }
+        public DriveInfo Disk
+        {
+            set { logicDisk = value; }
         }
 
         /// <summary>

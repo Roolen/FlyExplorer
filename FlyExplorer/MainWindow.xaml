@@ -26,8 +26,14 @@
         <StackPanel x:Name="AdressLine" Height="29" VerticalAlignment="Top" Orientation="Horizontal" Background="#FFF8F8F9" Grid.Column="1" Margin="0,54.5,0,0">
             <Rectangle Fill="#00F8F8F9" Height="27" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="6.75"/>
             <Button Style="{StaticResource ResourceKey=AddressButton}" Content="C:" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
             <Button Style="{StaticResource AddressButton}" Content="Users" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
             <Button Style="{StaticResource AddressButton}" Content="admin" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
+            <Button Style="{StaticResource AddressButton}" Content="Documents" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
+            <Button Style="{StaticResource AddressButton}" Content="folder" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
         </StackPanel>
         <Rectangle x:Name="View" Fill="#FFF8F8F9" Margin="37,23,0,0" Stroke="#FFF5F5F6">
             <Rectangle.Effect>
@@ -50,6 +56,6 @@
             <MenuItem Header="Select" Height="21" Width="59" Foreground="Black" FontFamily="Berlin Sans FB"/>
             <MenuItem Header="Commands" Height="21" Width="98" Foreground="Black" FontFamily="Berlin Sans FB"/>
         </Menu>
-        <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="2,52,0,0" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="1270"/>
+        <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="0,52,0,0" Stroke="#00F5F5F6" VerticalAlignment="Top" StrokeThickness="0"/>
     </Grid>
 </Window>
