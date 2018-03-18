@@ -33,12 +33,12 @@ namespace FlyExplorer
 
             string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
 
-            for (int i = 0; i < namesFiles.Length; i++)
-            {
-                ContentArea.Children.Add(new Button { Content = namesFiles[i] } );
-            }
+                for (int i = 0; i < namesFiles.Length; i++)
+                {
+                    ContentArea.Children.Add(new Button { Content = namesFiles[i] });
+                }
 
-            AnalyzerFileSystem.Update();
+                AnalyzerFileSystem.Update();
 
         }
 
