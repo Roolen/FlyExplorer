@@ -37,7 +37,7 @@ namespace FlyExplorer.BasicElements
         }
 
         /// <summary>
-        /// Представляет собой логический диск фойловой системой.
+        /// Представляет собой логический диск файловой системой.
         /// </summary>
         /// <param name="name">Имя логического диска</param>
         /// <param name="label">Метка логического диска</param>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using FlyExplorer.Core;
+using System.Windows.Controls;
 using System.Threading.Tasks;
 
 namespace FlyExplorer.BasicElements
@@ -36,7 +37,7 @@ namespace FlyExplorer.BasicElements
         {
             Logging();
 
-            DriveInfo[] drive = DriveInfo.GetDrives();
+
         }
 
         /// <summary>
@@ -92,18 +93,18 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="nameDisk">Название логического диска</param>
         /// <returns>Логический диск</returns>
-        static public LogicDisk GetLogicDisk(string nameDisk)
+        static public DriveInfo GetLogicDisk(string nameDisk)
         {
-            return new LogicDisk(nameDisk);
+            return new DriveInfo(nameDisk);
         }
 
         /// <summary>
         /// Возвращает массив логических дисков.
         /// </summary>
         /// <returns>Массив дисков.</returns>
-        static public LogicDisk[] GetAllLogicDisk()
+        static public DriveInfo[] GetAllLogicDisk()
         {
-            return logicDisks.ToArray();
+            return DriveInfo.GetDrives();
         }
 
         /// <summary>

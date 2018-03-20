@@ -58,14 +58,14 @@ namespace FlyExplorer
 
         private void OutputTreeElement()
         {
-            DriveInfo[] logDisks = DriveInfo.GetDrives();
-            TreeViewItem tvi = new TreeViewItem() { Header = "Computer", FontFamily = new FontFamily("Segoe UI"), Foreground = new SolidColorBrush(Color.FromArgb(255, 130, 130, 237)) };
+            string[] disks = Environment.GetLogicalDrives();
+            TreeViewItem tree = new TreeViewItem() { Header = "Computer", FontFamily = new FontFamily("Segoe UI"), Foreground = new SolidColorBrush(Color.FromArgb(255, 130, 130, 237)) };
 
-            for (int i = 0; i < logDisks.Length; i++)
+            for (int i = 0; i < disks.Length; i++)
             {
-                tvi.Items.Add(new MenuItem { Header = logDisks[i].Name, Width = 150, FontSize = 14 });
+                tree.Items.Add(new MenuItem { Header = disks[i], Width = 150, FontSize = 14 });
             }
-                treeView.Items.Add(tvi);
+                treeView.Items.Add(tree);
         }
     }
 }

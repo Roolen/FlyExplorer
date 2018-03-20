@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BasicElements\Presenter.cs" />
     <Compile Include="Core\Configurator.cs" />
     <Compile Include="Core\Log.cs" />
     <Compile Include="Core\StateController.cs" />
