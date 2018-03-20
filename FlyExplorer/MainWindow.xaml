@@ -5,31 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlyExplorer"
         mc:Ignorable="d"
-        Title="FlyExplorer" Height="350" Width="525" Opacity="0.99" WindowStyle="ThreeDBorderWindow" FontFamily="Source Code Pro" Background="#FF3855D8">
-    <Grid x:Name="MainGrid" Margin="0,0,0,-1">
-        <Menu Height="17" VerticalAlignment="Top" Width="{Binding ActualWidth, ElementName=MainWindow1, Mode=OneWay}" FontFamily="Trajan Pro" Background="#FF3855D8">
-            <MenuItem Header="Files" Height="17" Width="50" Foreground="White" FontFamily="Trebuchet MS">
-                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click" Background="#FFBA08FD"/>
-                <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
-            </MenuItem>
-            <MenuItem Header="Select" Height="17" Width="55" Foreground="White" FontFamily="Trebuchet MS"/>
-            <MenuItem Header="Commands" Height="17" Width="90" Foreground="White" FontFamily="Trebuchet MS"/>
-        </Menu>
-        <ToolBar Height="25" Margin="0,17,0,0" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
-        <TabControl x:Name="TabControl" Margin="0,42,0,0" Background="#FF3855D8">
-            <TabItem Header="TabItem1"   Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00FFE3E3" IsSelected="True">
-                <Grid x:Name="grid" Background="#FF3855D8" >
-                    <ScrollViewer Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <ScrollViewer.Background>
-                            <ImageBrush ImageSource="Documentation/MainWindow.jpg"/>
-                        </ScrollViewer.Background>
-                        <TextBlock x:Name="MainText" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Text" Foreground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+        Title="FlyExplorer" Height="764" Width="1512" FontFamily="Source Code Pro" Background="White" WindowStyle="ThreeDBorderWindow">
+    <Grid x:Name="MainGrid" Margin="0,0,0,-1" Background="#FFE8EDFB">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="29*" MaxWidth="350"/>
+            <ColumnDefinition Width="159*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl x:Name="TabControl" Margin="0,28,0,0" Background="#00CDD3EA" FontFamily="Berlin Sans FB" FontSize="18" BorderBrush="#008282ED" Grid.Column="1">
+            <TabItem Header="TabItem1"   BorderBrush="#00FDE9E9" IsSelected="True">
+                <Grid x:Name="grid" Background="White" Margin="0,26.5,-3,0" >
+                    <ScrollViewer x:Name="scrollViewer" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFE8EDFB">
+                        <StackPanel x:Name="ContentArea"/>
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" BorderBrush="#00ACACAC">
+            <TabItem Header="TabItem" BorderBrush="#00ACACAC">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
+        <StackPanel x:Name="AdressLine" Height="29" VerticalAlignment="Top" Orientation="Horizontal" Background="#FFF8F8F9" Grid.Column="1" Margin="0,54.5,0,0">
+            <Rectangle Fill="#00F8F8F9" Height="27" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="6.75"/>
+            <Button Style="{StaticResource ResourceKey=AddressButton}" Content="C:" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
+            <Button Style="{StaticResource AddressButton}" Content="Users" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
+            <Button Style="{StaticResource AddressButton}" Content="admin" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
+            <Button Style="{StaticResource AddressButton}" Content="Documents" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+            <Rectangle Fill="#FFD5D5EE" Height="27.479" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="2" StrokeThickness="0" Margin="0,1.521,0,0"/>
+            <Button Style="{StaticResource AddressButton}" Content="folder" HorizontalAlignment="Left" Margin="0" FontFamily="Segoe UI" FontSize="18"/>
+        </StackPanel>
+        <Rectangle x:Name="View" Fill="#FFF8F8F9" Margin="37,23,0,0" Stroke="#FFF5F5F6">
+            <Rectangle.Effect>
+                <DropShadowEffect ShadowDepth="2"/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <TreeView x:Name="treeView" Margin="37,23,0,0" Background="#00000000" BorderBrush="#00CCD1DA" FontFamily="Segoe UI" FontSize="24" Foreground="#FF8282ED">
+            <TreeViewItem Header="Favorites" Height="32.5" Foreground="{Binding Foreground, ElementName=treeView}" FontWeight="Bold"/>
+        </TreeView>
+        <GridSplitter HorizontalAlignment="Left" Margin="0,23,0,0" Width="8" Grid.Column="1" Background="#00F0F0F0" ShowsPreview="True"/>
+        <Rectangle x:Name="ToolBar" Fill="#FF8282ED" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=MainGrid, Mode=OneWay}" Stroke="#FF8181EB" VerticalAlignment="Top" Width="37"/>
+        <Menu Height="23" VerticalAlignment="Top" FontFamily="Berlin Sans FB" Background="#FFF8F8F9" Margin="37,0,0,0" FontSize="18" Grid.ColumnSpan="2">
+            <Menu.Effect>
+                <DropShadowEffect ShadowDepth="1"/>
+            </Menu.Effect>
+            <MenuItem Header="Files" Height="21" Width="53" Foreground="Black" FontFamily="Berlin Sans FB">
+                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click" Background="#FFBA08FD"/>
+                <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
+            </MenuItem>
+            <MenuItem Header="Select" Height="21" Width="59" Foreground="Black" FontFamily="Berlin Sans FB"/>
+            <MenuItem Header="Commands" Height="21" Width="98" Foreground="Black" FontFamily="Berlin Sans FB"/>
+        </Menu>
+        <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="0,52,0,0" Stroke="#00F5F5F6" VerticalAlignment="Top" StrokeThickness="0"/>
     </Grid>
 </Window>

@@ -29,19 +29,17 @@ namespace FlyExplorer
 
             NewTab();
 
-            MainText.Text = "";
-
             AnalyzerFileSystem.CreateNewPosition("d://Mathematic");
 
             string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
 
-            for (int i = 0; i < namesFiles.Length; i++)
-            {
-                MainText.Text += namesFiles[i];
-                MainText.Text += "\n\n";
-            }
+                for (int i = 0; i < namesFiles.Length; i++)
+                {
+                    ContentArea.Children.Add(new Button { Content = namesFiles[i] });
+                }
 
             AnalyzerFileSystem.Update();
+            OutputTreeElement();
 
         }
 
@@ -56,6 +54,18 @@ namespace FlyExplorer
         {
             WindowLog winLog = new WindowLog();
             winLog.Show();
+        }
+
+        private void OutputTreeElement()
+        {
+            DriveInfo[] logDisks = DriveInfo.GetDrives();
+            TreeViewItem tvi = new TreeViewItem() { Header = "Computer", FontFamily = new FontFamily("Segoe UI"), Foreground = new SolidColorBrush(Color.FromArgb(255, 130, 130, 237)) };
+
+            for (int i = 0; i < logDisks.Length; i++)
+            {
+                tvi.Items.Add(new MenuItem { Header = logDisks[i].Name, Width = 150, FontSize = 14 });
+            }
+                treeView.Items.Add(tvi);
         }
     }
 }
