@@ -58,7 +58,18 @@ namespace FlyExplorer
 
         private void OutputTreeElement()
         {
-                treeView.Items.Add(Presenter.GetDirectorysTree());
+            TextBlock textFavorites = new TextBlock { Text = "Favorites", FontSize = 24, FontWeight = FontWeights.Bold };
+            treeView.Items.Add(textFavorites);
+
+            TextBlock textComputer = new TextBlock { Text = "Computer", FontSize = 24, FontWeight = FontWeights.Bold };
+            treeView.Items.Add(textComputer);
+
+            TreeViewItem[] items = Presenter.GetDirectorysTree();
+
+            for (int i = 0; i < items.Length; i++)
+            {
+                treeView.Items.Add(items[i]);
+            }
         }
     }
 }

@@ -13,33 +13,33 @@ namespace FlyExplorer.BasicElements
 {
     static class Presenter
     {
-        static public TreeViewItem GetDirectorysTree()
+        static public TreeViewItem[] GetDirectorysTree()
         {
-           
-            TreeViewItem tree = new TreeViewItem() { Header = "Computer",
-                                                     FontFamily = new FontFamily("Segoe UI"),
-                                                     Foreground = new SolidColorBrush(Color.FromArgb(255, 130, 130, 237)) };  // Associate with configurator.
+            List<TreeViewItem> items = new List<TreeViewItem>();
 
-            TreeViewItem[] items = GetMenuItemsFromFiles("D:/ITVDN");
-            
-
-            for (int i = 0; i < items.Length; i++)
-            {
-                tree.Items.Add(items[i]);
-            }
-
-            return tree;
-        }
-
-        static private MenuItem[] GetMenuItemsLogicDisks()
-        {
-            DriveInfo[] disks = AnalyzerFileSystem.GetAllLogicDisk();
-
-            MenuItem[] items = new MenuItem[disks.Length];
+            TreeViewItem[] disks = GetTreeViewItemsLogicDisks();
 
             for (int i = 0; i < disks.Length; i++)
             {
-                items[i] = new MenuItem { Header = disks[i], Width = 150, FontSize = 14 };  //Associate with configurator.
+                items.Add(disks[i]);
+            }
+
+            return items.ToArray();
+        }
+
+        static private TreeViewItem[] GetTreeViewItemsLogicDisks()
+        {
+            DriveInfo[] disks = AnalyzerFileSystem.GetAllLogicDisk();
+
+            TreeViewItem[] items = new TreeViewItem[disks.Length];
+
+            for (int i = 0; i < disks.Length; i++)
+            {
+                if (disks[i].IsReady)
+                {
+                    items[i] = new TreeViewItem { Header = disks[i] + disks[i].VolumeLabel, Width = 150, };  //Associate with configurator.
+                }
+                Log.Write($"Presentor: disk {disks[i]} don't ready");
             }
 
             return items;
@@ -57,6 +57,7 @@ namespace FlyExplorer.BasicElements
             }
             else { dirs.Push(root); }
 
+            int current = 0;
             while (dirs.Count > 0)
             {
                 string currentDir = dirs.Pop();
@@ -96,6 +97,7 @@ namespace FlyExplorer.BasicElements
                 {
                     dirs.Push(str);
                 }
+                current++;
             }
 
 
