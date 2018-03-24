@@ -71,7 +71,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="TreeViewItem">
-                            <Button x:Name="ItemsButton" Background="#00000001" Foreground="#FF8282ED" FontFamily="Segoe UI" BorderThickness="0">
+                            <Button x:Name="ItemsButton" Background="#00000001" Foreground="#FF8282ED" FontFamily="Segoe UI" BorderThickness="0" HorizontalAlignment="Left" >
                                 <ContentPresenter x:Name="ContentSite" ContentSource="Header"/>
                             </Button>
 
