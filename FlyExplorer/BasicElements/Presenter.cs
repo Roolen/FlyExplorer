@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FlyExplorer.BasicElements;
 using FlyExplorer.Core;
 using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Media;
 using System.IO;
 
@@ -43,6 +44,12 @@ namespace FlyExplorer.BasicElements
             }
 
             return items;
+        }
+
+        static public TextBlock GetNewTextBox(string text, int fontSize, FontWeight fontWeight)
+        {
+            TextBlock textBlock = new TextBlock { Text = text, FontSize = fontSize, FontWeight = fontWeight };
+            return textBlock;
         }
 
         static private TreeViewItem[] GetMenuItemsFromFiles(string root)
