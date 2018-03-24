@@ -50,26 +50,42 @@ namespace FlyExplorer
             tab.Header = "NewTab";
         }
 
-        private void ExitElement_Copy_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Открывает окно лога.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FilesElementTheLog_Copy_Click(object sender, RoutedEventArgs e)
         {
             WindowLog winLog = new WindowLog();
             winLog.Show();
         }
 
+        /// <summary>
+        /// Выводит все элементы дерева файловой системы.
+        /// </summary>
         private void OutputTreeElement()
         {
             treeView.Items.Add(Presenter.GetNewTextBox("Favorites", 24, FontWeights.Bold));
 
             treeView.Items.Add(Presenter.GetNewTextBox("Computer", 24, FontWeights.Bold));
 
-            TreeViewItem[] items = Presenter.GetDirectorysTree();
-
-            foreach (TreeViewItem item in items)
-            {
-                treeView.Items.Add(item);
-            }
+            OutputDrivesOnTreeView();
 
             treeView.Items.Add(Presenter.GetNewTextBox("Network", 24, FontWeights.Bold));
+        }
+
+        /// <summary>
+        /// Выводит логические диски, в качестве элементов дерева файловой системы.
+        /// </summary>
+        private void OutputDrivesOnTreeView()
+        {
+            TreeViewItem[] itemsDriveSystem = Presenter.GetDirectorysTree();
+
+            foreach (TreeViewItem driveItem in itemsDriveSystem)
+            {
+                treeView.Items.Add(driveItem);
+            }
         }
     }
 }

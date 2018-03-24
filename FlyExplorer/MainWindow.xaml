@@ -48,7 +48,7 @@
                 <DropShadowEffect ShadowDepth="1"/>
             </Menu.Effect>
             <MenuItem Header="Files" Height="21" Width="53" Foreground="Black" FontFamily="Berlin Sans FB">
-                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click" Background="#FFBA08FD"/>
+                <MenuItem x:Name="FilesElementTheLog" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="FilesElementTheLog_Copy_Click" Background="#FFBA08FD"/>
                 <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
             </MenuItem>
             <MenuItem Header="Select" Height="21" Width="59" Foreground="Black" FontFamily="Berlin Sans FB"/>
