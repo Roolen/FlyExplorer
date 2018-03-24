@@ -52,63 +52,6 @@ namespace FlyExplorer.BasicElements
             return textBlock;
         }
 
-        static private TreeViewItem[] GetMenuItemsFromFiles(string root)
-        {
-            Stack<string> dirs = new Stack<string>();
-            List<TreeViewItem> items = new List<TreeViewItem>();
-
-            if (!Directory.Exists(root))
-            {
-                Log.Write($"Presenter: ArgumentException (this directory {root} isn't correct");
-                throw new ArgumentException();
-            }
-            else { dirs.Push(root); }
-
-            int current = 0;
-            while (dirs.Count > 0)
-            {
-                string currentDir = dirs.Pop();
-                string[] subDirs;
-
-                try
-                {
-                    subDirs = Directory.GetDirectories(currentDir);
-                }
-                catch (UnauthorizedAccessException e)
-                {
-                    Log.Write($"Presenter: {e.Message} ");
-                    continue;
-                }
-                catch (DirectoryNotFoundException e)
-                {
-                    Log.Write($"Presenter: {e.Message} ");
-                    continue;
-                }
-
-                foreach (string file in subDirs)
-                {
-                    try
-                    {
-                        //FileInfo fi = new FileInfo(file);
-                        items.Add(new TreeViewItem { Header = file, FontSize = 10 });
-                        //Log.Write($"Presenter: File: {fi.Name}");
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        Log.Write($"Presenter: {e.Message}");
-                        continue;
-                    }
-                }
-
-                foreach (string str in subDirs)
-                {
-                    dirs.Push(str);
-                }
-                current++;
-            }
-
-
-            return items.ToArray();
-        }
+        
     }
 }
