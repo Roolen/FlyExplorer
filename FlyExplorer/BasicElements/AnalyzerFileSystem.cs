@@ -104,7 +104,19 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив дисков.</returns>
         static public DriveInfo[] GetAllLogicDisk()
         {
-            return DriveInfo.GetDrives();
+            List<DriveInfo> drives = new List<DriveInfo>(DriveInfo.GetDrives());
+
+            for (int i = 0; i < drives.Capacity; i++)
+            {
+                if (!drives[i].IsReady)
+                {
+                    Log.Write($"AFS: drive {drives[i]} don't ready");
+
+                    drives.Remove(drives[i]);
+                }
+            }
+
+            return drives.ToArray();
         }
 
         /// <summary>
