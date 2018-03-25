@@ -23,6 +23,8 @@ namespace FlyExplorer.ControlElements
         private string textFolder;
         public string TextFolder { get => textFolder; set => textFolder = value; }
 
+        private bool elementSelectState = false;
+
         public FolderButton()
         {
             InitializeComponent();
@@ -33,6 +35,34 @@ namespace FlyExplorer.ControlElements
         private void NameFolder_Loaded(object sender, RoutedEventArgs e)
         {
             NameFolder.Text = TextFolder;
+        }
+
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if(!elementSelectState)
+                Grid.Background = new SolidColorBrush(Colors.LightCyan);
+        }
+
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if(!elementSelectState)
+            {
+                Grid.Background = new SolidColorBrush();
+            }
+        }
+
+        private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!elementSelectState)
+            {
+                Grid.Background = new SolidColorBrush(Colors.LightBlue);
+                elementSelectState = true;
+            }
+            else if (elementSelectState)
+            {
+                Grid.Background = new SolidColorBrush(Colors.LightCyan);
+                elementSelectState = false;
+            }
         }
     }
 }
