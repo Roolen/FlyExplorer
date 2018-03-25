@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FlyExplorer.BasicElements;
+using FlyExplorer.ControlElements;
 using FlyExplorer.Core;
 using System.IO;
 
@@ -35,7 +36,7 @@ namespace FlyExplorer
 
                 for (int i = 0; i < namesFiles.Length; i++)
                 {
-                    ContentArea.Children.Add(new Button { Content = namesFiles[i] });
+                    ContentArea.Children.Add(new FolderButton { TextFolder = namesFiles[i], Width = 150, Height = 150 });
                 }
 
             AnalyzerFileSystem.Update();
