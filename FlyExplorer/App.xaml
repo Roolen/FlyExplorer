@@ -68,8 +68,22 @@
 
         <Style TargetType="TreeViewItem">
             <Style.Setters>
-                <Setter Property="FontFamily" Value="Segoe UI"/>
-                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TreeViewItem">
+                            <Button x:Name="ItemsButton" Background="#00000001" Foreground="#FF8282ED" FontFamily="Segoe UI" BorderThickness="0" HorizontalAlignment="Left" >
+                                <ContentPresenter x:Name="ContentSite" ContentSource="Header"/>
+                            </Button>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ItemsButton" Property="Background" Value="#FF66CC99"/>
+                                    <Setter TargetName="ItemsButton" Property="Foreground" Value="white"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style.Setters>
         </Style>
 

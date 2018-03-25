@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="WindowLog" Height="150" Width="300">
     <Grid x:Name="grid">
-        <TextBlock x:Name="TextBoxLog" TextWrapping="Wrap" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" Background="Black" Foreground="#FF0BC546"><Run Text="TextBlock"/></TextBlock>
+        <ScrollViewer x:Name="scrollViewer" Height="{Binding ActualHeight, ElementName=grid, Mode=OneWay}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" >
+            <TextBlock x:Name="TextBoxLog" TextWrapping="Wrap" Background="Black" Foreground="#FF0BC546"><Run Text="TextBlock"/></TextBlock>
+
+        </ScrollViewer>
 
     </Grid>
 </Window>

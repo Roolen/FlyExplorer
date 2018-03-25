@@ -40,9 +40,7 @@
                 <DropShadowEffect ShadowDepth="2"/>
             </Rectangle.Effect>
         </Rectangle>
-        <TreeView x:Name="treeView" Margin="37,23,0,0" Background="#00000000" BorderBrush="#00CCD1DA" FontFamily="Segoe UI" FontSize="24" Foreground="#FF8282ED">
-            <TreeViewItem Header="Favorites" Height="32.5" Foreground="{Binding Foreground, ElementName=treeView}" FontWeight="Bold"/>
-        </TreeView>
+        <TreeView x:Name="treeView" Margin="37,23,0,0" Background="#00000000" BorderBrush="#00CCD1DA" FontFamily="Segoe UI" FontSize="24" Foreground="#FF8282ED"/>
         <GridSplitter HorizontalAlignment="Left" Margin="0,23,0,0" Width="8" Grid.Column="1" Background="#00F0F0F0" ShowsPreview="True"/>
         <Rectangle x:Name="ToolBar" Fill="#FF8282ED" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=MainGrid, Mode=OneWay}" Stroke="#FF8181EB" VerticalAlignment="Top" Width="37"/>
         <Menu Height="23" VerticalAlignment="Top" FontFamily="Berlin Sans FB" Background="#FFF8F8F9" Margin="37,0,0,0" FontSize="18" Grid.ColumnSpan="2">
@@ -50,7 +48,7 @@
                 <DropShadowEffect ShadowDepth="1"/>
             </Menu.Effect>
             <MenuItem Header="Files" Height="21" Width="53" Foreground="Black" FontFamily="Berlin Sans FB">
-                <MenuItem x:Name="ExitElement_Copy" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="ExitElement_Copy_Click" Background="#FFBA08FD"/>
+                <MenuItem x:Name="FilesElementTheLog" Header="Log" Height="23" HorizontalAlignment="Left" Width="155" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" Click="FilesElementTheLog_Copy_Click" Background="#FFBA08FD"/>
                 <MenuItem x:Name="ExitElement" Header="Exit" Height="23" HorizontalAlignment="Left" Width="155" Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
             </MenuItem>
             <MenuItem Header="Select" Height="21" Width="59" Foreground="Black" FontFamily="Berlin Sans FB"/>

@@ -50,22 +50,42 @@ namespace FlyExplorer
             tab.Header = "NewTab";
         }
 
-        private void ExitElement_Copy_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Открывает окно лога.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FilesElementTheLog_Copy_Click(object sender, RoutedEventArgs e)
         {
             WindowLog winLog = new WindowLog();
             winLog.Show();
         }
 
+        /// <summary>
+        /// Выводит все элементы дерева файловой системы.
+        /// </summary>
         private void OutputTreeElement()
         {
-            DriveInfo[] logDisks = DriveInfo.GetDrives();
-            TreeViewItem tvi = new TreeViewItem() { Header = "Computer", FontFamily = new FontFamily("Segoe UI"), Foreground = new SolidColorBrush(Color.FromArgb(255, 130, 130, 237)) };
+            treeView.Items.Add(Presenter.GetNewTextBox("Favorites", 24, FontWeights.Bold));
 
-            for (int i = 0; i < logDisks.Length; i++)
+            treeView.Items.Add(Presenter.GetNewTextBox("Computer", 24, FontWeights.Bold));
+
+            OutputDrivesOnTreeView();
+
+            treeView.Items.Add(Presenter.GetNewTextBox("Network", 24, FontWeights.Bold));
+        }
+
+        /// <summary>
+        /// Выводит логические диски, в качестве элементов дерева файловой системы.
+        /// </summary>
+        private void OutputDrivesOnTreeView()
+        {
+            TreeViewItem[] itemsDriveSystem = Presenter.GetDirectorysTree();
+
+            foreach (TreeViewItem driveItem in itemsDriveSystem)
             {
-                tvi.Items.Add(new MenuItem { Header = logDisks[i].Name, Width = 150, FontSize = 14 });
+                treeView.Items.Add(driveItem);
             }
-                treeView.Items.Add(tvi);
         }
     }
 }
