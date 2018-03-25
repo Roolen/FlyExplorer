@@ -36,7 +36,7 @@ namespace FlyExplorer
 
                 for (int i = 0; i < namesFiles.Length; i++)
                 {
-                    ContentArea.Children.Add(new FolderButton { TextFolder = namesFiles[i], Width = 150, Height = 150 });
+                    ContentArea.Children.Add(new FolderButton { TextFolder = namesFiles[i] });
                 }
 
             AnalyzerFileSystem.Update();
