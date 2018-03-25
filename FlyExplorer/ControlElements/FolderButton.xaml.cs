@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FlyExplorer.ControlElements;
 
 namespace FlyExplorer.ControlElements
 {
@@ -35,6 +36,10 @@ namespace FlyExplorer.ControlElements
         private void NameFolder_Loaded(object sender, RoutedEventArgs e)
         {
             NameFolder.Text = TextFolder;
+
+            StackPanel toolTipPanel = new StackPanel();
+            toolTipPanel.Children.Add(new TextBlock { Text = textFolder, Opacity = 0.7f, Background = new SolidColorBrush(Colors.AliceBlue) });
+            ToolTip = toolTipPanel;
         }
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
