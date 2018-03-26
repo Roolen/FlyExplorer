@@ -24,7 +24,7 @@ namespace FlyExplorer.BasicElements
             return GetTreeViewItemsForLogicalDrives();
         }
 
-        static public WrapPanel GetPanelWithFoldersAndFilesForContentArea(int numberPosition)
+        static public WrapPanel GetPanelWithFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             string[] namesDirectories = AnalyzerFileSystem.GetDirectoriesNameFromPosition(numberPosition);
             string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
@@ -33,7 +33,7 @@ namespace FlyExplorer.BasicElements
 
             for (int i = 0; i < namesDirectories.Length; i++)
             {
-                panelWithFoldersAndFiles.Children.Add(new FolderButton { TextFolder = namesDirectories[i], typeFolder = "folder" });
+                panelWithFoldersAndFiles.Children.Add(new FolderButton { TextFolder = namesDirectories[i], typeFolder = "folder", PathFolder = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesDirectories[i]}" });
             }
 
             for (int i = 0; i < namesFiles.Length; i++)

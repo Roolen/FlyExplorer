@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlyExplorer.ControlElements"
              mc:Ignorable="d" Width="150" Height="150" Margin="0" 
-             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseLeftButtonDown="UserControl_MouseLeftButtonDown">
+             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseLeftButtonDown="UserControl_MouseLeftButtonDown" MouseDoubleClick="UserControl_MouseDoubleClick">
     <Grid x:Name="Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="107*"/>

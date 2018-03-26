@@ -37,6 +37,8 @@ namespace FlyExplorer
             AnalyzerFileSystem.Update();
             OutputTreeElement();
 
+            AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
+
         }
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace FlyExplorer
         /// </summary>
         private void OutputtingDateForContentArea()
         {
+            if (ContentArea != null) ContentArea.Children.RemoveRange(0, ContentArea.Children.Capacity);
             OuptuttingFoldersAndFilesForContentArea(0);
         }
 
@@ -51,7 +54,7 @@ namespace FlyExplorer
         /// Выводит папки и файлы, в виде кнопок, в область контенета, из указанной позиции.
         /// </summary>
         /// <param name="numberPosition">Позиция анализатора файловой системы</param>
-        private void OuptuttingFoldersAndFilesForContentArea(int numberPosition)
+        private void OuptuttingFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             ContentArea.Children.Add(Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition));
         }

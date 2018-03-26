@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FlyExplorer.ControlElements;
+using FlyExplorer.BasicElements;
 
 namespace FlyExplorer.ControlElements
 {
@@ -71,6 +72,14 @@ namespace FlyExplorer.ControlElements
             {
                 Grid.Background = new SolidColorBrush(Colors.LightCyan);
                 elementSelectState = false;
+            }
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (typeFolder == "folder")
+            {
+                AnalyzerFileSystem.TransformPosition(0, PathFolder);
             }
         }
     }

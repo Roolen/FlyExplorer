@@ -26,6 +26,9 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         static List<FileInfo[]> files = new List<FileInfo[]>();
 
+        public delegate void UpdateAnalyzer();
+        static public event UpdateAnalyzer UpdateHandler;
+
 
 
         static AnalyzerFileSystem()
@@ -37,7 +40,7 @@ namespace FlyExplorer.BasicElements
         {
             Logging();
 
-
+            if(UpdateHandler != null) UpdateHandler();
         }
 
         /// <summary>
@@ -84,6 +87,8 @@ namespace FlyExplorer.BasicElements
         static public void TransformPosition(int numberPosition,string newPath)
         {
             positions[numberPosition] = newPath;
+            directories[numberPosition] = new DirectoryInfo(positions[positions.Count - 1]);
+            Update();
 
             Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");
         }
