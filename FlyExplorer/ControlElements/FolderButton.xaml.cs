@@ -37,14 +37,14 @@ namespace FlyExplorer.ControlElements
            
         }
 
-        private void NameFolder_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             NameFolder.Text = TextFolder;
 
             ToolTip = textFolder;
 
-            if (typeFolder == "folder") ImageFolder.Source = BitmapFrame.Create(new Uri(@"D:\C#Projects\FlyExplorer\FlyExplorer\ControlElements\Images\Folder.png"));
-            if (typeFolder == "file") ImageFolder.Source = BitmapFrame.Create(new Uri(@"D:\C#Projects\FlyExplorer\FlyExplorer\ControlElements\Images\file-144.png"));
+            if (typeFolder == "folder") ImageFolder.Source = new BitmapImage(new Uri("Images/Folder.png", UriKind.Relative));
+            if (typeFolder == "file") ImageFolder.Source = new BitmapImage(new Uri("Images/file-144.png", UriKind.Relative));
         }
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
@@ -82,5 +82,7 @@ namespace FlyExplorer.ControlElements
                 AnalyzerFileSystem.TransformPosition(0, PathFolder);
             }
         }
+
+     
     }
 }
