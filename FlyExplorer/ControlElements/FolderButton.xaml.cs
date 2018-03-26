@@ -22,14 +22,17 @@ namespace FlyExplorer.ControlElements
     public partial class FolderButton : UserControl
     {
         private string textFolder;
+        private string pathFolder;
+        public string typeFolder;
+
         public string TextFolder { get => textFolder; set => textFolder = value; }
+        public string PathFolder { get => pathFolder; set => pathFolder = value; }
 
         private bool elementSelectState = false;
 
         public FolderButton()
         {
             InitializeComponent();
-
            
         }
 
@@ -37,9 +40,10 @@ namespace FlyExplorer.ControlElements
         {
             NameFolder.Text = TextFolder;
 
-            StackPanel toolTipPanel = new StackPanel();
-            toolTipPanel.Children.Add(new TextBlock { Text = textFolder, Opacity = 0.7f, Background = new SolidColorBrush(Colors.AliceBlue) });
-            ToolTip = toolTipPanel;
+            ToolTip = textFolder;
+
+            if (typeFolder == "folder") ImageFolder.Source = BitmapFrame.Create(new Uri(@"D:\C#Projects\FlyExplorer\FlyExplorer\ControlElements\Images\Folder.png"));
+            if (typeFolder == "file") ImageFolder.Source = BitmapFrame.Create(new Uri(@"D:\C#Projects\FlyExplorer\FlyExplorer\ControlElements\Images\file-144.png"));
         }
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)

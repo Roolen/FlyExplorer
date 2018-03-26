@@ -20,7 +20,7 @@ namespace FlyExplorer.BasicElements
         /// <summary>
         /// Список массивов, дерикторий анализатора файловой системы.
         /// </summary>
-        static List<DirectoryInfo> directorys = new List<DirectoryInfo>();
+        static List<DirectoryInfo> directories = new List<DirectoryInfo>();
         /// <summary>
         /// Список массивов, файлов анализатора файловой системы.
         /// </summary>
@@ -59,7 +59,7 @@ namespace FlyExplorer.BasicElements
         static public void CreateNewPosition(string path)
         {
             positions.Add(path);
-            directorys.Add( new DirectoryInfo( positions[positions.Count - 1] ) );
+            directories.Add( new DirectoryInfo( positions[positions.Count - 1] ) );
 
             Log.Write($"AFS: NewPosition # {positions.Count - 1} --- { positions[positions.Count - 1] }");
         }
@@ -71,7 +71,7 @@ namespace FlyExplorer.BasicElements
         static public void DeletePosition(int numberPosition)
         {
             positions.RemoveAt(numberPosition);
-            directorys.RemoveAt(numberPosition);
+            directories.RemoveAt(numberPosition);
 
             Log.Write($"AFS: DeletePosition # {numberPosition}");
         }
@@ -136,7 +136,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Набор файлов</returns>
         static public FileInfo[] GetFilesFromPosition(int numberPosition)
         {
-            return directorys[numberPosition].GetFiles();
+            return directories[numberPosition].GetFiles();
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Масси имен файлов</returns>
         static public string[] GetFilesNameFromPosition(int numberPosition)
         {
-            FileInfo[] files = directorys[numberPosition].GetFiles();
+            FileInfo[] files = directories[numberPosition].GetFiles();
             
             string[] namesFiles = new string[files.Length];
             for (int i = 0; i < files.Length; i++)
@@ -159,13 +159,31 @@ namespace FlyExplorer.BasicElements
         }
 
         /// <summary>
+        /// Возвращает массив имен директорий, из указанной позиции анализатора файловой системы.
+        /// </summary>
+        /// <param name="numberPosition">Номер позиции</param>
+        /// <returns>Массив имен директорий</returns>
+        static public string[] GetDirectoriesNameFromPosition(int numberPosition)
+        {
+            DirectoryInfo[] dirs = directories[numberPosition].GetDirectories();
+
+            string[] namesDirs = new string[dirs.Length];
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                namesDirs[i] = dirs[i].Name;
+            }
+
+            return namesDirs;
+        }
+
+        /// <summary>
         /// Возвращает массив размеров файлов, из деректории, указанной позиции анализатора файловой системы.
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив размеров</returns>
         static public long[] GetFilesSizeFromPosition(int numberPosition)
         {
-            FileInfo[] files = directorys[numberPosition].GetFiles();
+            FileInfo[] files = directories[numberPosition].GetFiles();
 
             long[] sizeFiles = new long[files.Length];
             for (int i = 0; i < files.Length; i++)
@@ -183,7 +201,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив дат создания</returns>
         static public DateTime[] GetFilesCreationDateFromPosition(int numberPosition)
         {
-            FileInfo[] files = directorys[numberPosition].GetFiles();
+            FileInfo[] files = directories[numberPosition].GetFiles();
 
             DateTime[] dateFiles = new DateTime[files.Length];
             for (int i = 0; i < files.Length; i++)
@@ -201,7 +219,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив дат последнего изменения</returns>
         static public DateTime[] GetFilesLastWriteDateFromPosition(int numberPosition)
         {
-            FileInfo[] files = directorys[numberPosition].GetFiles();
+            FileInfo[] files = directories[numberPosition].GetFiles();
 
             DateTime[] dateFiles = new DateTime[files.Length];
             for (int i = 0; i < files.Length; i++)

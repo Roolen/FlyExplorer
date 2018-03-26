@@ -30,18 +30,30 @@ namespace FlyExplorer
 
             NewTab();
 
-            AnalyzerFileSystem.CreateNewPosition("d://Mathematic");
+            AnalyzerFileSystem.CreateNewPosition("d://Downloads");
 
-            string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
-
-                for (int i = 0; i < namesFiles.Length; i++)
-                {
-                    ContentArea.Children.Add(new FolderButton { TextFolder = namesFiles[i] });
-                }
+            OutputtingDateForContentArea();
 
             AnalyzerFileSystem.Update();
             OutputTreeElement();
 
+        }
+
+        /// <summary>
+        /// Выводит данные в область контента.
+        /// </summary>
+        private void OutputtingDateForContentArea()
+        {
+            OuptuttingFoldersAndFilesForContentArea(0);
+        }
+
+        /// <summary>
+        /// Выводит папки и файлы, в виде кнопок, в область контенета, из указанной позиции.
+        /// </summary>
+        /// <param name="numberPosition">Позиция анализатора файловой системы</param>
+        private void OuptuttingFoldersAndFilesForContentArea(int numberPosition)
+        {
+            ContentArea.Children.Add(Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition));
         }
 
         private void NewTab()

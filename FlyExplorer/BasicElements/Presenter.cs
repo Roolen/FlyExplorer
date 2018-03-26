@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using System.IO;
+using FlyExplorer.ControlElements;
 
 namespace FlyExplorer.BasicElements
 {
@@ -21,6 +22,26 @@ namespace FlyExplorer.BasicElements
         static public TreeViewItem[] GetDirectorysTree()
         {
             return GetTreeViewItemsForLogicalDrives();
+        }
+
+        static public WrapPanel GetPanelWithFoldersAndFilesForContentArea(int numberPosition)
+        {
+            string[] namesDirectories = AnalyzerFileSystem.GetDirectoriesNameFromPosition(numberPosition);
+            string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
+
+            WrapPanel panelWithFoldersAndFiles = new WrapPanel();
+
+            for (int i = 0; i < namesDirectories.Length; i++)
+            {
+                panelWithFoldersAndFiles.Children.Add(new FolderButton { TextFolder = namesDirectories[i], typeFolder = "folder" });
+            }
+
+            for (int i = 0; i < namesFiles.Length; i++)
+            {
+                panelWithFoldersAndFiles.Children.Add(new FolderButton { TextFolder = namesFiles[i], typeFolder = "file" });
+            }
+
+            return panelWithFoldersAndFiles;
         }
 
         /// <summary>
