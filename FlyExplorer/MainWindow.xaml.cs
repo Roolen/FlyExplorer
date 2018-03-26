@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FlyExplorer.BasicElements;
+using FlyExplorer.ControlElements;
 using FlyExplorer.Core;
 using System.IO;
 
@@ -29,18 +31,33 @@ namespace FlyExplorer
 
             NewTab();
 
-            AnalyzerFileSystem.CreateNewPosition("d://Mathematic");
+            AnalyzerFileSystem.CreateNewPosition("d://Downloads");
 
-            string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
-
-                for (int i = 0; i < namesFiles.Length; i++)
-                {
-                    ContentArea.Children.Add(new Button { Content = namesFiles[i] });
-                }
+            OutputtingDateForContentArea();
 
             AnalyzerFileSystem.Update();
             OutputTreeElement();
 
+            AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
+
+        }
+
+        /// <summary>
+        /// Выводит данные в область контента.
+        /// </summary>
+        private void OutputtingDateForContentArea()
+        {
+            if (ContentArea != null) ContentArea.Children.RemoveRange(0, ContentArea.Children.Capacity);
+            OuptuttingFoldersAndFilesForContentArea(0);
+        }
+
+        /// <summary>
+        /// Выводит папки и файлы, в виде кнопок, в область контенета, из указанной позиции.
+        /// </summary>
+        /// <param name="numberPosition">Позиция анализатора файловой системы</param>
+        private void OuptuttingFoldersAndFilesForContentArea(sbyte numberPosition)
+        {
+            ContentArea.Children.Add(Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition));
         }
 
         private void NewTab()

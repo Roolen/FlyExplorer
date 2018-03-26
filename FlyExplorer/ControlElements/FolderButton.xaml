@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="FlyExplorer.ControlElements.FolderButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlyExplorer.ControlElements"
+             mc:Ignorable="d" Width="150" Height="150" Margin="0" 
+             MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" MouseLeftButtonDown="UserControl_MouseLeftButtonDown" MouseDoubleClick="UserControl_MouseDoubleClick" Loaded="UserControl_Loaded">
+    <Grid x:Name="Grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="107*"/>
+            <RowDefinition Height="43*"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="NameFolder" TextWrapping="Wrap" Text="text" Background="#007787AA" TextAlignment="Center" FontSize="14" Grid.Row="1"/>
+        <Image x:Name="ImageFolder" Source="Images/Folder.png" Margin="0"/>
+
+    </Grid>
+</UserControl>
