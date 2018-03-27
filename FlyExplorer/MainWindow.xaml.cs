@@ -58,6 +58,7 @@ namespace FlyExplorer
         private void OuptuttingFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             ContentArea.Children.Add(Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition));
+            TabControl.SelectedIndex = 0;
         }
 
         private void NewTab()

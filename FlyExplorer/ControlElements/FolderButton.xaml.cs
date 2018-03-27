@@ -37,6 +37,11 @@ namespace FlyExplorer.ControlElements
            
         }
 
+        /// <summary>
+        /// Устанавливает название папки, текст подсказки и изображение папки.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             NameFolder.Text = TextFolder;
@@ -47,12 +52,22 @@ namespace FlyExplorer.ControlElements
             if (typeFolder == "file") ImageFolder.Source = new BitmapImage(new Uri("Images/file-144.png", UriKind.Relative));
         }
 
+        /// <summary>
+        /// Выделяет форму цветом при наведении мыши.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
             if(!elementSelectState)
                 Grid.Background = new SolidColorBrush(Colors.LightCyan);
         }
 
+        /// <summary>
+        /// Убирает выделение формы цветом, когда мышь уводится.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
         {
             if(!elementSelectState)
@@ -61,6 +76,11 @@ namespace FlyExplorer.ControlElements
             }
         }
 
+        /// <summary>
+        /// Выделяет форму, при нажатии на ней левой клавишей мыши.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!elementSelectState)
@@ -75,6 +95,11 @@ namespace FlyExplorer.ControlElements
             }
         }
 
+        /// <summary>
+        /// Анализатор файловой системы переходит в другую директорию, при двойном клике на папку.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (typeFolder == "folder")
