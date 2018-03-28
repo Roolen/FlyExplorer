@@ -25,16 +25,18 @@ namespace FlyExplorer.ControlElements
         private string textFolder;
         private string pathFolder;
         public string typeFolder;
+        private sbyte positionFolder;
 
         public string TextFolder { get => textFolder; set => textFolder = value; }
         public string PathFolder { get => pathFolder; set => pathFolder = value; }
 
         private bool elementSelectState = false;
 
-        public FolderButton()
+        public FolderButton(sbyte position)
         {
             InitializeComponent();
-           
+
+            positionFolder = position;
         }
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace FlyExplorer.ControlElements
         {
             if (typeFolder == "folder")
             {
-                AnalyzerFileSystem.TransformPosition(0, PathFolder);
+                AnalyzerFileSystem.TransformPosition(positionFolder, PathFolder);
             }
         }
 

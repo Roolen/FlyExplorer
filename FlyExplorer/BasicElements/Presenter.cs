@@ -27,18 +27,18 @@ namespace FlyExplorer.BasicElements
         static public WrapPanel GetPanelWithFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             string[] namesDirectories = AnalyzerFileSystem.GetDirectoriesNameFromPosition(numberPosition);
-            string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(0);
+            string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(numberPosition);
 
             WrapPanel panelWithFoldersAndFiles = new WrapPanel();
 
             for (int i = 0; i < namesDirectories.Length; i++)
             {
-                panelWithFoldersAndFiles.Children.Add(new FolderButton { TextFolder = namesDirectories[i], typeFolder = "folder", PathFolder = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesDirectories[i]}" });
+                panelWithFoldersAndFiles.Children.Add(new FolderButton(numberPosition) { TextFolder = namesDirectories[i], typeFolder = "folder", PathFolder = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesDirectories[i]}" });
             }
 
             for (int i = 0; i < namesFiles.Length; i++)
             {
-                panelWithFoldersAndFiles.Children.Add(new FolderButton { TextFolder = namesFiles[i], typeFolder = "file" });
+                panelWithFoldersAndFiles.Children.Add(new FolderButton(numberPosition) { TextFolder = namesFiles[i], typeFolder = "file" });
             }
 
             return panelWithFoldersAndFiles;
