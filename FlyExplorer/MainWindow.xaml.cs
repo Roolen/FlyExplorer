@@ -73,6 +73,7 @@ namespace FlyExplorer
             if (currentNumberTab != 0) currentNumberTab++;
             AnalyzerFileSystem.CreateNewPosition("C://");
             tab.Header = AnalyzerFileSystem.GetPosition(currentNumberTab);
+            tab.Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab);
         }
 
         /// <summary>
@@ -121,6 +122,11 @@ namespace FlyExplorer
         private void ButtonForCreateNewTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             NewTab();
+        }
+
+        private void ButtonForCreateNewTab_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TabControl.SelectedIndex = TabControl.SelectedIndex - 1;
         }
     }
 }
