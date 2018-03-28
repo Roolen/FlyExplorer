@@ -25,6 +25,11 @@ namespace FlyExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Fields
+        private sbyte currentNumberTab = 0;
+        #endregion
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,8 +52,8 @@ namespace FlyExplorer
         /// </summary>
         private void OutputtingDateForContentArea()
         {
-            if (ContentArea != null) ContentArea.Children.RemoveRange(0, ContentArea.Children.Capacity);
-            OuptuttingFoldersAndFilesForContentArea(0);
+            if (ContentArea != null) ContentArea.Children.Clear();
+            OuptuttingFoldersAndFilesForContentArea(0); 
         }
 
         /// <summary>
@@ -64,8 +69,10 @@ namespace FlyExplorer
         private void NewTab()
         {
             TabItem tab = new TabItem();
-            TabControl.Items.Add(tab);
-            tab.Header = "NewTab";
+            TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
+            if (currentNumberTab != 0) currentNumberTab++;
+            AnalyzerFileSystem.CreateNewPosition("C://");
+            tab.Header = AnalyzerFileSystem.GetPosition(currentNumberTab);
         }
 
         /// <summary>
@@ -104,6 +111,16 @@ namespace FlyExplorer
             {
                 treeView.Items.Add(driveItem);
             }
+        }
+
+        /// <summary>
+        /// Создает новую вкладку, при нажатии на кнопку.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonForCreateNewTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NewTab();
         }
     }
 }

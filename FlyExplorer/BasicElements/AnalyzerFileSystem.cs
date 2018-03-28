@@ -87,7 +87,7 @@ namespace FlyExplorer.BasicElements
         static public void TransformPosition(int numberPosition,string newPath)
         {
             positions[numberPosition] = newPath;
-            directories[numberPosition] = new DirectoryInfo(positions[positions.Count - 1]);
+            directories[numberPosition] = new DirectoryInfo(positions[numberPosition]);
             Update();
 
             Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");

@@ -20,7 +20,11 @@
                     </ScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem" BorderBrush="#00ACACAC">
+            <TabItem Header="TabItem" BorderBrush="#00ACACAC"/>
+            <TabItem x:Name="ButtonForCreateNewTab" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="30" FontWeight="Bold">
+                <TabItem.Header>
+                    <Label Content="+" MouseLeftButtonDown="ButtonForCreateNewTab_MouseLeftButtonDown" FontSize="12" Width="18" RenderTransformOrigin="0.478,0.511" HorizontalAlignment="Center"/>
+                </TabItem.Header>
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
