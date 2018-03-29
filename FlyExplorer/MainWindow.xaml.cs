@@ -25,30 +25,35 @@ namespace FlyExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Fields
+        private sbyte currentNumberTab = 0;
+        private List<TabItem> tabs = new List<TabItem>();
+        #endregion
+
+
         public MainWindow()
         {
             InitializeComponent();
 
+            #region Output for default tab
             NewTab();
+            #endregion
 
-            AnalyzerFileSystem.CreateNewPosition("d://Downloads");
-
-            OutputtingDateForContentArea();
-
-            AnalyzerFileSystem.Update();
             OutputTreeElement();
 
+            #region Subscribe to delegates
             AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
+
+            #endregion
 
         }
 
         /// <summary>
         /// Выводит данные в область контента.
         /// </summary>
-        private void OutputtingDateForContentArea()
+        private void OutputtingDateForContentArea(sbyte numberPosition)
         {
-            if (ContentArea != null) ContentArea.Children.RemoveRange(0, ContentArea.Children.Capacity);
-            OuptuttingFoldersAndFilesForContentArea(0);
+            OuptuttingFoldersAndFilesForContentArea(numberPosition); 
         }
 
         /// <summary>
@@ -57,14 +62,27 @@ namespace FlyExplorer
         /// <param name="numberPosition">Позиция анализатора файловой системы</param>
         private void OuptuttingFoldersAndFilesForContentArea(sbyte numberPosition)
         {
-            ContentArea.Children.Add(Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition));
+            ScrollViewer viewer = new ScrollViewer { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition) };
+
+            tabs[numberPosition].Content = viewer;
+            tabs[numberPosition].Header = AnalyzerFileSystem.GetPosition(numberPosition);
+
         }
 
+        /// <summary>
+        /// Создаёт новую вкладку и выводит в области контента, файлы и папки.
+        /// </summary>
         private void NewTab()
         {
-            TabItem tab = new TabItem();
-            TabControl.Items.Add(tab);
-            tab.Header = "NewTab";
+            AnalyzerFileSystem.CreateNewPosition("C:\\");
+
+            TabItem tab = new TabItem { Header = AnalyzerFileSystem.GetPosition(currentNumberTab),
+                                        Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
+
+            TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
+            tabs.Add(tab);
+
+            currentNumberTab++;
         }
 
         /// <summary>
@@ -103,6 +121,26 @@ namespace FlyExplorer
             {
                 treeView.Items.Add(driveItem);
             }
+        }
+
+        /// <summary>
+        /// Создает новую вкладку, при нажатии на кнопку.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonForCreateNewTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NewTab();
+        }
+
+        /// <summary>
+        /// Выделяет предыдущую вкладку, при фокусе на кнопке.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonForCreateNewTab_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TabControl.SelectedIndex = TabControl.SelectedIndex - 1;
         }
     }
 }

@@ -32,6 +32,22 @@
             </Setter>
         </Style>
 
+        <Style TargetType="TabItem" x:Key="ButtonCreateTabs">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <TextBlock Name="tab" Background="MediumPurple">
+                            <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"
+                                              Margin="0"/>
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="Button">
             <Style.Setters>
                 <Setter Property="Background" Value="AliceBlue"/>
