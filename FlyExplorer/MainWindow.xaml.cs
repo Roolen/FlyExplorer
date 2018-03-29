@@ -35,15 +35,16 @@ namespace FlyExplorer
         {
             InitializeComponent();
 
+            #region Output for default tab
             NewTab();
-
-            AnalyzerFileSystem.CreateNewPosition("d://Downloads");
-
-            OutputtingDateForContentArea(0);
+            #endregion
 
             OutputTreeElement();
 
+            #region Subscribe to delegates
             AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
+
+            #endregion
 
         }
 
@@ -61,8 +62,8 @@ namespace FlyExplorer
         /// <param name="numberPosition">Позиция анализатора файловой системы</param>
         private void OuptuttingFoldersAndFilesForContentArea(sbyte numberPosition)
         {
-            ScrollViewer viewer = new ScrollViewer();
-            viewer.Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition);
+            ScrollViewer viewer = new ScrollViewer { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition) };
+
             tabs[numberPosition].Content = viewer;
             tabs[numberPosition].Header = AnalyzerFileSystem.GetPosition(numberPosition);
 
@@ -73,7 +74,7 @@ namespace FlyExplorer
         /// </summary>
         private void NewTab()
         {
-            AnalyzerFileSystem.CreateNewPosition("C://");
+            AnalyzerFileSystem.CreateNewPosition("C:\\");
 
             TabItem tab = new TabItem { Header = AnalyzerFileSystem.GetPosition(currentNumberTab),
                                         Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };

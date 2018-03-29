@@ -27,8 +27,24 @@ namespace FlyExplorer.ControlElements
         public string typeFolder;
         private sbyte positionFolder;
 
-        public string TextFolder { get => textFolder; set => textFolder = value; }
-        public string PathFolder { get => pathFolder; set => pathFolder = value; }
+        public string TextFolder
+        {
+            get => textFolder;
+
+            set
+            {
+                if (value != null) textFolder = value;
+            }
+        }
+
+        public string PathFolder
+        {
+            get => pathFolder;
+            set
+            {
+                if (value != null) pathFolder = value;
+            }
+        }
 
         private bool elementSelectState = false;
 
