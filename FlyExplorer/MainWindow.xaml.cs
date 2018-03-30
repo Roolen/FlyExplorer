@@ -53,20 +53,70 @@ namespace FlyExplorer
         /// </summary>
         private void OutputtingDateForContentArea(sbyte numberPosition)
         {
-            OuptuttingFoldersAndFilesForContentArea(numberPosition); 
+            OutputtingFoldersAndFilesForContentArea(numberPosition);
+            OutputtingAddressLine(numberPosition);
         }
 
         /// <summary>
         /// Выводит папки и файлы, в виде кнопок, в область контенета, из указанной позиции.
         /// </summary>
         /// <param name="numberPosition">Позиция анализатора файловой системы</param>
-        private void OuptuttingFoldersAndFilesForContentArea(sbyte numberPosition)
+        private void OutputtingFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             ScrollViewer viewer = new ScrollViewer { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition) };
 
             tabs[numberPosition].Content = viewer;
             tabs[numberPosition].Header = AnalyzerFileSystem.GetPosition(numberPosition);
 
+        }
+
+        private void OutputtingAddressLine(sbyte numberPosition)
+        {
+            char[] path = AnalyzerFileSystem.GetPosition(numberPosition).ToCharArray();
+
+
+            foreach (ButtonAddressLine button in GetButtonsAddressLine(path))
+            {
+                AdressLine.Children.Add(button);
+            }
+        }
+
+        private ButtonAddressLine[] GetButtonsAddressLine(char[] path)
+        {
+            List<string> pathElements = GetAddressElements(path);
+            ButtonAddressLine[] buttons = new ButtonAddressLine[pathElements.Capacity - 1];
+
+            for (int i = 0; i < pathElements.Capacity - 1; i++)
+            {
+                buttons[i] = new ButtonAddressLine() { Content = pathElements[i] };
+            }
+
+            return buttons;
+        }
+
+        private List<string> GetAddressElements(char[] path)
+        {
+            List<string> addressElements = new List<string>();
+            addressElements.Add("");
+
+            int a = 0;
+            for (int i = 0; i < path.Length; i++)
+            {
+                if(path[i] == '\\')
+                {
+                    a++;
+                }
+                else if(a == 0)
+                {
+                    addressElements.Add("");
+                }
+                else if(true)
+                {
+                    addressElements[a] += path[i];
+                }
+            }
+
+            return addressElements;
         }
 
         /// <summary>

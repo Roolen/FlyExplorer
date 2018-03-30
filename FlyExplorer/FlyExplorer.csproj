@@ -58,6 +58,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BasicElements\Presenter.cs" />
+    <Compile Include="ControlElements\ButtonAddressLine.xaml.cs">
+      <DependentUpon>ButtonAddressLine.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlElements\FolderButton.xaml.cs">
       <DependentUpon>FolderButton.xaml</DependentUpon>
     </Compile>
@@ -67,6 +70,10 @@
     <Compile Include="WindowLog.xaml.cs">
       <DependentUpon>WindowLog.xaml</DependentUpon>
     </Compile>
+    <Page Include="ControlElements\ButtonAddressLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControlElements\FolderButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
