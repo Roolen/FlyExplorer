@@ -74,21 +74,23 @@ namespace FlyExplorer
         {
             string path = AnalyzerFileSystem.GetPosition(numberPosition);
 
+            AdressLine.Children.Clear();
 
-            foreach (ButtonAddressLine button in GetButtonsAddressLine(path))
+            foreach (ButtonAddressLine button in GetButtonsAddressLine(path, numberPosition))
             {
                 AdressLine.Children.Add(button);
             }
         }
 
-        private ButtonAddressLine[] GetButtonsAddressLine(string path)
+        private ButtonAddressLine[] GetButtonsAddressLine(string path, sbyte numberPosition)
         {
-            string[] pathElements = path.Split('\\');
+            string[] pathElements = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
             ButtonAddressLine[] buttons = new ButtonAddressLine[pathElements.Length - 1];
 
             for (int i = 0; i < pathElements.Length - 1; i++)
             {
-                buttons[i] = new ButtonAddressLine() { Content = pathElements[i] };
+                buttons[i] = new ButtonAddressLine(path, numberPosition);
+                buttons[i].buttonAddressLine.Content = pathElements[i];
             }
 
             return buttons;
@@ -107,6 +109,7 @@ namespace FlyExplorer
             TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
             tabs.Add(tab);
 
+            OutputtingAddressLine(currentNumberTab);
             currentNumberTab++;
         }
 

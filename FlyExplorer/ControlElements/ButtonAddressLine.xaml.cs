@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FlyExplorer.BasicElements;
 
 namespace FlyExplorer.ControlElements
 {
@@ -20,9 +21,20 @@ namespace FlyExplorer.ControlElements
     /// </summary>
     public partial class ButtonAddressLine : UserControl
     {
-        public ButtonAddressLine()
+        private string path;
+        private sbyte numberPosition;
+
+        public ButtonAddressLine(string path, sbyte numberPosition)
         {
             InitializeComponent();
+
+            this.path = path;
+            this.numberPosition = numberPosition;
+        }
+
+        private void buttonAddressLine_Click(object sender, RoutedEventArgs e)
+        {
+            AnalyzerFileSystem.TransformPosition(numberPosition, path);
         }
     }
 }
