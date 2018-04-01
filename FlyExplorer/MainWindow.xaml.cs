@@ -72,7 +72,7 @@ namespace FlyExplorer
 
         private void OutputtingAddressLine(sbyte numberPosition)
         {
-            char[] path = AnalyzerFileSystem.GetPosition(numberPosition).ToCharArray();
+            string path = AnalyzerFileSystem.GetPosition(numberPosition);
 
 
             foreach (ButtonAddressLine button in GetButtonsAddressLine(path))
@@ -81,42 +81,17 @@ namespace FlyExplorer
             }
         }
 
-        private ButtonAddressLine[] GetButtonsAddressLine(char[] path)
+        private ButtonAddressLine[] GetButtonsAddressLine(string path)
         {
-            List<string> pathElements = GetAddressElements(path);
-            ButtonAddressLine[] buttons = new ButtonAddressLine[pathElements.Capacity - 1];
+            string[] pathElements = path.Split('\\');
+            ButtonAddressLine[] buttons = new ButtonAddressLine[pathElements.Length - 1];
 
-            for (int i = 0; i < pathElements.Capacity - 1; i++)
+            for (int i = 0; i < pathElements.Length - 1; i++)
             {
                 buttons[i] = new ButtonAddressLine() { Content = pathElements[i] };
             }
 
             return buttons;
-        }
-
-        private List<string> GetAddressElements(char[] path)
-        {
-            List<string> addressElements = new List<string>();
-            addressElements.Add("");
-
-            int a = 0;
-            for (int i = 0; i < path.Length; i++)
-            {
-                if(path[i] == '\\')
-                {
-                    a++;
-                }
-                else if(a == 0)
-                {
-                    addressElements.Add("");
-                }
-                else if(true)
-                {
-                    addressElements[a] += path[i];
-                }
-            }
-
-            return addressElements;
         }
 
         /// <summary>

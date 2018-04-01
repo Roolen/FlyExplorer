@@ -51,6 +51,6 @@
             <MenuItem Header="Select" Height="21" Width="59" Foreground="Black" FontFamily="Berlin Sans FB"/>
             <MenuItem Header="Commands" Height="21" Width="98" Foreground="Black" FontFamily="Berlin Sans FB"/>
         </Menu>
-        <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="5,81,-5,0" Stroke="#00F5F5F6" VerticalAlignment="Top" StrokeThickness="0"/>
+        <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="2,81,-5,0" Stroke="#00F5F5F6" VerticalAlignment="Top" StrokeThickness="0"/>
     </Grid>
 </Window>
