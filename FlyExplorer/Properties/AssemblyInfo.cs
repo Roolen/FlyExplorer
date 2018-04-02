@@ -8,9 +8,9 @@ using System.Windows;
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("FlyExplorer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Advenced file manager")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MPK MGTU")]
+[assembly: AssemblyCompany("zhimovskij studio")]
 [assembly: AssemblyProduct("FlyExplorer")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
@@ -51,5 +51,5 @@ using System.Windows;
 // Можно задать все значения или принять номер сборки и номер редакции по умолчанию.
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1")]
+[assembly: AssemblyVersion("0.0.6")]
 [assembly: AssemblyFileVersion("0.1")]

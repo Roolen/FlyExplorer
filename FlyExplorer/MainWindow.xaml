@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FlyExplorer"
         xmlns:ControlElements="clr-namespace:FlyExplorer.ControlElements" x:Name="MainWindow1" x:Class="FlyExplorer.MainWindow"
         mc:Ignorable="d"
-        Title="FlyExplorer" Height="764" Width="1512" FontFamily="Source Code Pro" Background="White" WindowStyle="ThreeDBorderWindow">
+        Title="FlyExplorer 0.0.6v" Height="764" Width="1512" FontFamily="Source Code Pro" Background="White" WindowStyle="ThreeDBorderWindow">
     <Grid x:Name="MainGrid" Margin="0,0,0,-1" Background="#FFE8EDFB">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="29*" MaxWidth="350"/>

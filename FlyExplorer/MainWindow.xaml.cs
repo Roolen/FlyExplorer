@@ -70,6 +70,10 @@ namespace FlyExplorer
 
         }
 
+        /// <summary>
+        /// Выводит данные адресной строки.
+        /// </summary>
+        /// <param name="numberPosition">Позиция вкладки к которой принадлежит адрессная строка</param>
         private void OutputtingAddressLine(sbyte numberPosition)
         {
             string path = AnalyzerFileSystem.GetPosition(numberPosition);
@@ -82,6 +86,12 @@ namespace FlyExplorer
             }
         }
 
+        /// <summary>
+        /// Возвращает массив кнопок для адрессной строки.
+        /// </summary>
+        /// <param name="path">Путь адресной строки</param>
+        /// <param name="numberPosition">Позиция вкладки к которой принадлежит адрессная строка</param>
+        /// <returns>Массив кнопок для адрессной строки</returns>
         private ButtonAddressLine[] GetButtonsAddressLine(string path, sbyte numberPosition)
         {
             string[] pathElements = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
