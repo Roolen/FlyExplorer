@@ -27,6 +27,7 @@ namespace FlyExplorer
     {
         #region Fields
         private sbyte currentNumberTab = 0;
+        private sbyte selectedTab = 0;
         private List<TabItem> tabs = new List<TabItem>();
         #endregion
 
@@ -106,6 +107,7 @@ namespace FlyExplorer
             TabItem tab = new TabItem { Header = AnalyzerFileSystem.GetPosition(currentNumberTab),
                                         Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
 
+            tab.GotFocus += TabItem_GotFocus;
             TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
             tabs.Add(tab);
 
@@ -162,13 +164,18 @@ namespace FlyExplorer
         }
 
         /// <summary>
-        /// Выделяет предыдущую вкладку, при фокусе на кнопке.
+        /// Выделяет предыдущую вкладку, при фокусе на кнопке создания новой вкладки.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonForCreateNewTab_GotFocus(object sender, RoutedEventArgs e)
         {
             TabControl.SelectedIndex = TabControl.SelectedIndex - 1;
+        }
+
+        private void TabItem_GotFocus(object sender, RoutedEventArgs e)
+        {
+            OutputtingAddressLine(Convert.ToSByte(TabControl.SelectedIndex));
         }
     }
 }
