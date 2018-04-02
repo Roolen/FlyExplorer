@@ -90,7 +90,7 @@ namespace FlyExplorer
 
             for (int i = 0; i < pathElements.Length - 1; i++)
             {
-                buttons[i] = new ButtonAddressLine(path.Split(new char[] { '\\' },StringSplitOptions.RemoveEmptyEntries), numberPosition);
+                buttons[i] = new ButtonAddressLine(pathElements, numberPosition, buttons.Length - i);
                 buttons[i].buttonAddressLine.Content = pathElements[i];
             }
 

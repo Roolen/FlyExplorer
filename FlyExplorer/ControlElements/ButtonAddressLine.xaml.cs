@@ -24,19 +24,19 @@ namespace FlyExplorer.ControlElements
         private string pathButton;
         private sbyte numberPosition;
 
-        public ButtonAddressLine(string[] path, sbyte numberPosition)
+        public ButtonAddressLine(string[] path, sbyte numberPosition, int numberButton)
         {
             InitializeComponent();
 
             for (int i = 0; i < path.Length; i++)
             {
-                if(i != path.Length - 1)
+                if(i < path.Length - numberButton)
                     pathButton += path[i] += "\\";
             }
             this.numberPosition = numberPosition;
         }
 
-        private void buttonAddressLine_Click(object sender, RoutedEventArgs e)
+        private void ButtonAddressLine_Click(object sender, RoutedEventArgs e)
         {
             AnalyzerFileSystem.TransformPosition(numberPosition, pathButton);
         }
