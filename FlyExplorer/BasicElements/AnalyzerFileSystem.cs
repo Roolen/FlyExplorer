@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace FlyExplorer.BasicElements
 {
+    internal delegate void UpdateAnalyzer(sbyte numberPosition);
+
+    /// <summary>
+    /// Представляет модуль анализа файловой системы.
+    /// </summary>
     static class AnalyzerFileSystem
     {
         /// <summary>
@@ -26,7 +31,10 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         static List<FileInfo[]> files = new List<FileInfo[]>();
 
-        public delegate void UpdateAnalyzer(sbyte numberPosition);
+        
+        /// <summary>
+        /// вызывается при обновлении анализатора файловой системы.
+        /// </summary>
         static public event UpdateAnalyzer UpdateHandler;
 
 
@@ -36,11 +44,15 @@ namespace FlyExplorer.BasicElements
             Log.Write("Start AnalyzerFileSystem");
         }
 
+        /// <summary>
+        /// Обновляет данные анализатора и информирует об обновлении.
+        /// </summary>
+        /// <param name="numberPosition"></param>
         static public void Update(sbyte numberPosition)
         {
             Logging();
 
-            if(UpdateHandler != null) UpdateHandler(numberPosition);
+            UpdateHandler?.Invoke(numberPosition);
         }
 
         /// <summary>

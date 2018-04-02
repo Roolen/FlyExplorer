@@ -117,6 +117,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Documentation\DiagramClasses.vsdx" />
     <None Include="Documentation\DiagramMechanisms.vsdx" />
     <None Include="Properties\Settings.settings">

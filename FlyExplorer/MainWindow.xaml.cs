@@ -27,7 +27,6 @@ namespace FlyExplorer
     {
         #region Fields
         private sbyte currentNumberTab = 0;
-        private sbyte selectedTab = 0;
         private List<TabItem> tabs = new List<TabItem>();
         #endregion
 
@@ -44,7 +43,7 @@ namespace FlyExplorer
 
             #region Subscribe to delegates
             AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
-
+            
             #endregion
 
         }
