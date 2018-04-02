@@ -43,7 +43,7 @@ namespace FlyExplorer
 
             #region Subscribe to delegates
             AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
-
+            
             #endregion
 
         }
@@ -53,20 +53,57 @@ namespace FlyExplorer
         /// </summary>
         private void OutputtingDateForContentArea(sbyte numberPosition)
         {
-            OuptuttingFoldersAndFilesForContentArea(numberPosition); 
+            OutputtingFoldersAndFilesForContentArea(numberPosition);
+            OutputtingAddressLine(numberPosition);
         }
 
         /// <summary>
         /// Выводит папки и файлы, в виде кнопок, в область контенета, из указанной позиции.
         /// </summary>
         /// <param name="numberPosition">Позиция анализатора файловой системы</param>
-        private void OuptuttingFoldersAndFilesForContentArea(sbyte numberPosition)
+        private void OutputtingFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             ScrollViewer viewer = new ScrollViewer { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition) };
 
             tabs[numberPosition].Content = viewer;
             tabs[numberPosition].Header = AnalyzerFileSystem.GetPosition(numberPosition);
 
+        }
+
+        /// <summary>
+        /// Выводит данные адресной строки.
+        /// </summary>
+        /// <param name="numberPosition">Позиция вкладки к которой принадлежит адрессная строка</param>
+        private void OutputtingAddressLine(sbyte numberPosition)
+        {
+            string path = AnalyzerFileSystem.GetPosition(numberPosition);
+
+            AdressLine.Children.Clear();
+
+            foreach (ButtonAddressLine button in GetButtonsAddressLine(path, numberPosition))
+            {
+                AdressLine.Children.Add(button);
+            }
+        }
+
+        /// <summary>
+        /// Возвращает массив кнопок для адрессной строки.
+        /// </summary>
+        /// <param name="path">Путь адресной строки</param>
+        /// <param name="numberPosition">Позиция вкладки к которой принадлежит адрессная строка</param>
+        /// <returns>Массив кнопок для адрессной строки</returns>
+        private ButtonAddressLine[] GetButtonsAddressLine(string path, sbyte numberPosition)
+        {
+            string[] pathElements = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            ButtonAddressLine[] buttons = new ButtonAddressLine[pathElements.Length - 1];
+
+            for (int i = 0; i < pathElements.Length - 1; i++)
+            {
+                buttons[i] = new ButtonAddressLine(pathElements, numberPosition, buttons.Length - i);
+                buttons[i].buttonAddressLine.Content = pathElements[i];
+            }
+
+            return buttons;
         }
 
         /// <summary>
@@ -79,9 +116,11 @@ namespace FlyExplorer
             TabItem tab = new TabItem { Header = AnalyzerFileSystem.GetPosition(currentNumberTab),
                                         Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
 
+            tab.GotFocus += TabItem_GotFocus;
             TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
             tabs.Add(tab);
 
+            OutputtingAddressLine(currentNumberTab);
             currentNumberTab++;
         }
 
@@ -134,13 +173,18 @@ namespace FlyExplorer
         }
 
         /// <summary>
-        /// Выделяет предыдущую вкладку, при фокусе на кнопке.
+        /// Выделяет предыдущую вкладку, при фокусе на кнопке создания новой вкладки.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonForCreateNewTab_GotFocus(object sender, RoutedEventArgs e)
         {
             TabControl.SelectedIndex = TabControl.SelectedIndex - 1;
+        }
+
+        private void TabItem_GotFocus(object sender, RoutedEventArgs e)
+        {
+            OutputtingAddressLine(Convert.ToSByte(TabControl.SelectedIndex));
         }
     }
 }

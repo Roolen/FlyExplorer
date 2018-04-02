@@ -24,12 +24,19 @@ namespace FlyExplorer.BasicElements
             return GetTreeViewItemsForLogicalDrives();
         }
 
+        /// <summary>
+        /// Возвращает панель заполненную файлами и папками по указанной позиции АФС.
+        /// </summary>
+        /// <param name="numberPosition">Позиция АФС</param>
+        /// <returns>Панель заполненную элементами</returns>
         static public WrapPanel GetPanelWithFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             string[] namesDirectories = AnalyzerFileSystem.GetDirectoriesNameFromPosition(numberPosition);
             string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(numberPosition);
 
             WrapPanel panelWithFoldersAndFiles = new WrapPanel();
+
+            #region Filling the panel with elements
 
             for (int i = 0; i < namesDirectories.Length; i++)
             {
@@ -40,6 +47,7 @@ namespace FlyExplorer.BasicElements
             {
                 panelWithFoldersAndFiles.Children.Add(new FolderButton(numberPosition) { TextFolder = namesFiles[i], typeFolder = "file" });
             }
+            #endregion
 
             return panelWithFoldersAndFiles;
         }
