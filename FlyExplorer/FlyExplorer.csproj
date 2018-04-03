@@ -64,6 +64,9 @@
     <Compile Include="ControlElements\FolderButton.xaml.cs">
       <DependentUpon>FolderButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlElements\TreeViewButton.xaml.cs">
+      <DependentUpon>TreeViewButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core\Configurator.cs" />
     <Compile Include="Core\Log.cs" />
     <Compile Include="Core\StateController.cs" />
@@ -75,6 +78,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlElements\FolderButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlElements\TreeViewButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

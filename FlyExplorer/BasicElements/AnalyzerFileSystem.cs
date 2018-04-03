@@ -33,7 +33,7 @@ namespace FlyExplorer.BasicElements
 
         
         /// <summary>
-        /// вызывается при обновлении анализатора файловой системы.
+        /// Событие вызывается при обновлении анализатора файловой системы.
         /// </summary>
         static public event UpdateAnalyzer UpdateHandler;
 
