@@ -13,13 +13,20 @@ using FlyExplorer.ControlElements;
 
 namespace FlyExplorer.BasicElements
 {
+    public delegate void NewTab(string path);
+
     static class Presenter
     {
+        /// <summary>
+        /// Событие вызывается, когда требуется создание новой вкладки.
+        /// </summary>
+        static public event NewTab NewTabHandler;
+
         /// <summary>
         /// Возвращает массив элементов дерева, заполненый элементами дерева файловой системы.
         /// </summary>
         /// <returns>Массив элементов дерева</returns>
-        static public TreeViewItem[] GetDirectorysTree()
+        static public TreeViewButton[] GetDirectorysTree()
         {
             return GetTreeViewItemsForLogicalDrives();
         }
@@ -65,21 +72,29 @@ namespace FlyExplorer.BasicElements
         /// Возвращает массив элементов дерева, заполненый названиями логических дисков.
         /// </summary>
         /// <returns>Массив элементов дерева</returns>
-        static private TreeViewItem[] GetTreeViewItemsForLogicalDrives()
+        static private TreeViewButton[] GetTreeViewItemsForLogicalDrives()
         {
             DriveInfo[] disks = AnalyzerFileSystem.GetAllLogicDisk();
 
-            TreeViewItem[] items = new TreeViewItem[disks.Length];
+            TreeViewButton[] items = new TreeViewButton[disks.Length];
 
             for (int i = 0; i < disks.Length; i++)
             {
-                items[i] = new TreeViewItem { Header = disks[i] + disks[i].VolumeLabel, Width = 150, };
+                items[i] = new TreeViewButton(disks[i].Name) { Width = 150 };
+                items[i].ButtonForTreeView.Content = disks[i] + disks[i].VolumeLabel;
             }
 
             return items;
         }
 
-
+        /// <summary>
+        /// Вызывает событие создания новой вкладки.
+        /// </summary>
+        /// <param name="path">Путь новой вкладки</param>
+        static public void SetNewTab(string path)
+        {
+            NewTabHandler?.Invoke(path);
+        }
 
     }
 }

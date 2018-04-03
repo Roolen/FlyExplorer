@@ -50,7 +50,9 @@
 
         <Style TargetType="Button">
             <Style.Setters>
-                <Setter Property="Background" Value="AliceBlue"/>
+                <Setter Property="Background" Value="#00F0F8FF"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
             </Style.Setters>
         </Style>
 
@@ -62,24 +64,9 @@
         </Style>
 
         <Style TargetType="Button" x:Key="AddressButton">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <TextBlock x:Name="AddresButton" Background="#FFF8F8F9" Margin="1,0">
-                            <ContentPresenter x:Name="ContentSite"
-                                              ContentSource="Content"
-                                              Margin="5,0"/>
-                        </TextBlock>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="AddresButton" Property="Background" Value="#FF66CC99"/>
-                                <Setter TargetName="AddresButton" Property="Foreground" Value="white"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Style.Setters>
+                <Setter Property="Background" Value="AliceBlue"/>
+            </Style.Setters>
         </Style>
 
         <Style TargetType="TreeViewItem">

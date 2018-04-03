@@ -43,7 +43,7 @@ namespace FlyExplorer
 
             #region Subscribe to delegates
             AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
-            
+            Presenter.NewTabHandler += NewTab;
             #endregion
 
         }
@@ -109,9 +109,11 @@ namespace FlyExplorer
         /// <summary>
         /// Создаёт новую вкладку и выводит в области контента, файлы и папки.
         /// </summary>
-        private void NewTab()
+        private void NewTab(string path = null)
         {
-            AnalyzerFileSystem.CreateNewPosition("C:\\");
+
+            if(path == null) AnalyzerFileSystem.CreateNewPosition("C:\\");
+            if (path != null) AnalyzerFileSystem.CreateNewPosition(path);
 
             TabItem tab = new TabItem { Header = AnalyzerFileSystem.GetPosition(currentNumberTab),
                                         Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
@@ -122,6 +124,8 @@ namespace FlyExplorer
 
             OutputtingAddressLine(currentNumberTab);
             currentNumberTab++;
+
+            TabControl.SelectedIndex = currentNumberTab - 1;
         }
 
         /// <summary>
@@ -154,9 +158,9 @@ namespace FlyExplorer
         /// </summary>
         private void OutputDrivesOnTreeView()
         {
-            TreeViewItem[] itemsDriveSystem = Presenter.GetDirectorysTree();
+            TreeViewButton[] itemsDriveSystem = Presenter.GetDirectorysTree();
 
-            foreach (TreeViewItem driveItem in itemsDriveSystem)
+            foreach (TreeViewButton driveItem in itemsDriveSystem)
             {
                 treeView.Items.Add(driveItem);
             }
