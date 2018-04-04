@@ -9,7 +9,7 @@ namespace FlyExplorer.Core
 {
     static class Configurator
     {
-        static void WriteFavoriteInRegistry(string keyName, object value)
+        static void WriteRegistry(string keyName, object value)
         {
             try
             {
@@ -23,6 +23,31 @@ namespace FlyExplorer.Core
             {
 
                 Log.Write($"{e} Writing registry {keyName}");
+            }
+        }
+
+        static string ReadRegistry(string keyName)
+        {
+            RegistryKey keyForRegistry = Registry.CurrentUser;
+
+            RegistryKey subKey = keyForRegistry.OpenSubKey("HKEY_CURRENT_USER\\Software\\FlyExplorer");
+
+            if (subKey == null)
+            {
+                return null;
+            }
+            else
+            {
+                try
+                {
+                    return (string)subKey.GetValue(keyName);
+                }
+                catch (Exception e)
+                {
+
+                    Log.Write($"{e} Reading registry {keyName}");
+                    return null;
+                }
             }
         }
     }
