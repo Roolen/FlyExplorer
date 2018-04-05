@@ -78,7 +78,7 @@ namespace FlyExplorer
         {
             string path = AnalyzerFileSystem.GetPosition(numberPosition);
 
-            AdressLine.Children.Clear();
+            AdressLine.Children.RemoveRange(2, AdressLine.Children.Capacity);
 
             foreach (ButtonAddressLine button in GetButtonsAddressLine(path, numberPosition))
             {
@@ -153,6 +153,8 @@ namespace FlyExplorer
         /// </summary>
         private void OutputTreeElement()
         {
+            if(treeView.Items != null) { treeView.Items.Clear(); }
+
             treeView.Items.Add(Presenter.GetNewTextBox("Favorites", 24, FontWeights.Bold));
 
             OutputFavoritesOnTreeView();
@@ -223,6 +225,10 @@ namespace FlyExplorer
             TabItem tab = tabs.Last();
 
             items.Add((string)tab.Header, AnalyzerFileSystem.GetPosition( (sbyte)TabControl.SelectedIndex) );
+
+            Configurator.SetValueRegistry(items);
+
+            OutputTreeElement();
         }
     }
 }
