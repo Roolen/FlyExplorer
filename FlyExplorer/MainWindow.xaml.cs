@@ -146,11 +146,23 @@ namespace FlyExplorer
         {
             treeView.Items.Add(Presenter.GetNewTextBox("Favorites", 24, FontWeights.Bold));
 
+            OutputFavoritesOnTreeView();
+
             treeView.Items.Add(Presenter.GetNewTextBox("Computer", 24, FontWeights.Bold));
 
             OutputDrivesOnTreeView();
 
             treeView.Items.Add(Presenter.GetNewTextBox("Network", 24, FontWeights.Bold));
+        }
+
+        private void OutputFavoritesOnTreeView()
+        {
+            TreeViewButton[] itemsFavorites = Presenter.GetFavoritesTree();
+
+            foreach (TreeViewButton favoriteItem in itemsFavorites)
+            {
+                treeView.Items.Add(favoriteItem);
+            }
         }
 
         /// <summary>

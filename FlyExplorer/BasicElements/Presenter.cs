@@ -28,7 +28,12 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив элементов дерева</returns>
         static public TreeViewButton[] GetDirectorysTree()
         {
-            return GetTreeViewItemsForLogicalDrives();
+            return MakeTreeViewButtonsForLogicalDrives();
+        }
+
+        static public TreeViewButton[] GetFavoritesTree()
+        {
+            return MakeTreeViewButtonsForFavorites();
         }
 
         /// <summary>
@@ -72,7 +77,7 @@ namespace FlyExplorer.BasicElements
         /// Возвращает массив элементов дерева, заполненый названиями логических дисков.
         /// </summary>
         /// <returns>Массив элементов дерева</returns>
-        static private TreeViewButton[] GetTreeViewItemsForLogicalDrives()
+        static private TreeViewButton[] MakeTreeViewButtonsForLogicalDrives()
         {
             DriveInfo[] disks = AnalyzerFileSystem.GetAllLogicDisk();
 
@@ -87,6 +92,23 @@ namespace FlyExplorer.BasicElements
             return items;
         }
 
+        static private TreeViewButton[] MakeTreeViewButtonsForFavorites()
+        {
+            Dictionary<string, string> favorites = Configurator.GetDictionaryValueRegistry();
+
+            TreeViewButton[] items = new TreeViewButton[favorites.Count];
+
+            int i = 0;
+            foreach (var item in favorites)
+            {
+                items[i] = new TreeViewButton(item.Value);
+                items[i].ButtonForTreeView.Content = item.Key;
+                i++;
+            }
+
+            return items;
+        }
+
         /// <summary>
         /// Вызывает событие создания новой вкладки.
         /// </summary>
@@ -94,6 +116,8 @@ namespace FlyExplorer.BasicElements
         static public void SetNewTab(string path)
         {
             NewTabHandler?.Invoke(path);
+
+            Log.Write($"A new tab is created along the path: {path}");
         }
 
     }

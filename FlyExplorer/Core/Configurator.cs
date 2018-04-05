@@ -13,14 +13,29 @@ namespace FlyExplorer.Core
 
         public static string PathForFavorites { get => pathForFavorites; set => pathForFavorites = value; }
 
+        static Configurator()
+        {
+            CreateSubKeyForFavorites();
+        }
+
         public static Dictionary<string, string> GetDictionaryValueRegistry()
         {
-            return ReadRegistry(pathForFavorites);
+            return ReadRegistry(PathForFavorites);
         }
 
         public static void SetValueRegistry(Dictionary<string, string> newElements)
         {
             WriteRegistry(PathForFavorites, newElements);
+        }
+
+        private static void CreateSubKeyForFavorites()
+        {
+            RegistryKey keyForRegistry = Registry.CurrentUser;
+
+            if (keyForRegistry.OpenSubKey(PathForFavorites) == null)
+            {
+                keyForRegistry.CreateSubKey(PathForFavorites);
+            }
         }
 
         private static void WriteRegistry(string keyName, Dictionary<string, string> favotitesItems)
