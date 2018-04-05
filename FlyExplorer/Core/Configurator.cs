@@ -9,13 +9,13 @@ namespace FlyExplorer.Core
 {
     static class Configurator
     {
-        static void WriteRegistry(string keyName, object value)
+        private static void WriteRegistry(string keyName, object value)
         {
             try
             {
                 RegistryKey keyForRegistry = Registry.CurrentUser;
 
-                RegistryKey subKey = keyForRegistry.CreateSubKey("HKEY_CURRENT_USER\\Software\\FlyExplorer");
+                RegistryKey subKey = keyForRegistry.CreateSubKey("Software\\FlyExplorer");
 
                 subKey.SetValue(keyName, value);
             }
@@ -26,11 +26,11 @@ namespace FlyExplorer.Core
             }
         }
 
-        static string ReadRegistry(string keyName)
+        private static string ReadRegistry(string keyName)
         {
             RegistryKey keyForRegistry = Registry.CurrentUser;
 
-            RegistryKey subKey = keyForRegistry.OpenSubKey("HKEY_CURRENT_USER\\Software\\FlyExplorer");
+            RegistryKey subKey = keyForRegistry.OpenSubKey("Software\\FlyExplorer");
 
             if (subKey == null)
             {
