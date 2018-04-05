@@ -9,15 +9,32 @@ namespace FlyExplorer.Core
 {
     static class Configurator
     {
-        private static void WriteRegistry(string keyName, object value)
+        private static string pathForFavorites = "Software\\FlyExplorer\\Favorites";
+
+        public static string PathForFavorites { get => pathForFavorites; set => pathForFavorites = value; }
+
+        public static Dictionary<string, string> GetDictionaryValueRegistry()
+        {
+            return ReadRegistry(pathForFavorites);
+        }
+
+        public static void SetValueRegistry(Dictionary<string, string> newElements)
+        {
+            WriteRegistry(PathForFavorites, newElements);
+        }
+
+        private static void WriteRegistry(string keyName, Dictionary<string, string> favotitesItems)
         {
             try
             {
                 RegistryKey keyForRegistry = Registry.CurrentUser;
 
-                RegistryKey subKey = keyForRegistry.CreateSubKey("Software\\FlyExplorer");
+                RegistryKey subKey = keyForRegistry.CreateSubKey(keyName);
 
-                subKey.SetValue(keyName, value);
+                foreach (var item in favotitesItems)
+                {
+                    subKey.SetValue(item.Key, item.Value);
+                }
             }
             catch (Exception e)
             {
@@ -26,11 +43,11 @@ namespace FlyExplorer.Core
             }
         }
 
-        private static string ReadRegistry(string keyName)
+        private static Dictionary<string, string> ReadRegistry(string keyName)
         {
             RegistryKey keyForRegistry = Registry.CurrentUser;
 
-            RegistryKey subKey = keyForRegistry.OpenSubKey("Software\\FlyExplorer");
+            RegistryKey subKey = keyForRegistry.OpenSubKey(keyName);
 
             if (subKey == null)
             {
@@ -40,7 +57,14 @@ namespace FlyExplorer.Core
             {
                 try
                 {
-                    return (string)subKey.GetValue(keyName);
+                    string[] keys = subKey.GetValueNames();
+                    Dictionary<string, string> registryItems = new Dictionary<string, string>();
+
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        registryItems.Add(keys[i] ,(string)subKey.GetValue(keys[i]));
+                    }
+                    return registryItems;
                 }
                 catch (Exception e)
                 {
