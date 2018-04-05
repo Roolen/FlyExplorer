@@ -22,6 +22,7 @@
         </TabControl>
         <StackPanel x:Name="AdressLine" Height="29" VerticalAlignment="Top" Orientation="Horizontal" Background="#FFF8F8F9" Grid.Column="1" Margin="0,23,0,0">
             <Rectangle Fill="#00F8F8F9" Height="27" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="6.75"/>
+            <Button x:Name="ButtonForCreateInFavorite" Content="♥" Margin="0" HorizontalAlignment="Stretch" Foreground="#FF8282ED" Click="ButtonForCreateInFavorite_Click"/>
         </StackPanel>
         <Rectangle x:Name="View" Fill="#FFF8F8F9" Margin="37,23,0,0" Stroke="#FFF5F5F6">
             <Rectangle.Effect>
