@@ -28,6 +28,11 @@ namespace FlyExplorer.Core
             WriteRegistry(PathForFavorites, newElements);
         }
 
+        public static void DeleteKeyFromFavorites(string keyName)
+        {
+            DeleteRegistryKey(keyName, PathForFavorites);
+        }
+
         private static void CreateSubKeyForFavorites()
         {
             RegistryKey keyForRegistry = Registry.CurrentUser;
@@ -87,6 +92,25 @@ namespace FlyExplorer.Core
                     Log.Write($"{e} Reading registry {keyName}");
                     return null;
                 }
+            }
+        }
+
+        private static void DeleteRegistryKey(string keyName, string pathRegistry)
+        {
+            try
+            {
+                RegistryKey keyForRegistry = Registry.CurrentUser;
+
+                RegistryKey subKey = keyForRegistry.CreateSubKey(pathRegistry);
+
+                if (subKey != null)
+                {
+                    subKey.DeleteValue(keyName);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Write($"{e} Deleting SubKey {pathRegistry}");
             }
         }
     }
