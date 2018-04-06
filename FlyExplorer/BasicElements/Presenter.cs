@@ -94,7 +94,7 @@ namespace FlyExplorer.BasicElements
 
         static private TreeViewButton[] MakeTreeViewButtonsForFavorites()
         {
-            Dictionary<string, string> favorites = Configurator.GetDictionaryValueRegistry();
+            Dictionary<string, string> favorites = Configurator.GetDictionaryFavoritesValueRegistry();
 
             TreeViewButton[] items = new TreeViewButton[favorites.Count];
 

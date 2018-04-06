@@ -9,30 +9,48 @@ namespace FlyExplorer.Core
 {
     static class Configurator
     {
-        private static string pathForFavorites = "Software\\FlyExplorer\\Favorites";
+        private static readonly string pathForFavorites = "Software\\FlyExplorer\\Favorites";
 
-        public static string PathForFavorites { get => pathForFavorites; set => pathForFavorites = value; }
+        /// <summary>
+        /// Содержит путь для раздела реестра содержащего избранные директории.
+        /// </summary>
+        public static string PathForFavorites { get => pathForFavorites; }
 
         static Configurator()
         {
             CreateSubKeyForFavorites();
         }
 
-        public static Dictionary<string, string> GetDictionaryValueRegistry()
+        /// <summary>
+        /// Возвращает словарь<name, path> для избранных директорий.
+        /// </summary>
+        /// <returns>Словарь избранных директорий</returns>
+        public static Dictionary<string, string> GetDictionaryFavoritesValueRegistry()
         {
             return ReadRegistry(PathForFavorites);
         }
 
-        public static void SetValueRegistry(Dictionary<string, string> newElements)
+        /// <summary>
+        /// Сохраняет в реестр избранные директории.
+        /// </summary>
+        /// <param name="newElements">Словарь новых элементов для сохранения</param>
+        public static void SetFavoritesValueRegistry(Dictionary<string, string> newElements)
         {
             WriteRegistry(PathForFavorites, newElements);
         }
 
+        /// <summary>
+        /// Удаляет избранные директории из реестра.
+        /// </summary>
+        /// <param name="keyName">Имена директорий для удаления</param>
         public static void DeleteKeyFromFavorites(string keyName)
         {
             DeleteRegistryKey(keyName, PathForFavorites);
         }
 
+        /// <summary>
+        /// Проверяет создан ли подраздел реестра для избранных директорий, если нет, то создаёт.
+        /// </summary>
         private static void CreateSubKeyForFavorites()
         {
             RegistryKey keyForRegistry = Registry.CurrentUser;
@@ -43,6 +61,11 @@ namespace FlyExplorer.Core
             }
         }
 
+        /// <summary>
+        /// Записывает новые значения в раздел реестра.
+        /// </summary>
+        /// <param name="keyName">Имя подраздела</param>
+        /// <param name="favotitesItems">Славарь со значениями</param>
         private static void WriteRegistry(string keyName, Dictionary<string, string> favotitesItems)
         {
             try
@@ -63,6 +86,11 @@ namespace FlyExplorer.Core
             }
         }
 
+        /// <summary>
+        /// Читает раздел реестра и возвращает словарь значений.
+        /// </summary>
+        /// <param name="keyName">Подраздел</param>
+        /// <returns>Словарь значений</returns>
         private static Dictionary<string, string> ReadRegistry(string keyName)
         {
             RegistryKey keyForRegistry = Registry.CurrentUser;
@@ -82,7 +110,7 @@ namespace FlyExplorer.Core
 
                     for (int i = 0; i < keys.Length; i++)
                     {
-                        registryItems.Add(keys[i] ,(string)subKey.GetValue(keys[i]));
+                        registryItems.Add(keys[i], (string)subKey.GetValue(keys[i]));
                     }
                     return registryItems;
                 }
@@ -95,13 +123,18 @@ namespace FlyExplorer.Core
             }
         }
 
-        private static void DeleteRegistryKey(string keyName, string pathRegistry)
+        /// <summary>
+        /// Удаляет значения из раздела реестра.
+        /// </summary>
+        /// <param name="keyName">Подраздел</param>
+        /// <param name="nameValue">Название значения</param>
+        private static void DeleteRegistryKey(string keyName, string nameValue)
         {
             try
             {
                 RegistryKey keyForRegistry = Registry.CurrentUser;
 
-                RegistryKey subKey = keyForRegistry.CreateSubKey(pathRegistry);
+                RegistryKey subKey = keyForRegistry.CreateSubKey(keyName);
 
                 if (subKey != null)
                 {
@@ -110,7 +143,7 @@ namespace FlyExplorer.Core
             }
             catch (Exception e)
             {
-                Log.Write($"{e} Deleting SubKey {pathRegistry}");
+                Log.Write($"{e} Deleting SubKey {nameValue}");
             }
         }
     }

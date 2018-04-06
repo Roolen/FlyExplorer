@@ -226,7 +226,7 @@ namespace FlyExplorer
 
             items.Add((string)tab.Header, AnalyzerFileSystem.GetPosition( (sbyte)TabControl.SelectedIndex) );
 
-            Configurator.SetValueRegistry(items);
+            Configurator.SetFavoritesValueRegistry(items);
 
             OutputTreeElement();
         }
