@@ -66,7 +66,7 @@ namespace FlyExplorer
             ScrollViewer viewer = new ScrollViewer { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition) };
 
             tabs[numberPosition].Content = viewer;
-            tabs[numberPosition].Header = AnalyzerFileSystem.GetPosition(numberPosition);
+            tabs[numberPosition].Header = GetNameTab( AnalyzerFileSystem.GetPosition(numberPosition) );
 
         }
 
@@ -78,7 +78,7 @@ namespace FlyExplorer
         {
             string path = AnalyzerFileSystem.GetPosition(numberPosition);
 
-            AdressLine.Children.Clear();
+            AdressLine.Children.RemoveRange(2, AdressLine.Children.Capacity);
 
             foreach (ButtonAddressLine button in GetButtonsAddressLine(path, numberPosition))
             {
@@ -115,8 +115,10 @@ namespace FlyExplorer
             if(path == null) AnalyzerFileSystem.CreateNewPosition("C:\\");
             if (path != null) AnalyzerFileSystem.CreateNewPosition(path);
 
-            TabItem tab = new TabItem { Header = AnalyzerFileSystem.GetPosition(currentNumberTab),
-                                        Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
+            ScrollViewer viewer = new ScrollViewer() { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
+
+            TabItem tab = new TabItem { Header = GetNameTab( AnalyzerFileSystem.GetPosition(currentNumberTab) ),
+                                        Content = viewer };
 
             tab.GotFocus += TabItem_GotFocus;
             TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
@@ -126,6 +128,13 @@ namespace FlyExplorer
             currentNumberTab++;
 
             TabControl.SelectedIndex = currentNumberTab - 1;
+        }
+
+        private string GetNameTab(string pathTab)
+        {
+            string[] elementsPath = pathTab.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+
+            return elementsPath.Last();
         }
 
         /// <summary>
@@ -144,13 +153,27 @@ namespace FlyExplorer
         /// </summary>
         private void OutputTreeElement()
         {
+            if(treeView.Items != null) { treeView.Items.Clear(); }
+
             treeView.Items.Add(Presenter.GetNewTextBox("Favorites", 24, FontWeights.Bold));
+
+            OutputFavoritesOnTreeView();
 
             treeView.Items.Add(Presenter.GetNewTextBox("Computer", 24, FontWeights.Bold));
 
             OutputDrivesOnTreeView();
 
             treeView.Items.Add(Presenter.GetNewTextBox("Network", 24, FontWeights.Bold));
+        }
+
+        private void OutputFavoritesOnTreeView()
+        {
+            TreeViewButton[] itemsFavorites = Presenter.GetFavoritesTree();
+
+            foreach (TreeViewButton favoriteItem in itemsFavorites)
+            {
+                treeView.Items.Add(favoriteItem);
+            }
         }
 
         /// <summary>
@@ -186,9 +209,26 @@ namespace FlyExplorer
             TabControl.SelectedIndex = TabControl.SelectedIndex - 1;
         }
 
+        /// <summary>
+        /// Показывает необходимую адресную строку при фокусе на вкладку.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TabItem_GotFocus(object sender, RoutedEventArgs e)
         {
             OutputtingAddressLine(Convert.ToSByte(TabControl.SelectedIndex));
+        }
+
+        private void ButtonForCreateInFavorite_Click(object sender, RoutedEventArgs e)
+        {
+            Dictionary<string, string> items = new Dictionary<string, string>();
+            TabItem tab = tabs.Last();
+
+            items.Add((string)tab.Header, AnalyzerFileSystem.GetPosition( (sbyte)TabControl.SelectedIndex) );
+
+            Configurator.SetFavoritesValueRegistry(items);
+
+            OutputTreeElement();
         }
     }
 }
