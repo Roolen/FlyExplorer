@@ -65,6 +65,17 @@ namespace FlyExplorer.BasicElements
         }
 
         /// <summary>
+        /// Вызывает окно с сообщением.
+        /// </summary>
+        /// <param name="title">Заголовок окна</param>
+        /// <param name="message">Текст сообщения</param>
+        static public void CallWindowMessage(string title, string message)
+        {
+            WindowMessage winMessage = new WindowMessage(title, message);
+            winMessage.Show();
+        }
+
+        /// <summary>
         /// Возвращает текстовый блок с заданными в аргументах свойствами.
         /// </summary>
         /// <param name="text">Текст в текстовом блоке</param>

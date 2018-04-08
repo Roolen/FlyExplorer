@@ -129,10 +129,7 @@ namespace FlyExplorer
 
             currentNumberTab++;
 
-            ScrollViewer viewer = new ScrollViewer() { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
-
-            TabItem tab = new TabItem { Header = new TabButton ( GetNameTab( AnalyzerFileSystem.GetPosition(currentNumberTab) ), methodDeleteTab ),
-                                        Content = viewer };
+            TabItem tab = NewTabItem();
 
             tab.GotFocus += TabItem_GotFocus;
             TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
@@ -141,6 +138,23 @@ namespace FlyExplorer
             OutputtingAddressLine(currentNumberTab);
 
             TabControl.SelectedIndex = currentNumberTab - 1;
+        }
+
+        /// <summary>
+        /// Возвращает новый экземпляр TabItem.
+        /// </summary>
+        /// <returns>Экземпляр TabItem</returns>
+        private TabItem NewTabItem()
+        {
+            ScrollViewer viewer = new ScrollViewer() { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
+
+            TabItem tab = new TabItem
+            {
+                Header = new TabButton(GetNameTab(AnalyzerFileSystem.GetPosition(currentNumberTab)), methodDeleteTab),
+                Content = viewer
+            };
+
+            return tab;
         }
 
         private string GetNameTab(string pathTab)
@@ -248,11 +262,15 @@ namespace FlyExplorer
             else
             {
                 Log.Write("Presenter: don't can remove tab, this tab is last.");
-                WindowMessage winMessage = new WindowMessage("don't can", "Don't can remove the tab, this tab is last.");
-                winMessage.Show();
+                Presenter.CallWindowMessage("not possible", "Don't can removed the tab, as this tab is last.");
             }
         }
 
+        /// <summary>
+        /// Создает новую избранную директорию, при нажатии на кнопку.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonForCreateInFavorite_Click(object sender, RoutedEventArgs e)
         {
             Dictionary<string, string> items = new Dictionary<string, string>();
