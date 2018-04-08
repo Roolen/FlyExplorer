@@ -91,6 +91,12 @@ namespace FlyExplorer.BasicElements
             Log.Write($"AFS: DeletePosition # {numberPosition}");
         }
 
+        static public void DeleteLastPosition()
+        {
+            positions.RemoveAt(positions.Count - 1);
+            directories.RemoveAt(directories.Count - 1);
+        }
+
         /// <summary>
         /// Задать новый путь позиции анализатора файловой системы.
         /// </summary>
@@ -143,7 +149,15 @@ namespace FlyExplorer.BasicElements
         /// <returns>Путь</returns>
         static public string GetPosition(sbyte numberPosition)
         {
+            if (positions.Count != 0)
+            {
             return positions[numberPosition];
+            }
+            else
+            {
+                Log.Write("AFS: don't positions, write attempt failed");
+                return "";
+            }
         }
 
         /// <summary>

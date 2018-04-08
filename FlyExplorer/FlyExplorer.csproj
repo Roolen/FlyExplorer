@@ -76,6 +76,9 @@
     <Compile Include="WindowLog.xaml.cs">
       <DependentUpon>WindowLog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowMessage.xaml.cs">
+      <DependentUpon>WindowMessage.xaml</DependentUpon>
+    </Compile>
     <Page Include="ControlElements\ButtonAddressLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +112,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="WindowLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowMessage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

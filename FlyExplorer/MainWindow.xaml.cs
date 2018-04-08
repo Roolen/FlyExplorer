@@ -20,14 +20,26 @@ using System.IO;
 
 namespace FlyExplorer
 {
+    public delegate void DeleteTab();
+
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         #region Fields
-        private sbyte currentNumberTab = 0;
+        /// <summary>
+        /// Индекс последней вкладки.
+        /// </summary>
+        private sbyte currentNumberTab = -1;
+        /// <summary>
+        /// Коллекция ссылок на вкладки.
+        /// </summary>
         private List<TabItem> tabs = new List<TabItem>();
+        /// <summary>
+        /// Делегат на метод удаления вкладки.
+        /// </summary>
+        DeleteTab methodDeleteTab;
         #endregion
 
 
@@ -35,17 +47,17 @@ namespace FlyExplorer
         {
             InitializeComponent();
 
-            #region Output for default tab
-            NewTab();
+            #region Subscribe to delegates
+            AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
+            Presenter.NewTabHandler += NewTab;
+            methodDeleteTab = TabItem_Delete;
             #endregion
 
             OutputTreeElement();
 
-            #region Subscribe to delegates
-            AnalyzerFileSystem.UpdateHandler += OutputtingDateForContentArea;
-            Presenter.NewTabHandler += NewTab;
+            #region Output for default tab
+            NewTab();
             #endregion
-
         }
 
         /// <summary>
@@ -66,7 +78,7 @@ namespace FlyExplorer
             ScrollViewer viewer = new ScrollViewer { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(numberPosition) };
 
             tabs[numberPosition].Content = viewer;
-            tabs[numberPosition].Header = GetNameTab( AnalyzerFileSystem.GetPosition(numberPosition) );
+            tabs[numberPosition].Header = new TabButton(GetNameTab(AnalyzerFileSystem.GetPosition(numberPosition)), methodDeleteTab);
 
         }
 
@@ -115,9 +127,11 @@ namespace FlyExplorer
             if(path == null) AnalyzerFileSystem.CreateNewPosition("C:\\");
             if (path != null) AnalyzerFileSystem.CreateNewPosition(path);
 
+            currentNumberTab++;
+
             ScrollViewer viewer = new ScrollViewer() { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
 
-            TabItem tab = new TabItem { Header = new TabButton ( GetNameTab( AnalyzerFileSystem.GetPosition(currentNumberTab) ) ),
+            TabItem tab = new TabItem { Header = new TabButton ( GetNameTab( AnalyzerFileSystem.GetPosition(currentNumberTab) ), methodDeleteTab ),
                                         Content = viewer };
 
             tab.GotFocus += TabItem_GotFocus;
@@ -125,7 +139,6 @@ namespace FlyExplorer
             tabs.Add(tab);
 
             OutputtingAddressLine(currentNumberTab);
-            currentNumberTab++;
 
             TabControl.SelectedIndex = currentNumberTab - 1;
         }
@@ -219,9 +232,25 @@ namespace FlyExplorer
             OutputtingAddressLine(Convert.ToSByte(TabControl.SelectedIndex));
         }
 
-        private void TabItem_DoubleClick(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Событие удаления вкладки.
+        /// </summary>
+        private void TabItem_Delete()
         {
+            if (currentNumberTab != 0)
+            {
             TabControl.Items.RemoveAt(TabControl.SelectedIndex);
+            tabs.RemoveAt(TabControl.SelectedIndex);
+            AnalyzerFileSystem.DeleteLastPosition();
+            currentNumberTab--;
+            }
+            else
+            {
+                Log.Write("Presenter: don't can remove tab, this tab is last.");
+                WindowMessage winMessage = new WindowMessage("don't can", "Don't can remove the tab, this tab is last.");
+                winMessage.Show();
+                //System.Windows.MessageBox.Show("don't can remove tab, this tab is last!");
+            }
         }
 
         private void ButtonForCreateInFavorite_Click(object sender, RoutedEventArgs e)

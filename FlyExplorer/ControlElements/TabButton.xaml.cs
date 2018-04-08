@@ -20,11 +20,19 @@ namespace FlyExplorer.ControlElements
     /// </summary>
     public partial class TabButton : UserControl
     {
-        public TabButton(string header)
+        DeleteTab methodDeleteTab;
+
+        public TabButton(string header, DeleteTab methodDeleteTab)
         {
             InitializeComponent();
 
             TextBlockInTabButton.Text = header;
+            this.methodDeleteTab = methodDeleteTab;
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            methodDeleteTab?.Invoke();
         }
     }
 }
