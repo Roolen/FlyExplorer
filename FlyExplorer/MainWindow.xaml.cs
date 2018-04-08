@@ -243,13 +243,13 @@ namespace FlyExplorer
             tabs.RemoveAt(TabControl.SelectedIndex);
             AnalyzerFileSystem.DeleteLastPosition();
             currentNumberTab--;
+            TabControl.SelectedIndex = currentNumberTab;
             }
             else
             {
                 Log.Write("Presenter: don't can remove tab, this tab is last.");
                 WindowMessage winMessage = new WindowMessage("don't can", "Don't can remove the tab, this tab is last.");
                 winMessage.Show();
-                //System.Windows.MessageBox.Show("don't can remove tab, this tab is last!");
             }
         }
 
