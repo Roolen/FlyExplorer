@@ -64,6 +64,9 @@
     <Compile Include="ControlElements\FolderButton.xaml.cs">
       <DependentUpon>FolderButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlElements\TabButton.xaml.cs">
+      <DependentUpon>TabButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlElements\TreeViewButton.xaml.cs">
       <DependentUpon>TreeViewButton.xaml</DependentUpon>
     </Compile>
@@ -73,11 +76,18 @@
     <Compile Include="WindowLog.xaml.cs">
       <DependentUpon>WindowLog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowMessage.xaml.cs">
+      <DependentUpon>WindowMessage.xaml</DependentUpon>
+    </Compile>
     <Page Include="ControlElements\ButtonAddressLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlElements\FolderButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlElements\TabButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -102,6 +112,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="WindowLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowMessage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
