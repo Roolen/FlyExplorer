@@ -117,7 +117,7 @@ namespace FlyExplorer
 
             ScrollViewer viewer = new ScrollViewer() { Content = Presenter.GetPanelWithFoldersAndFilesForContentArea(currentNumberTab) };
 
-            TabItem tab = new TabItem { Header = GetNameTab( AnalyzerFileSystem.GetPosition(currentNumberTab) ),
+            TabItem tab = new TabItem { Header = new TabButton ( GetNameTab( AnalyzerFileSystem.GetPosition(currentNumberTab) ) ),
                                         Content = viewer };
 
             tab.GotFocus += TabItem_GotFocus;
@@ -217,6 +217,11 @@ namespace FlyExplorer
         private void TabItem_GotFocus(object sender, RoutedEventArgs e)
         {
             OutputtingAddressLine(Convert.ToSByte(TabControl.SelectedIndex));
+        }
+
+        private void TabItem_DoubleClick(object sender, RoutedEventArgs e)
+        {
+            TabControl.Items.RemoveAt(TabControl.SelectedIndex);
         }
 
         private void ButtonForCreateInFavorite_Click(object sender, RoutedEventArgs e)
