@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlyExplorer"
         mc:Ignorable="d"
-        Title="WindowMessage" Height="200" Width="300" WindowStyle="None" Background="#E5FFFFFF" AllowsTransparency="True">
+        Title="WindowMessage" Height="200" Width="300" WindowStyle="None" Background="#E5AFD8E8" AllowsTransparency="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="19*"/>
