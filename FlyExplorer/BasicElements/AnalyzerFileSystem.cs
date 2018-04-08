@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using FlyExplorer.Core;
+using System.Security.AccessControl;
 using System.Windows.Controls;
 using System.Threading.Tasks;
 
@@ -167,7 +168,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Набор файлов</returns>
         static public FileInfo[] GetFilesFromPosition(int numberPosition)
         {
-            return directories[numberPosition].GetFiles();
+            return GetFiles(numberPosition);
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Масси имен файлов</returns>
         static public string[] GetFilesNameFromPosition(int numberPosition)
         {
-            FileInfo[] files = directories[numberPosition].GetFiles();
+            FileInfo[] files = GetFiles(numberPosition);
             
             string[] namesFiles = new string[files.Length];
             for (int i = 0; i < files.Length; i++)
@@ -196,7 +197,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив имен директорий</returns>
         static public string[] GetDirectoriesNameFromPosition(int numberPosition)
         {
-            DirectoryInfo[] dirs = directories[numberPosition].GetDirectories();
+            DirectoryInfo[] dirs = GetDirectories(numberPosition);
 
             string[] namesDirs = new string[dirs.Length];
             for (int i = 0; i < dirs.Length; i++)
@@ -214,7 +215,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив размеров</returns>
         static public long[] GetFilesSizeFromPosition(int numberPosition)
         {
-            FileInfo[] files = directories[numberPosition].GetFiles();
+            FileInfo[] files = GetFiles(numberPosition);
 
             long[] sizeFiles = new long[files.Length];
             for (int i = 0; i < files.Length; i++)
@@ -232,7 +233,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив дат создания</returns>
         static public DateTime[] GetFilesCreationDateFromPosition(int numberPosition)
         {
-            FileInfo[] files = directories[numberPosition].GetFiles();
+            FileInfo[] files = GetFiles(numberPosition);
 
             DateTime[] dateFiles = new DateTime[files.Length];
             for (int i = 0; i < files.Length; i++)
@@ -250,7 +251,7 @@ namespace FlyExplorer.BasicElements
         /// <returns>Массив дат последнего изменения</returns>
         static public DateTime[] GetFilesLastWriteDateFromPosition(int numberPosition)
         {
-            FileInfo[] files = directories[numberPosition].GetFiles();
+            FileInfo[] files = GetFiles(numberPosition);
 
             DateTime[] dateFiles = new DateTime[files.Length];
             for (int i = 0; i < files.Length; i++)
@@ -259,6 +260,77 @@ namespace FlyExplorer.BasicElements
             }
 
             return dateFiles;
+        }
+
+        private static FileInfo[] GetFiles(int numberPosition)
+        {
+            try
+            {
+                FileInfo[] files = directories[numberPosition].GetFiles();
+
+                return files;
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                return null;
+            }
+            
+
+            
+        }
+
+        private static DirectoryInfo[] GetDirectories(int numberPosition)
+        {
+            try
+            {
+                DirectoryInfo[] dir = directories[numberPosition].GetDirectories();
+
+                return dir;
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Presenter.CallWindowMessage("No access", $"For this directory don't access.");
+
+                TransformPosition((sbyte)numberPosition, "C:\\");
+                return GetDirectories(numberPosition);
+            }
+            
+        }
+
+        public static void AddDirectorySecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)
+        {
+            // Create a new DirectoryInfo object.
+            DirectoryInfo dInfo = new DirectoryInfo(FileName);
+
+            // Get a DirectorySecurity object that represents the 
+            // current security settings.
+            DirectorySecurity dSecurity = dInfo.GetAccessControl();
+
+            // Add the FileSystemAccessRule to the security settings. 
+            dSecurity.AddAccessRule(new FileSystemAccessRule(Account, Rights, ControlType));
+
+            // Set the new access settings.
+            dInfo.SetAccessControl(dSecurity);
+
+        }
+
+        public static void RemoveDirectorySecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)
+        {
+            // Create a new DirectoryInfo object.
+            DirectoryInfo dInfo = new DirectoryInfo(FileName);
+
+            // Get a DirectorySecurity object that represents the 
+            // current security settings.
+            DirectorySecurity dSecurity = dInfo.GetAccessControl();
+
+            // Add the FileSystemAccessRule to the security settings. 
+            dSecurity.RemoveAccessRule(new FileSystemAccessRule(Account,
+                                                            Rights,
+                                                            ControlType));
+
+            // Set the new access settings.
+            dInfo.SetAccessControl(dSecurity);
+
         }
     }
 }

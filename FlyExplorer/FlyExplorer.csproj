@@ -61,6 +61,7 @@
     <Compile Include="ControlElements\ButtonAddressLine.xaml.cs">
       <DependentUpon>ButtonAddressLine.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlElements\CommandsWindow.cs" />
     <Compile Include="ControlElements\FolderButton.xaml.cs">
       <DependentUpon>FolderButton.xaml</DependentUpon>
     </Compile>
@@ -154,6 +155,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ControlElements\Images\file-144.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\FolderV2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\FolderV3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\file-55.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\FolderV4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

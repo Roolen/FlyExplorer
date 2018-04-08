@@ -66,8 +66,8 @@ namespace FlyExplorer.ControlElements
 
             ToolTip = textFolder;
 
-            if (typeFolder == "folder") ImageFolder.Source = new BitmapImage(new Uri("Images/Folder.png", UriKind.Relative));
-            if (typeFolder == "file") ImageFolder.Source = new BitmapImage(new Uri("Images/file-144.png", UriKind.Relative));
+            if (typeFolder == "folder") ImageFolder.Source = new BitmapImage(new Uri("Images/FolderV3.png", UriKind.Relative));
+            if (typeFolder == "file") ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
         }
 
         /// <summary>

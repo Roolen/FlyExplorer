@@ -34,5 +34,10 @@ namespace FlyExplorer.ControlElements
         {
             methodDeleteTab?.Invoke();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            methodDeleteTab?.Invoke();
+        }
     }
 }

@@ -72,7 +72,7 @@ namespace FlyExplorer.BasicElements
         static public void CallWindowMessage(string title, string message)
         {
             WindowMessage winMessage = new WindowMessage(title, message);
-            winMessage.Show();
+            winMessage.ShowDialog();
         }
 
         /// <summary>
