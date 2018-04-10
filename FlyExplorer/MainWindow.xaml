@@ -12,6 +12,26 @@
             <ColumnDefinition Width="29*" MaxWidth="350"/>
             <ColumnDefinition Width="159*"/>
         </Grid.ColumnDefinitions>
+        <Grid x:Name="AddressLineValue" Grid.Column="1" HorizontalAlignment="Left" Height="29" Margin="0,23,0,0" VerticalAlignment="Top" Width="1272" Background="#FFF9FBFB">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="455*"/>
+                <ColumnDefinition Width="181*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="AdressLine" Height="29" VerticalAlignment="Top" Orientation="Horizontal" Background="#00F8F8F9" Margin="0">
+                <Rectangle Fill="#00F8F8F9" Height="27" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="6.75"/>
+                <Button x:Name="ButtonForCreateInFavorite" Content="♥" Margin="0,0,5,0" HorizontalAlignment="Stretch" Foreground="#FF8282ED" Click="ButtonForCreateInFavorite_Click"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="0">
+                <ComboBox x:Name="DriveSwitcher" HorizontalAlignment="Left" Margin="0,2,0,0" Width="76" Height="27">
+                    <ComboBox.Background>
+                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                            <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBox.Background>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
         <TabControl x:Name="TabControl" Margin="0,57,0,0" Background="#00CDD3EA" FontFamily="Berlin Sans FB" FontSize="18" BorderBrush="#008282ED" Grid.Column="1">
             <TabItem x:Name="ButtonForCreateNewTab" Style="{StaticResource ButtonCreateTabs}" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="30" FontWeight="Bold" GotFocus="ButtonForCreateNewTab_GotFocus">
                 <TabItem.Header>
@@ -20,10 +40,6 @@
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
-        <StackPanel x:Name="AdressLine" Height="29" VerticalAlignment="Top" Orientation="Horizontal" Background="#FFF8F8F9" Grid.Column="1" Margin="0,23,0,0">
-            <Rectangle Fill="#00F8F8F9" Height="27" Stroke="#00F5F5F6" VerticalAlignment="Top" Width="6.75"/>
-            <Button x:Name="ButtonForCreateInFavorite" Content="♥" Margin="0,0,5,0" HorizontalAlignment="Stretch" Foreground="#FF8282ED" Click="ButtonForCreateInFavorite_Click"/>
-        </StackPanel>
         <Rectangle x:Name="View" Fill="#FFF8F8F9" Margin="37,23,0,0" Stroke="#FFF5F5F6">
             <Rectangle.Effect>
                 <DropShadowEffect ShadowDepth="2"/>
@@ -32,6 +48,7 @@
         <TreeView x:Name="treeView" Margin="37,23,0,0" Background="#00000000" BorderBrush="#00CCD1DA" FontFamily="Segoe UI" FontSize="24" Foreground="#FF8282ED"/>
         <GridSplitter HorizontalAlignment="Left" Margin="0,23,0,0" Width="8" Grid.Column="1" Background="#00F0F0F0" ShowsPreview="True"/>
         <Rectangle x:Name="ToolBar" Fill="#FF8282ED" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=MainGrid, Mode=OneWay}" Stroke="#FF8181EB" VerticalAlignment="Top" Width="37"/>
+        <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="2,81,-5,0" Stroke="#00F5F5F6" VerticalAlignment="Top" StrokeThickness="0"/>
         <Menu Height="23" VerticalAlignment="Top" FontFamily="Berlin Sans FB" Background="#FFF8F8F9" Margin="37,0,0,0" FontSize="18" Grid.ColumnSpan="2">
             <Menu.Effect>
                 <DropShadowEffect ShadowDepth="1"/>
@@ -43,6 +60,5 @@
             <MenuItem Header="Select" Height="21" Width="59" Foreground="Black" FontFamily="Berlin Sans FB"/>
             <MenuItem Header="Commands" Height="21" Width="98" Foreground="Black" FontFamily="Berlin Sans FB"/>
         </Menu>
-        <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="2,81,-5,0" Stroke="#00F5F5F6" VerticalAlignment="Top" StrokeThickness="0"/>
     </Grid>
 </Window>

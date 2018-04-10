@@ -75,6 +75,19 @@ namespace FlyExplorer.BasicElements
             winMessage.ShowDialog();
         }
 
+        static public Button[] GetButtonsForDriveSwitcher()
+        {
+            DriveInfo[] disks = AnalyzerFileSystem.GetAllLogicDisk();
+            Button[] buttonItems = new Button[disks.Length];
+
+            for (int i = 0; i < disks.Length; i++)
+            {
+                buttonItems[i] = new Button() { Content = disks[i].Name };
+            }
+
+            return buttonItems;
+        }
+
         /// <summary>
         /// Возвращает текстовый блок с заданными в аргументах свойствами.
         /// </summary>
