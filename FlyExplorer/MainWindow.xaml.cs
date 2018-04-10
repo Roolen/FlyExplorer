@@ -123,7 +123,7 @@ namespace FlyExplorer
         {
             DriveSwitcher.Items.Clear();
 
-            Button[] buttonsForDrive = Presenter.GetButtonsForDriveSwitcher();
+            ComboBoxItem[] buttonsForDrive = Presenter.GetButtonsForDriveSwitcher();
 
             for (int i = 0; i < buttonsForDrive.Length; i++)
             {
@@ -294,6 +294,16 @@ namespace FlyExplorer
             Configurator.SetFavoritesValueRegistry(items);
 
             OutputTreeElement();
+        }
+
+        private void DriveSwitcher_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem item = (ComboBoxItem)DriveSwitcher.SelectedItem;
+
+            if (item != null && TabControl.SelectedIndex >= 0)
+            {
+            AnalyzerFileSystem.TransformPosition( (sbyte)TabControl.SelectedIndex, (string) item.Content.ToString() );
+            }
         }
     }
 }
