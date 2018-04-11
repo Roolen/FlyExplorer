@@ -118,6 +118,18 @@ namespace FlyExplorer
             return buttons;
         }
 
+        private void OutputtingDriveSwitcher()
+        {
+            DriveSwitcher.Items.Clear();
+
+            ComboBoxItem[] buttonsForDrive = Presenter.GetButtonsForDriveSwitcher();
+
+            for (int i = 0; i < buttonsForDrive.Length; i++)
+            {
+                DriveSwitcher.Items.Add(buttonsForDrive[i]);
+            }
+        }
+
         /// <summary>
         /// Создаёт новую вкладку и выводит в области контента, файлы и папки.
         /// </summary>
@@ -135,7 +147,8 @@ namespace FlyExplorer
             TabControl.Items.Insert(TabControl.Items.Count - 1, tab);
             tabs.Add(tab);
 
-            OutputtingAddressLine(currentNumberTab);
+            OutputtingDateForContentArea(currentNumberTab);
+            OutputtingDriveSwitcher();
 
             TabControl.SelectedIndex = currentNumberTab - 1;
         }
@@ -155,6 +168,13 @@ namespace FlyExplorer
             };
 
             return tab;
+        }
+
+        private string GetDriveNameOfPath(string path)
+        {
+            string[] elementsPath = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+
+            return elementsPath.First();
         }
 
         private string GetNameTab(string pathTab)
@@ -281,6 +301,16 @@ namespace FlyExplorer
             Configurator.SetFavoritesValueRegistry(items);
 
             OutputTreeElement();
+        }
+
+        private void DriveSwitcher_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem item = (ComboBoxItem)DriveSwitcher.SelectedItem;
+
+            if (item != null && TabControl.SelectedIndex >= 0)
+            {
+            AnalyzerFileSystem.TransformPosition( (sbyte)TabControl.SelectedIndex, (string) item.Content.ToString() );
+            }
         }
     }
 }
