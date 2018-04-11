@@ -67,7 +67,6 @@ namespace FlyExplorer
         {
             OutputtingFoldersAndFilesForContentArea(numberPosition);
             OutputtingAddressLine(numberPosition);
-            OutputtingDriveSwitcher();
         }
 
         /// <summary>
@@ -149,6 +148,7 @@ namespace FlyExplorer
             tabs.Add(tab);
 
             OutputtingDateForContentArea(currentNumberTab);
+            OutputtingDriveSwitcher();
 
             TabControl.SelectedIndex = currentNumberTab - 1;
         }
@@ -168,6 +168,13 @@ namespace FlyExplorer
             };
 
             return tab;
+        }
+
+        private string GetDriveNameOfPath(string path)
+        {
+            string[] elementsPath = path.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+
+            return elementsPath.First();
         }
 
         private string GetNameTab(string pathTab)
