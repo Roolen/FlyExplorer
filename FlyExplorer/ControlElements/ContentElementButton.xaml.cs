@@ -42,6 +42,7 @@ namespace FlyExplorer.ControlElements
             set
             {
                 if (value != null) textContentElement = value;
+                else if (value == null) textContentElement = "";
             }
         }
 
@@ -51,6 +52,7 @@ namespace FlyExplorer.ControlElements
             set
             {
                 if (value != null) pathContentElement = value;
+                else if (value == null) pathContentElement = "";
             }
         }
 
@@ -68,14 +70,22 @@ namespace FlyExplorer.ControlElements
         /// </summary>
         private void OpenFileContentElement()
         {
-            if (typeContentElement == TypeContentElement.folder && pathContentElement != null)
+            try
             {
-                AnalyzerFileSystem.TransformPosition(positionContentElement, PathContentElement);
+                if (typeContentElement == TypeContentElement.folder && pathContentElement != null)
+                {
+                    AnalyzerFileSystem.TransformPosition(positionContentElement, PathContentElement);
+                }
+                else if (typeContentElement == TypeContentElement.file && pathContentElement != null)
+                {
+                    Process.Start(PathContentElement);
+                }
             }
-            else if (typeContentElement == TypeContentElement.file && pathContentElement != null)
+            catch (Exception e)
             {
-                Process.Start(pathContentElement);
+                Presenter.CallWindowMessage("ERROR", e.Message);
             }
+
         }
 
         /// <summary>
@@ -87,7 +97,7 @@ namespace FlyExplorer.ControlElements
         {
             NameFolder.Text = Text;
 
-            ToolTip = textContentElement;
+            ToolTip = Text;
 
             if (typeContentElement == TypeContentElement.folder)
             {
