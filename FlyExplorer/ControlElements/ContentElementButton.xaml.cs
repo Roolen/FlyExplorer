@@ -64,6 +64,21 @@ namespace FlyExplorer.ControlElements
         }
 
         /// <summary>
+        /// Открывает файл принадлежащий ContentElement.
+        /// </summary>
+        private void OpenFileContentElement()
+        {
+            if (typeContentElement == TypeContentElement.folder && pathContentElement != null)
+            {
+                AnalyzerFileSystem.TransformPosition(positionContentElement, PathContentElement);
+            }
+            else if (typeContentElement == TypeContentElement.file && pathContentElement != null)
+            {
+                Process.Start(pathContentElement);
+            }
+        }
+
+        /// <summary>
         /// Устанавливает название папки, текст подсказки и изображение папки.
         /// </summary>
         /// <param name="sender"></param>
@@ -74,8 +89,17 @@ namespace FlyExplorer.ControlElements
 
             ToolTip = textContentElement;
 
-            if (typeContentElement == TypeContentElement.folder) ImageFolder.Source = new BitmapImage(new Uri("Images/FolderV3.png", UriKind.Relative));
-            if (typeContentElement == TypeContentElement.file) ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
+            if (typeContentElement == TypeContentElement.folder)
+            {
+                ContextMenuOpenFile.Header = "Open folder";
+                ImageFolder.Source = new BitmapImage(new Uri("Images/FolderV3.png", UriKind.Relative));
+            }
+
+            if (typeContentElement == TypeContentElement.file)
+            {
+                ContextMenuOpenFile.Header = "Open file";
+                ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
+            }
         }
 
         /// <summary>
@@ -128,16 +152,17 @@ namespace FlyExplorer.ControlElements
         /// <param name="e"></param>
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (typeContentElement == TypeContentElement.folder)
-            {
-                AnalyzerFileSystem.TransformPosition(positionContentElement, PathContentElement);
-            }
-            if (typeContentElement == TypeContentElement.file)
-            {
-                Process.Start(pathContentElement);
-            }
+            OpenFileContentElement();
         }
 
-     
+        /// <summary>
+        /// Открывает файл, при нажатии на элемент контекстного меню. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileContentElement();
+        }
     }
 }
