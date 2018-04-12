@@ -3,14 +3,14 @@
   <Class Name="FlyExplorer.BasicElements.AnalyzerFileSystem">
     <Position X="0.5" Y="0.5" Width="3.5" />
     <TypeIdentifier>
-      <HashCode>AAQQEAAAACAAQgAAAACAIAAICAAEAQAIwAgAoAAAAQA=</HashCode>
+      <HashCode>AAQQEAEAACAAQiAAAACAIAAICBAECQAIwAgAoAgAAQA=</HashCode>
       <FileName>BasicElements\AnalyzerFileSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FlyExplorer.MainWindow">
     <Position X="6.5" Y="6.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAIAIAAQAAAQAAAQIAAAAAIAAACAAAAgBABAAAQAAEA=</HashCode>
+      <HashCode>ACIBIAAQAAAQAAAQIAAAUAIAEQCAAAAkBABAAAQAAEA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -18,7 +18,7 @@
   <Class Name="FlyExplorer.BasicElements.Presenter">
     <Position X="8.75" Y="0.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAIAAAAAAACAgAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <HashCode>AAAAAAEIAAAAAAACCAAAAASAACBAAAAABAAAQAAAAAA=</HashCode>
       <FileName>BasicElements\Presenter.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -37,11 +37,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="FlyExplorer.ControlElements.FolderButton">
+  <Class Name="FlyExplorer.ControlElements.ContentElementButton">
     <Position X="3.25" Y="6.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAggAAAABIoAAACNAAAAAAAAAAAAAAAMAAAA=</HashCode>
-      <FileName>ControlElements\FolderButton.xaml.cs</FileName>
+      <HashCode>AAAAgAAAAwgAAAABAJAAAABAAAAAAAAAAAAACAUAAQA=</HashCode>
+      <FileName>ControlElements\ContentElementButton.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

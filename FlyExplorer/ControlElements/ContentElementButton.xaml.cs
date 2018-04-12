@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,42 +18,49 @@ using FlyExplorer.BasicElements;
 
 namespace FlyExplorer.ControlElements
 {
+    public enum TypeContentElement
+    {
+        folder,
+        file
+    }
+
+
     /// <summary>
     /// Логика взаимодействия для FolderButton.xaml
     /// </summary>
-    public partial class FolderButton : UserControl
+    public partial class ContentElementButton : UserControl
     {
-        private string textFolder;
-        private string pathFolder;
-        public string typeFolder;
-        private sbyte positionFolder;
+        private string textContentElement;
+        private string pathContentElement;
+        public TypeContentElement typeContentElement;
+        private sbyte positionContentElement;
 
-        public string TextFolder
+        public string Text
         {
-            get => textFolder;
+            get => textContentElement;
 
             set
             {
-                if (value != null) textFolder = value;
+                if (value != null) textContentElement = value;
             }
         }
 
-        public string PathFolder
+        public string PathContentElement
         {
-            get => pathFolder;
+            get => pathContentElement;
             set
             {
-                if (value != null) pathFolder = value;
+                if (value != null) pathContentElement = value;
             }
         }
 
         private bool elementSelectState = false;
 
-        public FolderButton(sbyte position)
+        public ContentElementButton(sbyte position)
         {
             InitializeComponent();
 
-            positionFolder = position;
+            positionContentElement = position;
         }
 
         /// <summary>
@@ -62,12 +70,12 @@ namespace FlyExplorer.ControlElements
         /// <param name="e"></param>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            NameFolder.Text = TextFolder;
+            NameFolder.Text = Text;
 
-            ToolTip = textFolder;
+            ToolTip = textContentElement;
 
-            if (typeFolder == "folder") ImageFolder.Source = new BitmapImage(new Uri("Images/FolderV3.png", UriKind.Relative));
-            if (typeFolder == "file") ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
+            if (typeContentElement == TypeContentElement.folder) ImageFolder.Source = new BitmapImage(new Uri("Images/FolderV3.png", UriKind.Relative));
+            if (typeContentElement == TypeContentElement.file) ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
         }
 
         /// <summary>
@@ -120,9 +128,13 @@ namespace FlyExplorer.ControlElements
         /// <param name="e"></param>
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (typeFolder == "folder")
+            if (typeContentElement == TypeContentElement.folder)
             {
-                AnalyzerFileSystem.TransformPosition(positionFolder, PathFolder);
+                AnalyzerFileSystem.TransformPosition(positionContentElement, PathContentElement);
+            }
+            if (typeContentElement == TypeContentElement.file)
+            {
+                Process.Start(pathContentElement);
             }
         }
 
