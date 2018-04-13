@@ -62,8 +62,8 @@
       <DependentUpon>ButtonAddressLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlElements\CommandsWindow.cs" />
-    <Compile Include="ControlElements\FolderButton.xaml.cs">
-      <DependentUpon>FolderButton.xaml</DependentUpon>
+    <Compile Include="ControlElements\ContentElementButton.xaml.cs">
+      <DependentUpon>ContentElementButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlElements\TabButton.xaml.cs">
       <DependentUpon>TabButton.xaml</DependentUpon>
@@ -84,7 +84,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ControlElements\FolderButton.xaml">
+    <Page Include="ControlElements\ContentElementButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

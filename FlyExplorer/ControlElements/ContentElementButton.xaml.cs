@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,42 +18,74 @@ using FlyExplorer.BasicElements;
 
 namespace FlyExplorer.ControlElements
 {
+    public enum TypeContentElement
+    {
+        folder,
+        file
+    }
+
+
     /// <summary>
     /// Логика взаимодействия для FolderButton.xaml
     /// </summary>
-    public partial class FolderButton : UserControl
+    public partial class ContentElementButton : UserControl
     {
-        private string textFolder;
-        private string pathFolder;
-        public string typeFolder;
-        private sbyte positionFolder;
+        private string textContentElement;
+        private string pathContentElement;
+        public TypeContentElement typeContentElement;
+        private sbyte positionContentElement;
 
-        public string TextFolder
+        public string Text
         {
-            get => textFolder;
+            get => textContentElement;
 
             set
             {
-                if (value != null) textFolder = value;
+                if (value != null) textContentElement = value;
+                else if (value == null) textContentElement = "";
             }
         }
 
-        public string PathFolder
+        public string PathContentElement
         {
-            get => pathFolder;
+            get => pathContentElement;
             set
             {
-                if (value != null) pathFolder = value;
+                if (value != null) pathContentElement = value;
+                else if (value == null) pathContentElement = "";
             }
         }
 
         private bool elementSelectState = false;
 
-        public FolderButton(sbyte position)
+        public ContentElementButton(sbyte position)
         {
             InitializeComponent();
 
-            positionFolder = position;
+            positionContentElement = position;
+        }
+
+        /// <summary>
+        /// Открывает файл принадлежащий ContentElement.
+        /// </summary>
+        private void OpenFileContentElement()
+        {
+            try
+            {
+                if (typeContentElement == TypeContentElement.folder && pathContentElement != null)
+                {
+                    AnalyzerFileSystem.TransformPosition(positionContentElement, PathContentElement);
+                }
+                else if (typeContentElement == TypeContentElement.file && pathContentElement != null)
+                {
+                    Process.Start(PathContentElement);
+                }
+            }
+            catch (Exception e)
+            {
+                Presenter.CallWindowMessage("ERROR", e.Message);
+            }
+
         }
 
         /// <summary>
@@ -62,12 +95,21 @@ namespace FlyExplorer.ControlElements
         /// <param name="e"></param>
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            NameFolder.Text = TextFolder;
+            NameFolder.Text = Text;
 
-            ToolTip = textFolder;
+            ToolTip = Text;
 
-            if (typeFolder == "folder") ImageFolder.Source = new BitmapImage(new Uri("Images/FolderV3.png", UriKind.Relative));
-            if (typeFolder == "file") ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
+            if (typeContentElement == TypeContentElement.folder)
+            {
+                ContextMenuOpenFile.Header = "Open folder";
+                ImageFolder.Source = new BitmapImage(new Uri("Images/FolderV3.png", UriKind.Relative));
+            }
+
+            if (typeContentElement == TypeContentElement.file)
+            {
+                ContextMenuOpenFile.Header = "Open file";
+                ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
+            }
         }
 
         /// <summary>
@@ -120,12 +162,17 @@ namespace FlyExplorer.ControlElements
         /// <param name="e"></param>
         private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (typeFolder == "folder")
-            {
-                AnalyzerFileSystem.TransformPosition(positionFolder, PathFolder);
-            }
+            OpenFileContentElement();
         }
 
-     
+        /// <summary>
+        /// Открывает файл, при нажатии на элемент контекстного меню. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileContentElement();
+        }
     }
 }

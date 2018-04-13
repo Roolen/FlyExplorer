@@ -52,12 +52,20 @@ namespace FlyExplorer.BasicElements
 
             for (int i = 0; i < namesDirectories.Length; i++)
             {
-                panelWithFoldersAndFiles.Children.Add(new FolderButton(numberPosition) { TextFolder = namesDirectories[i], typeFolder = "folder", PathFolder = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesDirectories[i]}" });
+                panelWithFoldersAndFiles.Children.Add(new ContentElementButton(numberPosition)
+                {
+                    Text = namesDirectories[i], typeContentElement = TypeContentElement.folder,
+                    PathContentElement = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesDirectories[i]}"
+                });
             }
 
             for (int i = 0; i < namesFiles.Length; i++)
             {
-                panelWithFoldersAndFiles.Children.Add(new FolderButton(numberPosition) { TextFolder = namesFiles[i], typeFolder = "file" });
+                panelWithFoldersAndFiles.Children.Add(new ContentElementButton(numberPosition)
+                {
+                    Text = namesFiles[i], typeContentElement = TypeContentElement.file,
+                    PathContentElement = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesFiles[i]}"
+                });
             }
             #endregion
 
