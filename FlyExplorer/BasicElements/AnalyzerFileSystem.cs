@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using FlyExplorer.Core;
 using System.Security.AccessControl;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Threading.Tasks;
 
@@ -18,31 +19,62 @@ namespace FlyExplorer.BasicElements
         /// <summary>
         /// Список логических дисков.
         /// </summary>
-        static List<LogicDisk> logicDisks = new List<LogicDisk>();
+        private static List<LogicDisk> logicDisks = new List<LogicDisk>();
         /// <summary>
         /// Список позиций анализатора файловой системы.
         /// </summary>
-        static List<string> positions = new List<string>();
+        private static List<string> positions = new List<string>();
         /// <summary>
         /// Список массивов, дерикторий анализатора файловой системы.
         /// </summary>
-        static List<DirectoryInfo> directories = new List<DirectoryInfo>();
-        /// <summary>
-        /// Список массивов, файлов анализатора файловой системы.
-        /// </summary>
-        static List<FileInfo[]> files = new List<FileInfo[]>();
+        private static List<DirectoryInfo> directories = new List<DirectoryInfo>();
 
-        
+        /// <summary>
+        /// Задает или получает логические диски.
+        /// </summary>
+        internal static List<LogicDisk> LogicDisks { get => logicDisks; set => logicDisks = value; }
+        /// <summary>
+        /// Возвращает или задает позиции анализатора файловой системы.
+        /// </summary>
+        public static List<string> Positions
+        {
+            get
+            {
+                if (positions != null) return positions;
+                else return new List<string>();
+            }
+            set
+            {
+                if (value != null) positions = value;
+            }
+        }
+        /// <summary>
+        /// Возвращает или задает директории связанные с позициями анализатора файловой системы.
+        /// </summary>
+        public static List<DirectoryInfo> Directories
+        {
+            get
+            {
+                if (directories != null) return directories;
+                else return new List<DirectoryInfo>();
+            }
+            set
+            {
+                if (value != null) directories = value;
+            }
+        }
+
+
         /// <summary>
         /// Событие вызывается при обновлении анализатора файловой системы.
         /// </summary>
-        static public event UpdateAnalyzer UpdateHandler;
+        public static event UpdateAnalyzer UpdateHandler;
 
 
 
         static AnalyzerFileSystem()
         {
-            Log.Write("Start AnalyzerFileSystem");
+            Log.Write("Start AnalyzerFileSystem"); 
         }
 
         /// <summary>
@@ -59,11 +91,11 @@ namespace FlyExplorer.BasicElements
         /// <summary>
         /// Выводит в лог данные о состояние анализатора файловой системы.
         /// </summary>
-        static private void Logging()
+        private static void Logging()
         {
-            for (int i = 0; i < positions.Count; i++)
+            for (int i = 0; i < Positions.Count; i++)
             {
-                Log.Write($"AFS: position # {i} --- { positions[i] }");
+                Log.Write($"AFS: position # {i} --- { Positions[i] }");
 
             }
         }
@@ -72,12 +104,20 @@ namespace FlyExplorer.BasicElements
         /// Создаёт новую позицию анализатора файловой системы.
         /// </summary>
         /// <param name="path">Путь новой позиции</param>
-        static public void CreateNewPosition(string path)
+        public static void CreateNewPosition(string path)
         {
-            positions.Add(path);
-            directories.Add( new DirectoryInfo( positions[positions.Count - 1] ) );
+            if (path != null) Positions.Add(path);
 
-            Log.Write($"AFS: NewPosition # {positions.Count - 1} --- { positions[positions.Count - 1] }");
+            try
+            {
+                Directories.Add(new DirectoryInfo(Positions[Positions.Count - 1]));
+            }
+            catch (Exception e)
+            {
+                Presenter.CallWindowMessage("ERROR", e.Message);
+            }
+
+            Log.Write($"AFS: NewPosition # {Positions.Count - 1} --- { Positions[Positions.Count - 1] }");
         }
 
         /// <summary>
@@ -86,16 +126,26 @@ namespace FlyExplorer.BasicElements
         /// <param name="numberPosition">Индекс позиции которую следует удалить</param>
         static public void DeletePosition(int numberPosition)
         {
-            positions.RemoveAt(numberPosition);
-            directories.RemoveAt(numberPosition);
+            if (Positions[numberPosition] != null && Directories[numberPosition] != null)
+            {
+                Positions.RemoveAt(numberPosition);
+                Directories.RemoveAt(numberPosition);
+            }
+            else Presenter.CallWindowMessage("ERROR", $"{numberPosition} position is empty.");
 
             Log.Write($"AFS: DeletePosition # {numberPosition}");
         }
 
-        static public void DeleteLastPosition()
+        public static void DeleteLastPosition()
         {
-            positions.RemoveAt(positions.Count - 1);
-            directories.RemoveAt(directories.Count - 1);
+            if (Positions.Count != 0 && Directories.Count != 0)
+            {
+                Positions.RemoveAt(Positions.Count - 1);
+                Directories.RemoveAt(Directories.Count - 1);
+
+                Log.Write($"AFS: DeletePosition # {Positions.Count - 1}");
+            }
+            else Presenter.CallWindowMessage("ERROR", $"There isn't one position.");
         }
 
         /// <summary>
@@ -103,13 +153,24 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="oldPosition">Индекс позиции</param>
         /// <param name="newPath">Новый путь позиции</param>
-        static public void TransformPosition(sbyte numberPosition,string newPath)
+        public static void TransformPosition(sbyte numberPosition,string newPath)
         {
-            positions[numberPosition] = newPath;
-            directories[numberPosition] = new DirectoryInfo(positions[numberPosition]);
-            Update(numberPosition);
+            try
+            {
+                if (Positions[numberPosition] != null && Directories[numberPosition] != null)
+                {
+                    Positions[numberPosition] = newPath;
+                    Directories[numberPosition] = new DirectoryInfo(Positions[numberPosition]);
+                    Update(numberPosition);
 
-            Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");
+                    Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");
+                }
+                else Presenter.CallWindowMessage("ERROR", $"{numberPosition} position is empty.");
+            }
+            catch (Exception e)
+            {
+                Presenter.CallWindowMessage("ERROR", e.Message);
+            }
         }
 
         /// <summary>
@@ -119,14 +180,24 @@ namespace FlyExplorer.BasicElements
         /// <returns>Логический диск</returns>
         static public DriveInfo GetLogicDisk(string nameDisk)
         {
+            try
+            {
             return new DriveInfo(nameDisk);
+            }
+            catch (ArgumentException e)
+            {
+                Presenter.CallWindowMessage("ERROR", e.Message);
+
+                DriveInfo[] drives = DriveInfo.GetDrives();
+                return new DriveInfo(drives[0].Name);
+            }
         }
 
         /// <summary>
         /// Возвращает массив логических дисков.
         /// </summary>
         /// <returns>Массив дисков.</returns>
-        static public DriveInfo[] GetAllLogicDisk()
+        public static DriveInfo[] GetAllLogicDisk()
         {
             List<DriveInfo> drives = new List<DriveInfo>(DriveInfo.GetDrives());
 
@@ -148,27 +219,35 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Путь</returns>
-        static public string GetPosition(sbyte numberPosition)
+        public static string GetPosition(sbyte numberPosition)
         {
-            if (positions.Count != 0)
+            if (Positions[numberPosition] != null)
             {
-            return positions[numberPosition];
+                return Positions[numberPosition];
             }
             else
             {
-                Log.Write("AFS: don't positions, write attempt failed");
-                return "";
+                Log.Write("AFS: don't positions, write attempt failed"); 
+                return Positions[0];
             }
-        }
+         }
 
         /// <summary>
         /// Возвращает массив файлов, из деректории, указанной позиции анализатора файловой системы.
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Набор файлов</returns>
-        static public FileInfo[] GetFilesFromPosition(int numberPosition)
+        public static FileInfo[] GetFilesFromPosition(int numberPosition)
         {
-            return GetFiles(numberPosition);
+            if (Positions[numberPosition] != null)
+            {
+                return GetFiles(numberPosition);
+            }
+            else
+            {
+                Presenter.CallWindowMessage("Failed", $"{ numberPosition } positions is empty.");
+                return GetFiles(0);
+            }
         }
 
         /// <summary>
@@ -176,10 +255,16 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Масси имен файлов</returns>
-        static public string[] GetFilesNameFromPosition(int numberPosition)
+        public static string[] GetFilesNameFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new string[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
-            
+
             string[] namesFiles = new string[files.Length];
             for (int i = 0; i < files.Length; i++)
             {
@@ -187,7 +272,6 @@ namespace FlyExplorer.BasicElements
             }
 
             return namesFiles;
-            
         }
 
         /// <summary>
@@ -195,8 +279,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив имен директорий</returns>
-        static public string[] GetDirectoriesNameFromPosition(int numberPosition)
+        public static string[] GetDirectoriesNameFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new string[0];
+            }
+
             DirectoryInfo[] dirs = GetDirectories(numberPosition);
 
             string[] namesDirs = new string[dirs.Length];
@@ -213,8 +303,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив размеров</returns>
-        static public long[] GetFilesSizeFromPosition(int numberPosition)
+        public static long[] GetFilesSizeFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new long[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
 
             long[] sizeFiles = new long[files.Length];
@@ -231,8 +327,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив дат создания</returns>
-        static public DateTime[] GetFilesCreationDateFromPosition(int numberPosition)
+        public static DateTime[] GetFilesCreationDateFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new DateTime[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
 
             DateTime[] dateFiles = new DateTime[files.Length];
@@ -249,8 +351,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив дат последнего изменения</returns>
-        static public DateTime[] GetFilesLastWriteDateFromPosition(int numberPosition)
+        public static DateTime[] GetFilesLastWriteDateFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new DateTime[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
 
             DateTime[] dateFiles = new DateTime[files.Length];
@@ -266,12 +374,13 @@ namespace FlyExplorer.BasicElements
         {
             try
             {
-                FileInfo[] files = directories[numberPosition].GetFiles();
+                FileInfo[] files = Directories[numberPosition].GetFiles();
 
                 return files;
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
+                Presenter.CallWindowMessage("Failed", "For this files don't access.");
                 return null;
             }
             
@@ -283,11 +392,11 @@ namespace FlyExplorer.BasicElements
         {
             try
             {
-                DirectoryInfo[] dir = directories[numberPosition].GetDirectories();
+                DirectoryInfo[] dir = Directories[numberPosition].GetDirectories();
 
                 return dir;
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 Presenter.CallWindowMessage("No access", $"For this directory don't access.");
 
