@@ -105,8 +105,16 @@ namespace FlyExplorer.BasicElements
         /// <param name="path">Путь новой позиции</param>
         public static void CreateNewPosition(string path)
         {
-            Positions.Add(path);
-            Directories.Add( new DirectoryInfo( Positions[Positions.Count - 1] ) );
+            if (path != null) Positions.Add(path);
+
+            try
+            {
+                Directories.Add(new DirectoryInfo(Positions[Positions.Count - 1]));
+            }
+            catch (Exception e)
+            {
+                Presenter.CallWindowMessage("ERROR", e.Message);
+            }
 
             Log.Write($"AFS: NewPosition # {Positions.Count - 1} --- { Positions[Positions.Count - 1] }");
         }
@@ -117,16 +125,26 @@ namespace FlyExplorer.BasicElements
         /// <param name="numberPosition">Индекс позиции которую следует удалить</param>
         static public void DeletePosition(int numberPosition)
         {
-            Positions.RemoveAt(numberPosition);
-            Directories.RemoveAt(numberPosition);
+            if (Positions[numberPosition] != null && Directories[numberPosition] != null)
+            {
+                Positions.RemoveAt(numberPosition);
+                Directories.RemoveAt(numberPosition);
+            }
+            else Presenter.CallWindowMessage("ERROR", $"{numberPosition} position is empty.");
 
             Log.Write($"AFS: DeletePosition # {numberPosition}");
         }
 
-        static public void DeleteLastPosition()
+        public static void DeleteLastPosition()
         {
-            Positions.RemoveAt(Positions.Count - 1);
-            Directories.RemoveAt(Directories.Count - 1);
+            if (Positions.Count != 0 && Directories.Count != 0)
+            {
+                Positions.RemoveAt(Positions.Count - 1);
+                Directories.RemoveAt(Directories.Count - 1);
+
+                Log.Write($"AFS: DeletePosition # {Positions.Count - 1}");
+            }
+            else Presenter.CallWindowMessage("ERROR", $"There isn't one position.");
         }
 
         /// <summary>
@@ -134,7 +152,7 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="oldPosition">Индекс позиции</param>
         /// <param name="newPath">Новый путь позиции</param>
-        static public void TransformPosition(sbyte numberPosition,string newPath)
+        public static void TransformPosition(sbyte numberPosition,string newPath)
         {
             Positions[numberPosition] = newPath;
             Directories[numberPosition] = new DirectoryInfo(Positions[numberPosition]);
