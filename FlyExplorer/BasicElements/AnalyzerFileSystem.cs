@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using FlyExplorer.Core;
 using System.Security.AccessControl;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Threading.Tasks;
 
@@ -154,11 +155,22 @@ namespace FlyExplorer.BasicElements
         /// <param name="newPath">Новый путь позиции</param>
         public static void TransformPosition(sbyte numberPosition,string newPath)
         {
-            Positions[numberPosition] = newPath;
-            Directories[numberPosition] = new DirectoryInfo(Positions[numberPosition]);
-            Update(numberPosition);
+            try
+            {
+                if (Positions[numberPosition] != null && Directories[numberPosition] != null)
+                {
+                    Positions[numberPosition] = newPath;
+                    Directories[numberPosition] = new DirectoryInfo(Positions[numberPosition]);
+                    Update(numberPosition);
 
-            Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");
+                    Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");
+                }
+                else Presenter.CallWindowMessage("ERROR", $"{numberPosition} position is empty.");
+            }
+            catch (Exception e)
+            {
+                Presenter.CallWindowMessage("ERROR", e.Message);
+            }
         }
 
         /// <summary>
@@ -168,14 +180,24 @@ namespace FlyExplorer.BasicElements
         /// <returns>Логический диск</returns>
         static public DriveInfo GetLogicDisk(string nameDisk)
         {
+            try
+            {
             return new DriveInfo(nameDisk);
+            }
+            catch (ArgumentException e)
+            {
+                Presenter.CallWindowMessage("ERROR", e.Message);
+
+                DriveInfo[] drives = DriveInfo.GetDrives();
+                return new DriveInfo(drives[0].Name);
+            }
         }
 
         /// <summary>
         /// Возвращает массив логических дисков.
         /// </summary>
         /// <returns>Массив дисков.</returns>
-        static public DriveInfo[] GetAllLogicDisk()
+        public static DriveInfo[] GetAllLogicDisk()
         {
             List<DriveInfo> drives = new List<DriveInfo>(DriveInfo.GetDrives());
 
@@ -197,16 +219,16 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Путь</returns>
-        static public string GetPosition(sbyte numberPosition)
+        public static string GetPosition(sbyte numberPosition)
         {
-            if (Positions.Count != 0)
+            if (Positions[numberPosition] != null)
             {
-            return Positions[numberPosition];
+                return Positions[numberPosition];
             }
             else
             {
                 Log.Write("AFS: don't positions, write attempt failed"); 
-                return "";
+                return Positions[0];
             }
          }
 
@@ -215,9 +237,17 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Набор файлов</returns>
-        static public FileInfo[] GetFilesFromPosition(int numberPosition)
+        public static FileInfo[] GetFilesFromPosition(int numberPosition)
         {
-            return GetFiles(numberPosition);
+            if (Positions[numberPosition] != null)
+            {
+                return GetFiles(numberPosition);
+            }
+            else
+            {
+                Presenter.CallWindowMessage("Failed", $"{ numberPosition } positions is empty.");
+                return GetFiles(0);
+            }
         }
 
         /// <summary>
@@ -225,10 +255,16 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Масси имен файлов</returns>
-        static public string[] GetFilesNameFromPosition(int numberPosition)
+        public static string[] GetFilesNameFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new string[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
-            
+
             string[] namesFiles = new string[files.Length];
             for (int i = 0; i < files.Length; i++)
             {
@@ -236,7 +272,6 @@ namespace FlyExplorer.BasicElements
             }
 
             return namesFiles;
-            
         }
 
         /// <summary>
@@ -244,8 +279,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив имен директорий</returns>
-        static public string[] GetDirectoriesNameFromPosition(int numberPosition)
+        public static string[] GetDirectoriesNameFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new string[0];
+            }
+
             DirectoryInfo[] dirs = GetDirectories(numberPosition);
 
             string[] namesDirs = new string[dirs.Length];
@@ -262,8 +303,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив размеров</returns>
-        static public long[] GetFilesSizeFromPosition(int numberPosition)
+        public static long[] GetFilesSizeFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new long[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
 
             long[] sizeFiles = new long[files.Length];
@@ -280,8 +327,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив дат создания</returns>
-        static public DateTime[] GetFilesCreationDateFromPosition(int numberPosition)
+        public static DateTime[] GetFilesCreationDateFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new DateTime[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
 
             DateTime[] dateFiles = new DateTime[files.Length];
@@ -298,8 +351,14 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Номер позиции</param>
         /// <returns>Массив дат последнего изменения</returns>
-        static public DateTime[] GetFilesLastWriteDateFromPosition(int numberPosition)
+        public static DateTime[] GetFilesLastWriteDateFromPosition(int numberPosition)
         {
+            if (Positions[numberPosition] == null)
+            {
+                Presenter.CallWindowMessage("Failed", $"{numberPosition} position is empty.");
+                return new DateTime[0];
+            }
+
             FileInfo[] files = GetFiles(numberPosition);
 
             DateTime[] dateFiles = new DateTime[files.Length];
@@ -319,8 +378,9 @@ namespace FlyExplorer.BasicElements
 
                 return files;
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
+                Presenter.CallWindowMessage("Failed", "For this files don't access.");
                 return null;
             }
             
@@ -336,7 +396,7 @@ namespace FlyExplorer.BasicElements
 
                 return dir;
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 Presenter.CallWindowMessage("No access", $"For this directory don't access.");
 
