@@ -96,6 +96,22 @@ namespace FlyExplorer.BasicElements
             return buttonItems;
         }
 
+        public static void OpenWindowInformationOfFile(string pathFile)
+        {
+            CreateNewWindowInformation(pathFile)?.ShowDialog();
+        }
+
+        /// <summary>
+        /// Вызывает событие создания новой вкладки.
+        /// </summary>
+        /// <param name="path">Путь новой вкладки</param>
+        static public void SetNewTab(string path)
+        {
+            NewTabHandler?.Invoke(path);
+
+            Log.Write($"A new tab is created along the path: {path}");
+        }
+
         /// <summary>
         /// Возвращает текстовый блок с заданными в аргументах свойствами.
         /// </summary>
@@ -141,15 +157,11 @@ namespace FlyExplorer.BasicElements
             return items;
         }
 
-        /// <summary>
-        /// Вызывает событие создания новой вкладки.
-        /// </summary>
-        /// <param name="path">Путь новой вкладки</param>
-        static public void SetNewTab(string path)
+        private static WindowInformation CreateNewWindowInformation(string pathFile)
         {
-            NewTabHandler?.Invoke(path);
+            WindowInformation window = new WindowInformation();
 
-            Log.Write($"A new tab is created along the path: {path}");
+            return window;
         }
 
     }

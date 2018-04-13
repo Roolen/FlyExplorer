@@ -52,7 +52,7 @@ namespace FlyExplorer
             Presenter.NewTabHandler += NewTab;
             methodDeleteTab = TabItem_Delete;
             #endregion
-
+            
             OutputTreeElement();
 
             #region Output for default tab
