@@ -18,31 +18,62 @@ namespace FlyExplorer.BasicElements
         /// <summary>
         /// Список логических дисков.
         /// </summary>
-        static List<LogicDisk> logicDisks = new List<LogicDisk>();
+        private static List<LogicDisk> logicDisks = new List<LogicDisk>();
         /// <summary>
         /// Список позиций анализатора файловой системы.
         /// </summary>
-        static List<string> positions = new List<string>();
+        private static List<string> positions = new List<string>();
         /// <summary>
         /// Список массивов, дерикторий анализатора файловой системы.
         /// </summary>
-        static List<DirectoryInfo> directories = new List<DirectoryInfo>();
-        /// <summary>
-        /// Список массивов, файлов анализатора файловой системы.
-        /// </summary>
-        static List<FileInfo[]> files = new List<FileInfo[]>();
+        private static List<DirectoryInfo> directories = new List<DirectoryInfo>();
 
-        
+        /// <summary>
+        /// Задает или получает логические диски.
+        /// </summary>
+        internal static List<LogicDisk> LogicDisks { get => logicDisks; set => logicDisks = value; }
+        /// <summary>
+        /// Возвращает или задает позиции анализатора файловой системы.
+        /// </summary>
+        public static List<string> Positions
+        {
+            get
+            {
+                if (positions != null) return positions;
+                else return new List<string>();
+            }
+            set
+            {
+                if (value != null) positions = value;
+            }
+        }
+        /// <summary>
+        /// Возвращает или задает директории связанные с позициями анализатора файловой системы.
+        /// </summary>
+        public static List<DirectoryInfo> Directories
+        {
+            get
+            {
+                if (directories != null) return directories;
+                else return new List<DirectoryInfo>();
+            }
+            set
+            {
+                if (value != null) directories = value;
+            }
+        }
+
+
         /// <summary>
         /// Событие вызывается при обновлении анализатора файловой системы.
         /// </summary>
-        static public event UpdateAnalyzer UpdateHandler;
+        public static event UpdateAnalyzer UpdateHandler;
 
 
 
         static AnalyzerFileSystem()
         {
-            Log.Write("Start AnalyzerFileSystem");
+            Log.Write("Start AnalyzerFileSystem"); 
         }
 
         /// <summary>
@@ -59,11 +90,11 @@ namespace FlyExplorer.BasicElements
         /// <summary>
         /// Выводит в лог данные о состояние анализатора файловой системы.
         /// </summary>
-        static private void Logging()
+        private static void Logging()
         {
-            for (int i = 0; i < positions.Count; i++)
+            for (int i = 0; i < Positions.Count; i++)
             {
-                Log.Write($"AFS: position # {i} --- { positions[i] }");
+                Log.Write($"AFS: position # {i} --- { Positions[i] }");
 
             }
         }
@@ -72,12 +103,12 @@ namespace FlyExplorer.BasicElements
         /// Создаёт новую позицию анализатора файловой системы.
         /// </summary>
         /// <param name="path">Путь новой позиции</param>
-        static public void CreateNewPosition(string path)
+        public static void CreateNewPosition(string path)
         {
-            positions.Add(path);
-            directories.Add( new DirectoryInfo( positions[positions.Count - 1] ) );
+            Positions.Add(path);
+            Directories.Add( new DirectoryInfo( Positions[Positions.Count - 1] ) );
 
-            Log.Write($"AFS: NewPosition # {positions.Count - 1} --- { positions[positions.Count - 1] }");
+            Log.Write($"AFS: NewPosition # {Positions.Count - 1} --- { Positions[Positions.Count - 1] }");
         }
 
         /// <summary>
@@ -86,16 +117,16 @@ namespace FlyExplorer.BasicElements
         /// <param name="numberPosition">Индекс позиции которую следует удалить</param>
         static public void DeletePosition(int numberPosition)
         {
-            positions.RemoveAt(numberPosition);
-            directories.RemoveAt(numberPosition);
+            Positions.RemoveAt(numberPosition);
+            Directories.RemoveAt(numberPosition);
 
             Log.Write($"AFS: DeletePosition # {numberPosition}");
         }
 
         static public void DeleteLastPosition()
         {
-            positions.RemoveAt(positions.Count - 1);
-            directories.RemoveAt(directories.Count - 1);
+            Positions.RemoveAt(Positions.Count - 1);
+            Directories.RemoveAt(Directories.Count - 1);
         }
 
         /// <summary>
@@ -105,8 +136,8 @@ namespace FlyExplorer.BasicElements
         /// <param name="newPath">Новый путь позиции</param>
         static public void TransformPosition(sbyte numberPosition,string newPath)
         {
-            positions[numberPosition] = newPath;
-            directories[numberPosition] = new DirectoryInfo(positions[numberPosition]);
+            Positions[numberPosition] = newPath;
+            Directories[numberPosition] = new DirectoryInfo(Positions[numberPosition]);
             Update(numberPosition);
 
             Log.Write($"AFS: Position # {numberPosition} Transform path to {newPath}");
@@ -150,16 +181,16 @@ namespace FlyExplorer.BasicElements
         /// <returns>Путь</returns>
         static public string GetPosition(sbyte numberPosition)
         {
-            if (positions.Count != 0)
+            if (Positions.Count != 0)
             {
-            return positions[numberPosition];
+            return Positions[numberPosition];
             }
             else
             {
-                Log.Write("AFS: don't positions, write attempt failed");
+                Log.Write("AFS: don't positions, write attempt failed"); 
                 return "";
             }
-        }
+         }
 
         /// <summary>
         /// Возвращает массив файлов, из деректории, указанной позиции анализатора файловой системы.
@@ -266,7 +297,7 @@ namespace FlyExplorer.BasicElements
         {
             try
             {
-                FileInfo[] files = directories[numberPosition].GetFiles();
+                FileInfo[] files = Directories[numberPosition].GetFiles();
 
                 return files;
             }
@@ -283,7 +314,7 @@ namespace FlyExplorer.BasicElements
         {
             try
             {
-                DirectoryInfo[] dir = directories[numberPosition].GetDirectories();
+                DirectoryInfo[] dir = Directories[numberPosition].GetDirectories();
 
                 return dir;
             }
