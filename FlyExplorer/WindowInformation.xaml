@@ -5,8 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlyExplorer"
         mc:Ignorable="d"
-        Title="WindowInformation" Height="450" Width="500">
-    <Grid>
-        
-    </Grid>
+        Title="WindowInformation" Height="415" Width="500" ResizeMode="CanMinimize">
+    <StackPanel>
+        <Grid x:Name="NameAndIconPanel" Height="50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="73*"/>
+                <ColumnDefinition Width="420*"/>
+            </Grid.ColumnDefinitions>
+            <Image/>
+            <TextBlock Grid.Column="1" Margin="15,5,50,20" TextWrapping="Wrap" Text="Name For File"/>
+            <Button x:Name="EditFileNameButton" Content="Edit" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,20" Width="35"/>
+        </Grid>
+        <Separator/>
+        <Grid x:Name="AreaForProperties" Height="170">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="14*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="TypeFile" HorizontalAlignment="Left" Margin="0,0,40,0" Width="52"/>
+            <Label Content="Description" HorizontalAlignment="Left" Margin="0,0,30,0" Grid.Row="1" Width="70"/>
+            <Label Content="Path" HorizontalAlignment="Left" Margin="0,26,50,0" Grid.Row="1" Grid.RowSpan="2" Width="32"/>
+            <Label Content="Size" HorizontalAlignment="Left" Margin="0,25,50,0" Grid.Row="2" Grid.RowSpan="2" Width="32"/>
+            <Label Content="Create" HorizontalAlignment="Left" Margin="0" VerticalAlignment="Top" Grid.Row="4" Height="26" Width="44"/>
+            <Label Content="Change" HorizontalAlignment="Left" Margin="0,26,0,0" Grid.Row="4" Grid.RowSpan="2" Width="50"/>
+
+            <TextBlock Grid.Column="1" Margin="0,6" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Height="16"/>
+            <TextBlock Grid.Column="1" Margin="0,6" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Grid.Row="1" Height="16"/>
+            <TextBlock Grid.Column="1" Margin="0,6" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Grid.Row="2" Height="16"/>
+            <TextBlock Grid.Column="1" Margin="0,6,0,7" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Grid.Row="3" Height="16"/>
+            <TextBlock Grid.Column="1" Margin="0,6" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Grid.Row="4" Height="16"/>
+            <TextBlock Grid.Column="1" Margin="0,7,0,6" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Grid.Row="5" Height="16"/>
+        </Grid>
+        <StackPanel x:Name="PanelForAdvenceButton" Height="30" Orientation="Horizontal"/>
+        <Grid Height="120">
+            <Button Content="OK" HorizontalAlignment="Center" Margin="-100,0,0,0" VerticalAlignment="Bottom" Width="75" Height="25"/>
+            <Button Content="Cancel" HorizontalAlignment="Center" Margin="100,0,0,0" VerticalAlignment="Bottom" Width="75" Height="25"/>
+        </Grid>
+    </StackPanel>
 </Window>
