@@ -165,7 +165,7 @@ namespace FlyExplorer.BasicElements
                 DirectoryInfo directory = new DirectoryInfo(pathFile);
 
                 window.InfoName.Text = directory.Name;
-                window.InfoTypeFile.Text = directory.Extension;
+                window.InfoTypeFile.Text = FormatTypeFile(directory.Extension);
                 window.InfoDescription.Text = "No description";
                 window.InfoPath.Text = directory.FullName;
                 window.InfoSize.Text = "";
@@ -177,7 +177,7 @@ namespace FlyExplorer.BasicElements
                 FileInfo file = new FileInfo(pathFile);
 
                 window.InfoName.Text = file.Name;
-                window.InfoTypeFile.Text = file.Extension;
+                window.InfoTypeFile.Text = FormatTypeFile(file.Extension);
                 window.InfoDescription.Text = "No description";
                 window.InfoPath.Text = file.FullName;
                 window.InfoSize.Text = FormatFileSize(file.Length);
@@ -219,6 +219,28 @@ namespace FlyExplorer.BasicElements
             }
 
             return formattedLength;
+        }
+
+        /// <summary>
+        /// Возвращает строку с типом файла, если он есть в базе, если нет, то возвращает исходное расширение.
+        /// </summary>
+        /// <param name="extention">Расширение файла</param>
+        /// <returns></returns>
+        private static string FormatTypeFile(string extention)
+        {
+            Dictionary<string, string> fileAssociations = new Dictionary<string, string>
+            {
+                {".exe", "Application" }
+            };
+
+            if (fileAssociations.ContainsKey(extention))
+            {
+                return fileAssociations[extention] + $" ({extention})";
+            }
+            else
+            {
+                return extention;
+            }
         }
 
     }
