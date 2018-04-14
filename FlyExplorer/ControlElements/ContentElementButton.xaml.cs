@@ -177,7 +177,7 @@ namespace FlyExplorer.ControlElements
 
         private void ContextMenuProperties_Click(object sender, RoutedEventArgs e)
         {
-            Presenter.OpenWindowInformationOfFile(pathContentElement);
+            Presenter.OpenWindowInformationOfFile(PathContentElement, typeContentElement);
         }
     }
 }

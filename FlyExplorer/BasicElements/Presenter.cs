@@ -96,9 +96,9 @@ namespace FlyExplorer.BasicElements
             return buttonItems;
         }
 
-        public static void OpenWindowInformationOfFile(string pathFile)
+        public static void OpenWindowInformationOfFile(string pathFile, TypeContentElement type)
         {
-            CreateNewWindowInformation(pathFile)?.ShowDialog();
+            CreateNewWindowInformation(pathFile, type)?.Show();
         }
 
         /// <summary>
@@ -157,9 +157,33 @@ namespace FlyExplorer.BasicElements
             return items;
         }
 
-        private static WindowInformation CreateNewWindowInformation(string pathFile)
+        private static WindowInformation CreateNewWindowInformation(string pathFile, TypeContentElement type)
         {
             WindowInformation window = new WindowInformation();
+            if (type == TypeContentElement.folder)
+            {
+                DirectoryInfo directory = new DirectoryInfo(pathFile);
+
+                window.InfoName.Text = directory.Name;
+                window.InfoTypeFile.Text = directory.Extension;
+                window.InfoDescription.Text = "No description";
+                window.InfoPath.Text = directory.FullName;
+                window.InfoSize.Text = "";
+                window.InfoCreate.Text = directory.CreationTimeUtc.ToString();
+                window.InfoChange.Text = directory.LastWriteTimeUtc.ToString();
+            }
+            if (type == TypeContentElement.file)
+            {
+                FileInfo file = new FileInfo(pathFile);
+
+                window.InfoName.Text = file.Name;
+                window.InfoTypeFile.Text = file.Extension;
+                window.InfoDescription.Text = "No description";
+                window.InfoPath.Text = file.FullName;
+                window.InfoSize.Text = file.Length.ToString();
+                window.InfoCreate.Text = file.CreationTimeUtc.ToString();
+                window.InfoChange.Text = file.LastWriteTimeUtc.ToString();
+            }
 
             return window;
         }
