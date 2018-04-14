@@ -23,5 +23,10 @@ namespace FlyExplorer
         {
             InitializeComponent();
         }
+
+        private void ButtonOK_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

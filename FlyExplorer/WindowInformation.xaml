@@ -14,7 +14,7 @@
             </Grid.ColumnDefinitions>
             <Image x:Name="Icon"/>
             <TextBlock x:Name="InfoName" Grid.Column="1" Margin="15,5,50,20" TextWrapping="Wrap" Text="Name For File"/>
-            <Button x:Name="EditFileNameButton" Content="Edit" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,20" Width="35"/>
+            <Button x:Name="EditFileNameButton" Content="Edit" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,20" Width="35" FontFamily="Berlin Sans FB"/>
         </Grid>
         <Separator/>
         <Grid x:Name="AreaForProperties" Height="170">
@@ -45,9 +45,8 @@
             <TextBlock x:Name="InfoChange" Grid.Column="1" Margin="0,7,0,6" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Grid.Row="5" Height="16"/>
         </Grid>
         <StackPanel x:Name="PanelForAdvenceButton" Height="30" Orientation="Horizontal"/>
-        <Grid Height="120">
-            <Button Content="OK" HorizontalAlignment="Center" Margin="-100,0,0,0" VerticalAlignment="Bottom" Width="75" Height="25"/>
-            <Button Content="Cancel" HorizontalAlignment="Center" Margin="100,0,0,0" VerticalAlignment="Bottom" Width="75" Height="25"/>
+        <Grid Height="100">
+            <Button x:Name="ButtonOK" Content="OK" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="75" Height="25" FontFamily="Berlin Sans FB" FontSize="18" Click="ButtonOK_Click"/>
         </Grid>
     </StackPanel>
 </Window>

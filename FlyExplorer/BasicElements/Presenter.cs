@@ -180,12 +180,45 @@ namespace FlyExplorer.BasicElements
                 window.InfoTypeFile.Text = file.Extension;
                 window.InfoDescription.Text = "No description";
                 window.InfoPath.Text = file.FullName;
-                window.InfoSize.Text = file.Length.ToString();
+                window.InfoSize.Text = FormatFileSize(file.Length);
                 window.InfoCreate.Text = file.CreationTimeUtc.ToString();
                 window.InfoChange.Text = file.LastWriteTimeUtc.ToString();
             }
 
             return window;
+        }
+
+        /// <summary>
+        /// Возвращает строку с отформатированным размером.        
+        /// </summary>
+        /// <param name="length">Размер файла</param>
+        /// <returns>Отформатированная строка</returns>
+        private static string FormatFileSize(long length)
+        {
+            string formattedLength;
+
+            if (length > Math.Pow(2, 40))
+            {
+                formattedLength = $"{length / Math.Pow(2, 40):f2} TiB";
+            }
+            else if (length > Math.Pow(2, 30))
+            {
+                formattedLength = $"{length / Math.Pow(2, 30):f2} GiB";
+            }
+            else if (length > Math.Pow(2, 20))
+            {
+                formattedLength = $"{length / Math.Pow(2, 20):f2} MiB";
+            }
+            else if (length > 1024)
+            {
+                formattedLength = $"{length / 1024f:f2} KiB";
+            }
+            else
+            {
+                formattedLength = $"{length} B";
+            }
+
+            return formattedLength;
         }
 
     }
