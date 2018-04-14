@@ -96,6 +96,11 @@ namespace FlyExplorer.BasicElements
             return buttonItems;
         }
 
+        /// <summary>
+        /// Выводит окно информации о файле или папке.
+        /// </summary>
+        /// <param name="pathFile">Путь файла или папки</param>
+        /// <param name="type">Тип</param>
         public static void OpenWindowInformationOfFile(string pathFile, TypeContentElement type)
         {
             CreateNewWindowInformation(pathFile, type)?.Show();
@@ -157,6 +162,12 @@ namespace FlyExplorer.BasicElements
             return items;
         }
 
+        /// <summary>
+        /// Создает новое окно свойств и заполняет его данными.
+        /// </summary>
+        /// <param name="pathFile">Путь файла</param>
+        /// <param name="type">Тип файла</param>
+        /// <returns></returns>
         private static WindowInformation CreateNewWindowInformation(string pathFile, TypeContentElement type)
         {
             WindowInformation window = new WindowInformation();

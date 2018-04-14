@@ -14,7 +14,9 @@
             </Grid.ColumnDefinitions>
             <Image x:Name="Icon"/>
             <TextBlock x:Name="InfoName" Grid.Column="1" Margin="15,5,50,20" TextWrapping="Wrap" Text="Name For File"/>
-            <Button x:Name="EditFileNameButton" Content="Edit" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,20" Width="35" FontFamily="Berlin Sans FB"/>
+            <TextBox x:Name="InfoRename" Grid.Column="1" Margin="15,5,50,20" TextWrapping="Wrap" Text="Name For File" Visibility="Hidden"/>
+            <Button x:Name="EditFileNameButton" Content="Edit" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,20" Width="35" FontFamily="Berlin Sans FB" Click="EditFileNameButton_Click"/>
+            <Button x:Name="OKRenameButton" Content="OK" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,20" Width="35" FontFamily="Berlin Sans FB" Click="OKRenameButton_Click" Visibility="Hidden"/>
         </Grid>
         <Separator/>
         <Grid x:Name="AreaForProperties" Height="170">
