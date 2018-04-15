@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,11 @@ using FlyExplorer.Core;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.IO;
 using FlyExplorer.ControlElements;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace FlyExplorer.BasicElements
 {
@@ -171,6 +175,7 @@ namespace FlyExplorer.BasicElements
         private static WindowInformation CreateNewWindowInformation(string pathFile, TypeContentElement type)
         {
             WindowInformation window = new WindowInformation();
+
             if (type == TypeContentElement.folder)
             {
                 DirectoryInfo directory = new DirectoryInfo(pathFile);
@@ -186,6 +191,8 @@ namespace FlyExplorer.BasicElements
             if (type == TypeContentElement.file)
             {
                 FileInfo file = new FileInfo(pathFile);
+
+                window.Icon.Source = GetIconOfFile(pathFile, file.Extension);
 
                 window.InfoName.Text = file.Name;
                 window.InfoTypeFile.Text = FormatTypeFile(file.Extension);
@@ -254,5 +261,140 @@ namespace FlyExplorer.BasicElements
             }
         }
 
+        private static BitmapImage GetIconOfFile(string pathFile, string extentionFile)
+        {
+            FileIconCollection col = FileIconCollection.GetSystemFileIcons();
+            List<FileIcon> ff = col.FileIcons;
+            string pt = Path.GetTempFileName();
+
+            foreach (var item in ff)
+            {
+                if (item.FileExtension == extentionFile)
+                {
+                    if (item.Icon != null)
+                    {
+                        item.Icon.ToBitmap().Save(pt);
+                    }
+                    else
+                    {
+                        Bitmap bmp = default(Bitmap);
+                        bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
+                        bmp.Save(pt);
+                    }
+                }
+            }
+
+            return new BitmapImage(new Uri(pt));
+
+            if (File.Exists(pathFile))
+            {
+                Bitmap bmp = default(Bitmap);
+                bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
+                string pathImage = Path.GetTempFileName();
+                bmp.Save(pathImage);
+                BitmapImage image = new BitmapImage(new Uri(pathImage));
+
+                return image;
+            }
+            else
+            {
+                return new BitmapImage(new Uri("ControlElements/Images/FolderV3.png", UriKind.Relative));
+            }
+
+        }
+
+    }
+
+    public class FileIcon
+    {
+        public Icon Icon { get; set; }
+        public string FileExtension { get; set; }
+
+        public override string ToString()
+        {
+            return FileExtension;
+        }
+    }
+
+    public class FileIconCollection
+    {
+
+
+        // WinAPI function 
+        [DllImport("shell32.dll", EntryPoint = "ExtractIconA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern IntPtr ExtractIcon(int hInst, string lpszExeFileName, int nIconIndex);
+
+
+        public List<FileIcon> FileIcons { get; private set; }
+
+
+        private FileIconCollection() { }
+
+
+        private static Icon GetIcon(string iconPath)
+        {
+            int strIndex = iconPath.IndexOf(",");
+            string iconFileName = (strIndex > 0) ? iconPath.Substring(0, strIndex) : iconPath;
+            int iconFileIndex;
+
+
+            int.TryParse(iconPath.Substring(strIndex + 1), out iconFileIndex);
+
+
+            // Grab icon handle 
+            IntPtr hIcon = ExtractIcon(0, iconFileName, iconFileIndex);
+
+
+            return (hIcon != IntPtr.Zero) ? Icon.FromHandle(hIcon) : null;
+
+
+        }
+
+
+        public static FileIconCollection GetSystemFileIcons()
+        {
+
+
+            List<FileIcon> list = new List<FileIcon>();
+
+
+            RegistryKey extRoot = Registry.ClassesRoot;
+
+
+            foreach (string key in extRoot.GetSubKeyNames())
+            {
+                // skip if it is non file extension  key 
+                if (String.IsNullOrEmpty(key) || (key.IndexOf(".") != 0)) continue;
+
+
+                RegistryKey extKey = extRoot.OpenSubKey(key);
+
+
+                // skip if no such element 
+                if ((extKey == null) || (extKey.GetValue("") == null)) continue;
+
+
+                // get sub key 
+                string iconKey = String.Format("{0}\\DefaultIcon", extKey.GetValue(""));
+
+
+                RegistryKey extIcon = extRoot.OpenSubKey(iconKey);
+
+
+                // skip if no such element 
+                if ((extIcon == null) || (extIcon.GetValue("") == null)) continue;
+
+
+                FileIcon fi = new FileIcon { FileExtension = key, Icon = GetIcon(extIcon.GetValue("").ToString()) };
+                extIcon.Close();
+                list.Add(fi);
+            }
+
+
+            extRoot.Close();
+
+
+            return new FileIconCollection { FileIcons = list };
+        }
     }
 }

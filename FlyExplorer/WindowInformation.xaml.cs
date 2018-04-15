@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using FlyExplorer.BasicElements;
+using System.Drawing;
 
 namespace FlyExplorer
 {
@@ -33,7 +34,7 @@ namespace FlyExplorer
         private void EditFileNameButton_Click(object sender, RoutedEventArgs e)
         {
             InfoName.Visibility = Visibility.Hidden;
-
+            
             InfoRename.Visibility = Visibility.Visible;
             InfoRename.Text = InfoName.Text;
 
