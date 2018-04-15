@@ -135,7 +135,7 @@ namespace FlyExplorer.BasicElements
         static public TextBlock GetNewTextBox(string text, int fontSize, FontWeight fontWeight) => new TextBlock { Text = text, FontSize = fontSize, FontWeight = fontWeight };
 
         /// <summary>
-        /// Возвращает массив элементов дерева, заполненый названиями логических дисков.
+        /// Возвращает массив элементов дерева, заполненый логическими дисками.
         /// </summary>
         /// <returns>Массив элементов дерева</returns>
         static private TreeViewButton[] MakeTreeViewButtonsForLogicalDrives()
@@ -153,6 +153,10 @@ namespace FlyExplorer.BasicElements
             return items;
         }
 
+        /// <summary>
+        /// Возвращает массив элементов дерева, заполненый избранными директориями.
+        /// </summary>
+        /// <returns>Массив избранных директорий</returns>
         static private TreeViewButton[] MakeTreeViewButtonsForFavorites()
         {
             Dictionary<string, string> favorites = Configurator.GetDictionaryFavoritesValueRegistry();
@@ -188,26 +192,37 @@ namespace FlyExplorer.BasicElements
                 window.Icon.Source = new BitmapImage(new Uri("ControlElements/Images/FolderV3.png", UriKind.Relative));
 
                 window.InfoName.Text = directory.Name;
+
                 window.InfoTypeFile.Text = "Folder";
+
                 window.InfoDescription.Text = "No description";
+
                 window.InfoPath.Text = directory.FullName;
+
                 window.InfoSize.Text = $"{FormatFileSize(infoDirectory.Pop())} ({infoDirectory.Pop()} files; {infoDirectory.Pop()} folders;)";
+
                 window.InfoCreate.Text = directory.CreationTimeUtc.ToString();
+
                 window.InfoChange.Text = directory.LastWriteTimeUtc.ToString();
             }
             if (type == TypeContentElement.file)
             {
                 FileInfo file = new FileInfo(pathFile);
 
-                //window.Icon.Source = GetIconOfFile(pathFile, file.Extension);
-                window.Icon.Source = GetIconFile(file.Extension, pathFile);
+                window.Icon.Source = GetIconForFile(file.Extension, pathFile);
 
                 window.InfoName.Text = file.Name;
-                window.InfoTypeFile.Text = FormatTypeFile(file.Extension);
+
+                window.InfoTypeFile.Text = FormattingOfTypeFile(file.Extension);
+
                 window.InfoDescription.Text = "No description";
+
                 window.InfoPath.Text = file.FullName;
+
                 window.InfoSize.Text = FormatFileSize(file.Length);
+
                 window.InfoCreate.Text = file.CreationTimeUtc.ToString();
+
                 window.InfoChange.Text = file.LastWriteTimeUtc.ToString();
             }
 
@@ -252,21 +267,21 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="extention">Расширение файла</param>
         /// <returns></returns>
-        private static string FormatTypeFile(string extention)
+        private static string FormattingOfTypeFile(string extention)
         {
-            Dictionary<string, string> fileAssociations = new Dictionary<string, string>
-            {
-                {".exe", "Application" }
-            };
+                RegistryKey extRoot = Registry.ClassesRoot;
 
-            if (fileAssociations.ContainsKey(extention))
-            {
-                return fileAssociations[extention] + $" ({extention})";
-            }
-            else
-            {
-                return extention;
-            }
+                RegistryKey extKey = extRoot.OpenSubKey(extention);
+
+                if ((extKey == null) || (extKey.GetValue("") == null)) return extention;
+
+                string nameTypeKey = $"{extKey.GetValue("")}";
+
+                RegistryKey nameType = extRoot.OpenSubKey(nameTypeKey);
+
+                if ((nameType == null) || (nameType.GetValue("") == null)) return extention;
+
+                return nameType.GetValue("").ToString();
         }
 
         /// <summary>
@@ -315,32 +330,36 @@ namespace FlyExplorer.BasicElements
             return information;
         }
 
-        private static BitmapImage GetIconFile(string extention, string pathFile)
+        private static BitmapImage GetIconForFile(string extention, string pathFile)
         {
-            FileIcon iconObject = new FileIcon();
+            FileIcon iconObject = GetFileIcon();
 
 
-            RegistryKey extRoot = Registry.ClassesRoot;
+            FileIcon GetFileIcon()
+            {
+                RegistryKey extRoot = Registry.ClassesRoot;
 
 
-            RegistryKey extKey = extRoot.OpenSubKey(extention);
+                RegistryKey extKey = extRoot.OpenSubKey(extention);
 
-            if ((extKey == null) || (extKey.GetValue("") == null)) return null;
+                if ((extKey == null) || (extKey.GetValue("") == null)) return null;
 
-            string iconKey = String.Format("{0}\\DefaultIcon", extKey.GetValue(""));
-
-
-            RegistryKey extIcon = extRoot.OpenSubKey(iconKey);
-
-            if ((extIcon == null) || (extIcon.GetValue("") == null)) return null;
+                string iconKey = $"{ extKey.GetValue("") }\\DefaultIcon";
 
 
-            FileIcon fileIcon = new FileIcon { FileExtension = extention, Icon = GetIcon(extIcon.GetValue("").ToString()) };
-            extIcon.Close();
-            iconObject = fileIcon;
+                RegistryKey extIcon = extRoot.OpenSubKey(iconKey);
+
+                if ((extIcon == null) || (extIcon.GetValue("") == null)) return null;
 
 
-            extRoot.Close();
+                FileIcon fileIcon = new FileIcon { FileExtension = extention, Icon = GetIcon(extIcon.GetValue("").ToString()) };
+                extIcon.Close();
+
+
+                extRoot.Close();
+
+                return fileIcon;
+            }
 
             string pathTemp = Path.GetTempFileName();
 
@@ -368,14 +387,9 @@ namespace FlyExplorer.BasicElements
 
             int.TryParse(iconPath.Substring(strIndex + 1), out iconFileIndex);
 
-
-            // Grab icon handle 
             IntPtr hIcon = ExtractIcon(0, iconFileName, iconFileIndex);
 
-
             return (hIcon != IntPtr.Zero) ? Icon.FromHandle(hIcon) : null;
-
-
         }
 
     }
