@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LogotipFlyExplorerV2.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -178,6 +181,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ControlElements\Images\FolderV4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\LogotipFlyExplorer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\LogotipFlyExplorerV3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ControlElements\Images\LogotipFlyExplorerV2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LogotipFlyExplorerV2.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

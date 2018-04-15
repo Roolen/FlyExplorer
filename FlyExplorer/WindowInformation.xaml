@@ -12,7 +12,7 @@
                 <ColumnDefinition Width="73*"/>
                 <ColumnDefinition Width="420*"/>
             </Grid.ColumnDefinitions>
-            <Image x:Name="Icon" Margin="0" Width="25" Height="25"/>
+            <Image x:Name="Icon" Margin="0" Width="30" Height="30"/>
             <TextBlock x:Name="InfoName" Grid.Column="1" Margin="15,5,50,10" TextWrapping="Wrap" Text="Name For File"/>
             <TextBox x:Name="InfoRename" Grid.Column="1" Margin="15,5,50,20" TextWrapping="Wrap" Text="Name For File" Visibility="Hidden"/>
             <Button x:Name="EditFileNameButton" Content="Edit" Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,20" Width="35" FontFamily="Berlin Sans FB" Click="EditFileNameButton_Click"/>

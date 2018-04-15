@@ -69,11 +69,17 @@ namespace FlyExplorer.BasicElements
 
             for (int i = 0; i < namesFiles.Length; i++)
             {
-                panelWithFoldersAndFiles.Children.Add(new ContentElementButton(numberPosition)
+                ContentElementButton button = new ContentElementButton(numberPosition)
                 {
-                    Text = namesFiles[i], typeContentElement = TypeContentElement.file,
+                    Text = namesFiles[i],
+                    typeContentElement = TypeContentElement.file,
                     PathContentElement = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesFiles[i]}"
-                });
+                };
+
+                FileInfo file = new FileInfo(button.PathContentElement);
+                button.ImageFolder.Source = GetIconForFile(file.Extension, button.PathContentElement);
+
+                panelWithFoldersAndFiles.Children.Add(button);
             }
             #endregion
 
@@ -363,7 +369,11 @@ namespace FlyExplorer.BasicElements
 
             string pathTemp = Path.GetTempFileName();
 
-            if (iconObject.Icon != null)
+            if (iconObject == null)
+            {
+                return new BitmapImage(new Uri(@"Images\file.png", UriKind.Relative));
+            }
+            else if (iconObject.Icon != null)
             {
                 iconObject.Icon.ToBitmap().Save(pathTemp);
             }
