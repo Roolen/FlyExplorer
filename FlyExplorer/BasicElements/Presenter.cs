@@ -179,12 +179,15 @@ namespace FlyExplorer.BasicElements
             if (type == TypeContentElement.folder)
             {
                 DirectoryInfo directory = new DirectoryInfo(pathFile);
+                Stack<long> infoDirectory = CalculateWeightOfFolder(pathFile);
+
+                window.Icon.Source = new BitmapImage(new Uri("ControlElements/Images/FolderV3.png", UriKind.Relative));
 
                 window.InfoName.Text = directory.Name;
-                window.InfoTypeFile.Text = FormatTypeFile(directory.Extension);
+                window.InfoTypeFile.Text = "Folder";
                 window.InfoDescription.Text = "No description";
                 window.InfoPath.Text = directory.FullName;
-                window.InfoSize.Text = "";
+                window.InfoSize.Text = $"{FormatFileSize(infoDirectory.Pop())} ({infoDirectory.Pop()} files; {infoDirectory.Pop()} folders;)";
                 window.InfoCreate.Text = directory.CreationTimeUtc.ToString();
                 window.InfoChange.Text = directory.LastWriteTimeUtc.ToString();
             }
@@ -267,40 +270,77 @@ namespace FlyExplorer.BasicElements
             List<FileIcon> ff = col.FileIcons;
             string pt = Path.GetTempFileName();
 
-            foreach (var item in ff)
-            {
-                if (item.FileExtension == extentionFile)
-                {
-                    if (item.Icon != null)
-                    {
-                        item.Icon.ToBitmap().Save(pt);
-                    }
-                    else
-                    {
-                        Bitmap bmp = default(Bitmap);
-                        bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
-                        bmp.Save(pt);
-                    }
-                }
-            }
-
-            return new BitmapImage(new Uri(pt));
-
             if (File.Exists(pathFile))
             {
-                Bitmap bmp = default(Bitmap);
-                bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
-                string pathImage = Path.GetTempFileName();
-                bmp.Save(pathImage);
-                BitmapImage image = new BitmapImage(new Uri(pathImage));
+                foreach (var item in ff)
+                {
+                    if (item.FileExtension == extentionFile)
+                    {
+                        if (item.Icon != null)
+                        {
+                            item.Icon.ToBitmap().Save(pt);
+                        }
+                        else
+                        {
+                            Bitmap bmp = default(Bitmap);
+                            bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
+                            bmp.Save(pt);
+                        }
+                    }
+                }
 
-                return image;
+                return new BitmapImage(new Uri(pt));
             }
             else
             {
-                return new BitmapImage(new Uri("ControlElements/Images/FolderV3.png", UriKind.Relative));
+                return new BitmapImage(new Uri(@"ControlElements\Images\FolderV3.png", UriKind.Relative));
+            }
+        }
+
+        /// <summary>
+        /// Возвращает стек чисел, где первое число - размер папки, второе число - кол-во файлов в папке, третье число - кол-во папок в папке.
+        /// </summary>
+        /// <param name="pathDirectory">Директория для которой нужно расчитать вес</param>
+        /// <returns>Стек чисел</returns>
+        private static Stack<long> CalculateWeightOfFolder(string pathDirectory)
+        {
+            DirectoryInfo directory = new DirectoryInfo(pathDirectory);
+            Stack<long> information = new Stack<long>();
+
+            int counterNumberFolders = 0;
+            int counterNumberFiles = 0;
+            Stack<long> sum = new Stack<long>();
+
+            Summer(directory);
+
+            void Summer(DirectoryInfo dirMain)
+            {
+                try
+                {
+                    foreach (var file in dirMain.GetFiles())
+                    {
+                        sum.Push(file.Length);
+                        counterNumberFiles++;
+                    }
+
+                    foreach (var dir in dirMain.GetDirectories())
+                    {
+                        Summer(dir);
+                        counterNumberFolders++;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Presenter.CallWindowMessage("error", e.Message);
+                }
+                
             }
 
+            information.Push(counterNumberFolders);
+            information.Push(counterNumberFiles);
+            information.Push(sum.Sum());
+
+            return information;
         }
 
     }
