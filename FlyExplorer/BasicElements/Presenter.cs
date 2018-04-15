@@ -26,6 +26,10 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         static public event NewTab NewTabHandler;
 
+        // WinAPI function 
+        [DllImport("shell32.dll", EntryPoint = "ExtractIconA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern IntPtr ExtractIcon(int hInst, string lpszExeFileName, int nIconIndex);
+
         /// <summary>
         /// Возвращает массив элементов дерева, заполненый элементами дерева файловой системы.
         /// </summary>
@@ -195,7 +199,8 @@ namespace FlyExplorer.BasicElements
             {
                 FileInfo file = new FileInfo(pathFile);
 
-                window.Icon.Source = GetIconOfFile(pathFile, file.Extension);
+                //window.Icon.Source = GetIconOfFile(pathFile, file.Extension);
+                window.Icon.Source = GetIconFile(file.Extension, pathFile);
 
                 window.InfoName.Text = file.Name;
                 window.InfoTypeFile.Text = FormatTypeFile(file.Extension);
@@ -264,39 +269,6 @@ namespace FlyExplorer.BasicElements
             }
         }
 
-        private static BitmapImage GetIconOfFile(string pathFile, string extentionFile)
-        {
-            FileIconCollection col = FileIconCollection.GetSystemFileIcons();
-            List<FileIcon> ff = col.FileIcons;
-            string pt = Path.GetTempFileName();
-
-            if (File.Exists(pathFile))
-            {
-                foreach (var item in ff)
-                {
-                    if (item.FileExtension == extentionFile)
-                    {
-                        if (item.Icon != null)
-                        {
-                            item.Icon.ToBitmap().Save(pt);
-                        }
-                        else
-                        {
-                            Bitmap bmp = default(Bitmap);
-                            bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
-                            bmp.Save(pt);
-                        }
-                    }
-                }
-
-                return new BitmapImage(new Uri(pt));
-            }
-            else
-            {
-                return new BitmapImage(new Uri(@"ControlElements\Images\FolderV3.png", UriKind.Relative));
-            }
-        }
-
         /// <summary>
         /// Возвращает стек чисел, где первое число - размер папки, второе число - кол-во файлов в папке, третье число - кол-во папок в папке.
         /// </summary>
@@ -343,33 +315,49 @@ namespace FlyExplorer.BasicElements
             return information;
         }
 
-    }
-
-    public class FileIcon
-    {
-        public Icon Icon { get; set; }
-        public string FileExtension { get; set; }
-
-        public override string ToString()
+        private static BitmapImage GetIconFile(string extention, string pathFile)
         {
-            return FileExtension;
+            FileIcon iconObject = new FileIcon();
+
+
+            RegistryKey extRoot = Registry.ClassesRoot;
+
+
+            RegistryKey extKey = extRoot.OpenSubKey(extention);
+
+            if ((extKey == null) || (extKey.GetValue("") == null)) return null;
+
+            string iconKey = String.Format("{0}\\DefaultIcon", extKey.GetValue(""));
+
+
+            RegistryKey extIcon = extRoot.OpenSubKey(iconKey);
+
+            if ((extIcon == null) || (extIcon.GetValue("") == null)) return null;
+
+
+            FileIcon fileIcon = new FileIcon { FileExtension = extention, Icon = GetIcon(extIcon.GetValue("").ToString()) };
+            extIcon.Close();
+            iconObject = fileIcon;
+
+
+            extRoot.Close();
+
+            string pathTemp = Path.GetTempFileName();
+
+            if (iconObject.Icon != null)
+            {
+                iconObject.Icon.ToBitmap().Save(pathTemp);
+            }
+            else
+            {
+                Bitmap bmp = default(Bitmap);
+                bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
+                bmp.Save(pathTemp);
+            }
+
+
+            return new BitmapImage(new Uri(pathTemp));
         }
-    }
-
-    public class FileIconCollection
-    {
-
-
-        // WinAPI function 
-        [DllImport("shell32.dll", EntryPoint = "ExtractIconA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        private static extern IntPtr ExtractIcon(int hInst, string lpszExeFileName, int nIconIndex);
-
-
-        public List<FileIcon> FileIcons { get; private set; }
-
-
-        private FileIconCollection() { }
-
 
         private static Icon GetIcon(string iconPath)
         {
@@ -390,51 +378,16 @@ namespace FlyExplorer.BasicElements
 
         }
 
+    }
 
-        public static FileIconCollection GetSystemFileIcons()
+    public class FileIcon
+    {
+        public Icon Icon { get; set; }
+        public string FileExtension { get; set; }
+
+        public override string ToString()
         {
-
-
-            List<FileIcon> list = new List<FileIcon>();
-
-
-            RegistryKey extRoot = Registry.ClassesRoot;
-
-
-            foreach (string key in extRoot.GetSubKeyNames())
-            {
-                // skip if it is non file extension  key 
-                if (String.IsNullOrEmpty(key) || (key.IndexOf(".") != 0)) continue;
-
-
-                RegistryKey extKey = extRoot.OpenSubKey(key);
-
-
-                // skip if no such element 
-                if ((extKey == null) || (extKey.GetValue("") == null)) continue;
-
-
-                // get sub key 
-                string iconKey = String.Format("{0}\\DefaultIcon", extKey.GetValue(""));
-
-
-                RegistryKey extIcon = extRoot.OpenSubKey(iconKey);
-
-
-                // skip if no such element 
-                if ((extIcon == null) || (extIcon.GetValue("") == null)) continue;
-
-
-                FileIcon fi = new FileIcon { FileExtension = key, Icon = GetIcon(extIcon.GetValue("").ToString()) };
-                extIcon.Close();
-                list.Add(fi);
-            }
-
-
-            extRoot.Close();
-
-
-            return new FileIconCollection { FileIcons = list };
+            return FileExtension;
         }
     }
 }
