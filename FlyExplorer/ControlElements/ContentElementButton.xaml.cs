@@ -108,7 +108,6 @@ namespace FlyExplorer.ControlElements
             if (typeContentElement == TypeContentElement.file)
             {
                 ContextMenuOpenFile.Header = "Open file";
-                ImageFolder.Source = new BitmapImage(new Uri("Images/file.png", UriKind.Relative));
             }
         }
 
@@ -173,6 +172,11 @@ namespace FlyExplorer.ControlElements
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileContentElement();
+        }
+
+        private void ContextMenuProperties_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.OpenWindowInformationOfFile(PathContentElement, typeContentElement);
         }
     }
 }

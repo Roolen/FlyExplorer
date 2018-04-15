@@ -101,6 +101,27 @@ namespace FlyExplorer.BasicElements
         }
 
         /// <summary>
+        /// Переименовывает указанный файл.
+        /// </summary>
+        /// <param name="pathFile">Путь к файлу</param>
+        /// <param name="newName">Новое имя файла</param>
+        public static void RenameFile(string pathFile, string newName)
+        {
+            string[] name = pathFile.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            name[name.Length - 1] = newName;
+            string newPath = "";
+
+            for (int i = 0; i < name.Length; i++)
+            {
+                newPath += name[i];
+                if (i != name.Length - 1) newPath += "\\";
+            } 
+
+            FileCopyTo(pathFile, newPath);
+            DeleteFile(pathFile);
+        }
+
+        /// <summary>
         /// Создаёт новую позицию анализатора файловой системы.
         /// </summary>
         /// <param name="path">Путь новой позиции</param>
@@ -404,6 +425,40 @@ namespace FlyExplorer.BasicElements
                 return GetDirectories(numberPosition);
             }
             
+        }
+
+        private static void DeleteFile(string pathFile)
+        {
+            if (File.Exists(pathFile))
+            {
+                FileInfo file = new FileInfo(pathFile);
+
+                file.Delete();
+            }
+
+            if (Directory.Exists(pathFile))
+            {
+                DirectoryInfo directory = new DirectoryInfo(pathFile);
+
+                directory.Delete(true);
+            }
+        }
+
+        private static void FileCopyTo(string oldPath, string newPath)
+        {
+            if (File.Exists(oldPath))
+            {
+                FileInfo file = new FileInfo(oldPath);
+
+                file.CopyTo(newPath, true);
+            }
+
+            if (Directory.Exists(oldPath))
+            {
+                DirectoryInfo directory = new DirectoryInfo(oldPath);
+
+                directory.MoveTo(newPath);
+            }
         }
 
         public static void AddDirectorySecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)

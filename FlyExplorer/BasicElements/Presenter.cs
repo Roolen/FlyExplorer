@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,11 @@ using FlyExplorer.Core;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.IO;
 using FlyExplorer.ControlElements;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace FlyExplorer.BasicElements
 {
@@ -21,6 +25,10 @@ namespace FlyExplorer.BasicElements
         /// Событие вызывается, когда требуется создание новой вкладки.
         /// </summary>
         static public event NewTab NewTabHandler;
+
+        // WinAPI function 
+        [DllImport("shell32.dll", EntryPoint = "ExtractIconA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern IntPtr ExtractIcon(int hInst, string lpszExeFileName, int nIconIndex);
 
         /// <summary>
         /// Возвращает массив элементов дерева, заполненый элементами дерева файловой системы.
@@ -61,11 +69,17 @@ namespace FlyExplorer.BasicElements
 
             for (int i = 0; i < namesFiles.Length; i++)
             {
-                panelWithFoldersAndFiles.Children.Add(new ContentElementButton(numberPosition)
+                ContentElementButton button = new ContentElementButton(numberPosition)
                 {
-                    Text = namesFiles[i], typeContentElement = TypeContentElement.file,
+                    Text = namesFiles[i],
+                    typeContentElement = TypeContentElement.file,
                     PathContentElement = $@"{AnalyzerFileSystem.GetPosition(numberPosition)}\{namesFiles[i]}"
-                });
+                };
+
+                FileInfo file = new FileInfo(button.PathContentElement);
+                button.ImageFolder.Source = GetIconForFile(file.Extension, button.PathContentElement);
+
+                panelWithFoldersAndFiles.Children.Add(button);
             }
             #endregion
 
@@ -97,6 +111,27 @@ namespace FlyExplorer.BasicElements
         }
 
         /// <summary>
+        /// Выводит окно информации о файле или папке.
+        /// </summary>
+        /// <param name="pathFile">Путь файла или папки</param>
+        /// <param name="type">Тип</param>
+        public static void OpenWindowInformationOfFile(string pathFile, TypeContentElement type)
+        {
+            CreateNewWindowInformation(pathFile, type)?.Show();
+        }
+
+        /// <summary>
+        /// Вызывает событие создания новой вкладки.
+        /// </summary>
+        /// <param name="path">Путь новой вкладки</param>
+        static public void SetNewTab(string path)
+        {
+            NewTabHandler?.Invoke(path);
+
+            Log.Write($"A new tab is created along the path: {path}");
+        }
+
+        /// <summary>
         /// Возвращает текстовый блок с заданными в аргументах свойствами.
         /// </summary>
         /// <param name="text">Текст в текстовом блоке</param>
@@ -106,7 +141,7 @@ namespace FlyExplorer.BasicElements
         static public TextBlock GetNewTextBox(string text, int fontSize, FontWeight fontWeight) => new TextBlock { Text = text, FontSize = fontSize, FontWeight = fontWeight };
 
         /// <summary>
-        /// Возвращает массив элементов дерева, заполненый названиями логических дисков.
+        /// Возвращает массив элементов дерева, заполненый логическими дисками.
         /// </summary>
         /// <returns>Массив элементов дерева</returns>
         static private TreeViewButton[] MakeTreeViewButtonsForLogicalDrives()
@@ -124,6 +159,10 @@ namespace FlyExplorer.BasicElements
             return items;
         }
 
+        /// <summary>
+        /// Возвращает массив элементов дерева, заполненый избранными директориями.
+        /// </summary>
+        /// <returns>Массив избранных директорий</returns>
         static private TreeViewButton[] MakeTreeViewButtonsForFavorites()
         {
             Dictionary<string, string> favorites = Configurator.GetDictionaryFavoritesValueRegistry();
@@ -142,15 +181,237 @@ namespace FlyExplorer.BasicElements
         }
 
         /// <summary>
-        /// Вызывает событие создания новой вкладки.
+        /// Создает новое окно свойств и заполняет его данными.
         /// </summary>
-        /// <param name="path">Путь новой вкладки</param>
-        static public void SetNewTab(string path)
+        /// <param name="pathFile">Путь файла</param>
+        /// <param name="type">Тип файла</param>
+        /// <returns></returns>
+        private static WindowInformation CreateNewWindowInformation(string pathFile, TypeContentElement type)
         {
-            NewTabHandler?.Invoke(path);
+            WindowInformation window = new WindowInformation();
 
-            Log.Write($"A new tab is created along the path: {path}");
+            if (type == TypeContentElement.folder)
+            {
+                DirectoryInfo directory = new DirectoryInfo(pathFile);
+                Stack<long> infoDirectory = CalculateWeightOfFolder(pathFile);
+
+                window.Icon.Source = new BitmapImage(new Uri("ControlElements/Images/FolderV3.png", UriKind.Relative));
+
+                window.InfoName.Text = directory.Name;
+
+                window.InfoTypeFile.Text = "Folder";
+
+                window.InfoDescription.Text = "No description";
+
+                window.InfoPath.Text = directory.FullName;
+
+                window.InfoSize.Text = $"{FormatFileSize(infoDirectory.Pop())} ({infoDirectory.Pop()} files; {infoDirectory.Pop()} folders;)";
+
+                window.InfoCreate.Text = directory.CreationTimeUtc.ToString();
+
+                window.InfoChange.Text = directory.LastWriteTimeUtc.ToString();
+            }
+            if (type == TypeContentElement.file)
+            {
+                FileInfo file = new FileInfo(pathFile);
+
+                window.Icon.Source = GetIconForFile(file.Extension, pathFile);
+
+                window.InfoName.Text = file.Name;
+
+                window.InfoTypeFile.Text = FormattingOfTypeFile(file.Extension);
+
+                window.InfoDescription.Text = "No description";
+
+                window.InfoPath.Text = file.FullName;
+
+                window.InfoSize.Text = FormatFileSize(file.Length);
+
+                window.InfoCreate.Text = file.CreationTimeUtc.ToString();
+
+                window.InfoChange.Text = file.LastWriteTimeUtc.ToString();
+            }
+
+            return window;
         }
 
+        /// <summary>
+        /// Возвращает строку с отформатированным размером.        
+        /// </summary>
+        /// <param name="length">Размер файла</param>
+        /// <returns>Отформатированная строка</returns>
+        private static string FormatFileSize(long length)
+        {
+            string formattedLength;
+
+            if (length > Math.Pow(2, 40))
+            {
+                formattedLength = $"{length / Math.Pow(2, 40):f2} TiB";
+            }
+            else if (length > Math.Pow(2, 30))
+            {
+                formattedLength = $"{length / Math.Pow(2, 30):f2} GiB";
+            }
+            else if (length > Math.Pow(2, 20))
+            {
+                formattedLength = $"{length / Math.Pow(2, 20):f2} MiB";
+            }
+            else if (length > 1024)
+            {
+                formattedLength = $"{length / 1024f:f2} KiB";
+            }
+            else
+            {
+                formattedLength = $"{length} B";
+            }
+
+            return formattedLength;
+        }
+
+        /// <summary>
+        /// Возвращает строку с типом файла, если он есть в базе, если нет, то возвращает исходное расширение.
+        /// </summary>
+        /// <param name="extention">Расширение файла</param>
+        /// <returns></returns>
+        private static string FormattingOfTypeFile(string extention)
+        {
+                RegistryKey extRoot = Registry.ClassesRoot;
+
+                RegistryKey extKey = extRoot.OpenSubKey(extention);
+
+                if ((extKey == null) || (extKey.GetValue("") == null)) return extention;
+
+                string nameTypeKey = $"{extKey.GetValue("")}";
+
+                RegistryKey nameType = extRoot.OpenSubKey(nameTypeKey);
+
+                if ((nameType == null) || (nameType.GetValue("") == null)) return extention;
+
+                return nameType.GetValue("").ToString();
+        }
+
+        /// <summary>
+        /// Возвращает стек чисел, где первое число - размер папки, второе число - кол-во файлов в папке, третье число - кол-во папок в папке.
+        /// </summary>
+        /// <param name="pathDirectory">Директория для которой нужно расчитать вес</param>
+        /// <returns>Стек чисел</returns>
+        private static Stack<long> CalculateWeightOfFolder(string pathDirectory)
+        {
+            DirectoryInfo directory = new DirectoryInfo(pathDirectory);
+            Stack<long> information = new Stack<long>();
+
+            int counterNumberFolders = 0;
+            int counterNumberFiles = 0;
+            Stack<long> sum = new Stack<long>();
+
+            Summer(directory);
+
+            void Summer(DirectoryInfo dirMain)
+            {
+                try
+                {
+                    foreach (var file in dirMain.GetFiles())
+                    {
+                        sum.Push(file.Length);
+                        counterNumberFiles++;
+                    }
+
+                    foreach (var dir in dirMain.GetDirectories())
+                    {
+                        Summer(dir);
+                        counterNumberFolders++;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Presenter.CallWindowMessage("error", e.Message);
+                }
+                
+            }
+
+            information.Push(counterNumberFolders);
+            information.Push(counterNumberFiles);
+            information.Push(sum.Sum());
+
+            return information;
+        }
+
+        private static BitmapImage GetIconForFile(string extention, string pathFile)
+        {
+            FileIcon iconObject = GetFileIcon();
+
+
+            FileIcon GetFileIcon()
+            {
+                RegistryKey extRoot = Registry.ClassesRoot;
+
+
+                RegistryKey extKey = extRoot.OpenSubKey(extention);
+
+                if ((extKey == null) || (extKey.GetValue("") == null)) return null;
+
+                string iconKey = $"{ extKey.GetValue("") }\\DefaultIcon";
+
+
+                RegistryKey extIcon = extRoot.OpenSubKey(iconKey);
+
+                if ((extIcon == null) || (extIcon.GetValue("") == null)) return null;
+
+
+                FileIcon fileIcon = new FileIcon { FileExtension = extention, Icon = GetIcon(extIcon.GetValue("").ToString()) };
+                extIcon.Close();
+
+
+                extRoot.Close();
+
+                return fileIcon;
+            }
+
+            string pathTemp = Path.GetTempFileName();
+
+            if (iconObject == null)
+            {
+                return new BitmapImage(new Uri(@"Images\file.png", UriKind.Relative));
+            }
+            else if (iconObject.Icon != null)
+            {
+                iconObject.Icon.ToBitmap().Save(pathTemp);
+            }
+            else
+            {
+                Bitmap bmp = default(Bitmap);
+                bmp = new Bitmap(Icon.ExtractAssociatedIcon(pathFile).ToBitmap());
+                bmp.Save(pathTemp);
+            }
+
+
+            return new BitmapImage(new Uri(pathTemp));
+        }
+
+        private static Icon GetIcon(string iconPath)
+        {
+            int strIndex = iconPath.IndexOf(",");
+            string iconFileName = (strIndex > 0) ? iconPath.Substring(0, strIndex) : iconPath;
+            int iconFileIndex;
+
+
+            int.TryParse(iconPath.Substring(strIndex + 1), out iconFileIndex);
+
+            IntPtr hIcon = ExtractIcon(0, iconFileName, iconFileIndex);
+
+            return (hIcon != IntPtr.Zero) ? Icon.FromHandle(hIcon) : null;
+        }
+
+    }
+
+    public class FileIcon
+    {
+        public Icon Icon { get; set; }
+        public string FileExtension { get; set; }
+
+        public override string ToString()
+        {
+            return FileExtension;
+        }
     }
 }
