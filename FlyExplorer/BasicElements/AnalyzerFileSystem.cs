@@ -194,6 +194,8 @@ namespace FlyExplorer.BasicElements
             }
         }
 
+        public static void DeleteSpecifiedFileAndFolder(string pathFileOfFolder) => DeleteFile(pathFileOfFolder);
+
         /// <summary>
         /// Возвращает логический диск.
         /// </summary>

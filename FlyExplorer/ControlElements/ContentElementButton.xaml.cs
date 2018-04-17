@@ -30,9 +30,21 @@ namespace FlyExplorer.ControlElements
     /// </summary>
     public partial class ContentElementButton : UserControl
     {
+        /// <summary>
+        /// Текст содержащий элемент контента.
+        /// </summary>
         private string textContentElement;
+        /// <summary>
+        /// Путь на который указывает элемент контента.
+        /// </summary>
         private string pathContentElement;
+        /// <summary>
+        /// Тип элемента контента.
+        /// </summary>
         public TypeContentElement typeContentElement;
+        /// <summary>
+        /// Индекс позиции анализатора файловой системы для элемента контента.
+        /// </summary>
         private sbyte positionContentElement;
 
         public string Text
@@ -177,6 +189,12 @@ namespace FlyExplorer.ControlElements
         private void ContextMenuProperties_Click(object sender, RoutedEventArgs e)
         {
             Presenter.OpenWindowInformationOfFile(PathContentElement, typeContentElement);
+        }
+
+        private void ContextMenuDelete_Click(object sender, RoutedEventArgs e)
+        {
+            AnalyzerFileSystem.DeleteSpecifiedFileAndFolder(pathContentElement);
+            AnalyzerFileSystem.Update(positionContentElement);
         }
     }
 }
