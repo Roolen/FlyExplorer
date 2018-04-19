@@ -4,6 +4,7 @@ using System.IO;
 using FlyExplorer.Core;
 using System.Security.AccessControl;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Threading.Tasks;
 
@@ -393,6 +394,12 @@ namespace FlyExplorer.BasicElements
             return dateFiles;
         }
 
+        public static void CopyFileOrFolderToTheClipboard(string pathFileForCopy)
+        {
+            if(pathFileForCopy != null)
+                CopyFileToClipboard(pathFileForCopy);
+        }
+
         private static FileInfo[] GetFiles(int numberPosition)
         {
             try
@@ -460,6 +467,16 @@ namespace FlyExplorer.BasicElements
                 DirectoryInfo directory = new DirectoryInfo(oldPath);
 
                 directory.MoveTo(newPath);
+            }
+        }
+
+        private static void CopyFileToClipboard(string pathFile)
+        {
+            if (File.Exists(pathFile) || Directory.Exists(pathFile))
+            {
+                Clipboard.SetText(pathFile);
+
+                Log.Write($"AFS: The clipboard contains the file: {pathFile}");
             }
         }
 

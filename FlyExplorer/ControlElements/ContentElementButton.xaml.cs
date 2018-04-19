@@ -196,5 +196,10 @@ namespace FlyExplorer.ControlElements
             AnalyzerFileSystem.DeleteSpecifiedFileAndFolder(pathContentElement);
             AnalyzerFileSystem.Update(positionContentElement);
         }
+
+        private void ContextMenuCopyFile_Click(object sender, RoutedEventArgs e)
+        {
+            AnalyzerFileSystem.CopyFileOrFolderToTheClipboard(pathContentElement);
+        }
     }
 }

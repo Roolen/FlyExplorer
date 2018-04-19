@@ -59,6 +59,7 @@ namespace FlyExplorer.Core
             {
                 keyForRegistry.CreateSubKey(PathForFavorites);
             }
+            keyForRegistry.Close();
         }
 
         /// <summary>
@@ -78,6 +79,9 @@ namespace FlyExplorer.Core
                 {
                     subKey.SetValue(item.Key, item.Value);
                 }
+
+                keyForRegistry.Close();
+                subKey.Close();
             }
             catch (Exception e)
             {
@@ -112,6 +116,9 @@ namespace FlyExplorer.Core
                     {
                         registryItems.Add(keys[i], (string)subKey.GetValue(keys[i]));
                     }
+                    keyForRegistry.Close();
+                    subKey.Close();
+
                     return registryItems;
                 }
                 catch (Exception e)
@@ -121,6 +128,8 @@ namespace FlyExplorer.Core
                     return null;
                 }
             }
+
+            
         }
 
         /// <summary>
@@ -140,6 +149,9 @@ namespace FlyExplorer.Core
                 {
                     subKey.DeleteValue(keyName);
                 }
+
+                keyForRegistry.Close();
+                subKey.Close();
             }
             catch (Exception e)
             {
