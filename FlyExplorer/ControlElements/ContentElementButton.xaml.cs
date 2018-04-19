@@ -201,5 +201,11 @@ namespace FlyExplorer.ControlElements
         {
             AnalyzerFileSystem.CopyFileOrFolderToTheClipboard(pathContentElement);
         }
+
+        private void ContextMenuPastFile_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.PastFileOrFolderToContentArea(pathContentElement);
+            AnalyzerFileSystem.Update(positionContentElement);
+        }
     }
 }

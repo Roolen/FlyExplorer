@@ -122,6 +122,11 @@ namespace FlyExplorer.BasicElements
             DeleteFile(pathFile);
         }
 
+        public static void CopyFile(string oldPath, string newPath)
+        {
+            FileCopyTo(oldPath, newPath);
+        }
+
         /// <summary>
         /// Создаёт новую позицию анализатора файловой системы.
         /// </summary>
@@ -400,6 +405,21 @@ namespace FlyExplorer.BasicElements
                 CopyFileToClipboard(pathFileForCopy);
         }
 
+        public static string GetPathFileOrFolderOfClipboard()
+        {
+            string textOfClipboard = GetTextOfClipboard();
+
+            if (File.Exists(textOfClipboard) || Directory.Exists(textOfClipboard))
+            {
+                return textOfClipboard;
+            }
+            else
+            {
+                Presenter.CallWindowMessage("Empty", "The clipboard does not contain the required elements.");
+                return null;
+            }
+        }
+
         private static FileInfo[] GetFiles(int numberPosition)
         {
             try
@@ -455,6 +475,11 @@ namespace FlyExplorer.BasicElements
 
         private static void FileCopyTo(string oldPath, string newPath)
         {
+            if (newPath[newPath.Length - 1] != '\\')
+            {
+                newPath = newPath + '\\';
+            }
+
             if (File.Exists(oldPath))
             {
                 FileInfo file = new FileInfo(oldPath);
@@ -466,7 +491,24 @@ namespace FlyExplorer.BasicElements
             {
                 DirectoryInfo directory = new DirectoryInfo(oldPath);
 
-                directory.MoveTo(newPath);
+                CopyDirectories(directory);
+                
+            }
+
+            void CopyDirectories(DirectoryInfo directory)
+            {
+                foreach (var dir in directory.GetDirectories())
+                {
+                    foreach (var file in dir.GetFiles())
+                    {
+                        file.CopyTo($"{newPath}\\{dir.Name}");
+                    }
+                }
+
+                foreach (var file in directory.GetFiles())
+                {
+                    file.CopyTo($"{newPath}\\{directory.Name}");
+                }
             }
         }
 
@@ -478,6 +520,14 @@ namespace FlyExplorer.BasicElements
 
                 Log.Write($"AFS: The clipboard contains the file: {pathFile}");
             }
+        }
+
+        private static string GetTextOfClipboard()
+        {
+            if (Clipboard.ContainsText() == true)
+                return Clipboard.GetText();
+
+            return null;
         }
 
         public static void AddDirectorySecurity(string FileName, string Account, FileSystemRights Rights, AccessControlType ControlType)
