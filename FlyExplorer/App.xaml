@@ -19,7 +19,7 @@
                         </TextBlock>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Panel" Property="Background" Value="#FF8282ED" />
+                                <Setter TargetName="Panel" Property="Background" Value="#FF66A4E2" />
                                 <Setter TargetName="Panel" Property="Margin" Value="0,-2"/>
                                 <Setter TargetName="Panel" Property="Foreground" Value="white"/>
                             </Trigger>
@@ -36,7 +36,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
-                        <TextBlock Name="tab" Background="MediumPurple">
+                        <TextBlock Name="tab" Background="SkyBlue">
                             <ContentPresenter x:Name="ContentSite"
                                               VerticalAlignment="Center"
                                               HorizontalAlignment="Center"
@@ -51,6 +51,7 @@
         <Style TargetType="Button">
             <Style.Setters>
                 <Setter Property="Background" Value="#00F0F8FF"/>
+                <Setter Property="Foreground" Value="#FF273246"/>
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
             </Style.Setters>
@@ -58,7 +59,7 @@
 
         <Style TargetType="Button" x:Key="TreeButton">
             <Style.Setters>
-                <Setter Property="Background" Value="AliceBlue"/>
+                <Setter Property="Background" Value="#FF5948A8"/>
                 <Setter Property="Width" Value="50"/>
             </Style.Setters>
         </Style>
@@ -74,13 +75,13 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="TreeViewItem">
-                            <Button x:Name="ItemsButton" Background="#00000001" Foreground="#FF8282ED" FontFamily="Segoe UI" BorderThickness="0" HorizontalAlignment="Left" >
+                            <Button x:Name="ItemsButton" Background="#00000001" Foreground="#FF57B098" FontFamily="Segoe UI" BorderThickness="0" HorizontalAlignment="Left" >
                                 <ContentPresenter x:Name="ContentSite" ContentSource="Header"/>
                             </Button>
 
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter TargetName="ItemsButton" Property="Background" Value="#FF66CC99"/>
+                                    <Setter TargetName="ItemsButton" Property="Background" Value="#FF33B6A4"/>
                                     <Setter TargetName="ItemsButton" Property="Foreground" Value="white"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>

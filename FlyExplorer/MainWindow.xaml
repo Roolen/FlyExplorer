@@ -45,9 +45,9 @@
                 <DropShadowEffect ShadowDepth="2"/>
             </Rectangle.Effect>
         </Rectangle>
-        <TreeView x:Name="treeView" Margin="37,23,0,0" Background="#00000000" BorderBrush="#00CCD1DA" FontFamily="Segoe UI" FontSize="24" Foreground="#FF8282ED"/>
+        <TreeView x:Name="treeView" Margin="37,23,0,0" Background="#00000000" BorderBrush="#00CCD1DA" FontFamily="Segoe UI" FontSize="24" Foreground="#FF6297B6"/>
         <GridSplitter HorizontalAlignment="Left" Margin="0,23,0,0" Width="8" Grid.Column="1" Background="#00F0F0F0" ShowsPreview="True"/>
-        <Rectangle x:Name="ToolBar" Fill="#FF8282ED" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=MainGrid, Mode=OneWay}" Stroke="#FF8181EB" VerticalAlignment="Top" Width="37"/>
+        <Rectangle x:Name="ToolBar" Fill="#FF82B3ED" HorizontalAlignment="Left" Height="{Binding ActualHeight, ElementName=MainGrid, Mode=OneWay}" Stroke="#FF82B3ED" VerticalAlignment="Top" Width="37"/>
         <Rectangle Grid.Column="1" Fill="#FF8282ED" Height="4" Margin="2,81,-5,0" Stroke="#00F5F5F6" VerticalAlignment="Top" StrokeThickness="0"/>
         <Menu Height="23" VerticalAlignment="Top" FontFamily="Berlin Sans FB" Background="#FFF8F8F9" Margin="37,0,0,0" FontSize="18" Grid.ColumnSpan="2">
             <Menu.Effect>

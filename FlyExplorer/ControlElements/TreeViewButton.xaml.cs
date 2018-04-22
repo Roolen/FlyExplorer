@@ -34,7 +34,7 @@ namespace FlyExplorer.ControlElements
             pathButton = path;
 
             ButtonForTreeView.FontFamily = new FontFamily("Berlin Sans FB");
-            ButtonForTreeView.Foreground = new SolidColorBrush(Colors.MediumPurple);
+            ButtonForTreeView.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
         }
 
         /// <summary>
