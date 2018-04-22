@@ -76,7 +76,7 @@ namespace FlyExplorer.BasicElements
 
         static AnalyzerFileSystem()
         {
-            Log.Write("Start AnalyzerFileSystem"); 
+            Log.Write("Start AnalyzerFileSystem");
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace FlyExplorer.BasicElements
             {
                 newPath += name[i];
                 if (i != name.Length - 1) newPath += "\\";
-            } 
+            }
 
             FileCopyTo(pathFile, newPath);
             DeleteFile(pathFile);
@@ -181,7 +181,7 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="oldPosition">Индекс позиции</param>
         /// <param name="newPath">Новый путь позиции</param>
-        public static void TransformPosition(sbyte numberPosition,string newPath)
+        public static void TransformPosition(sbyte numberPosition, string newPath)
         {
             try
             {
@@ -212,7 +212,7 @@ namespace FlyExplorer.BasicElements
         {
             try
             {
-            return new DriveInfo(nameDisk);
+                return new DriveInfo(nameDisk);
             }
             catch (ArgumentException e)
             {
@@ -257,10 +257,10 @@ namespace FlyExplorer.BasicElements
             }
             else
             {
-                Log.Write("AFS: don't positions, write attempt failed"); 
+                Log.Write("AFS: don't positions, write attempt failed");
                 return Positions[0];
             }
-         }
+        }
 
         /// <summary>
         /// Возвращает массив файлов, из деректории, указанной позиции анализатора файловой системы.
@@ -400,12 +400,20 @@ namespace FlyExplorer.BasicElements
             return dateFiles;
         }
 
+        /// <summary>
+        /// Копирует файл или папку в буфер обмена.
+        /// </summary>
+        /// <param name="pathFileForCopy">Путь файла или папки</param>
         public static void CopyFileOrFolderToTheClipboard(string pathFileForCopy)
         {
-            if(pathFileForCopy != null)
+            if (pathFileForCopy != null)
                 CopyFileToClipboard(pathFileForCopy);
         }
 
+        /// <summary>
+        /// Возвращает путь содержащийся в буфере обмена. Если в буфере обмена нет пути или он некоректен, то выводится соответствуещее сообщение.
+        /// </summary>
+        /// <returns>Путь содержащийся в буфере обмена</returns>
         public static string GetPathFileOrFolderOfClipboard()
         {
             string textOfClipboard = GetTextOfClipboard();
@@ -421,6 +429,11 @@ namespace FlyExplorer.BasicElements
             }
         }
 
+        /// <summary>
+        /// Возвращает массив файлов, из указанной позиции анализатора файловой системы.
+        /// </summary>
+        /// <param name="numberPosition">Позиция АФС</param>
+        /// <returns>Массив файлов</returns>
         private static FileInfo[] GetFiles(int numberPosition)
         {
             try
@@ -434,18 +447,16 @@ namespace FlyExplorer.BasicElements
                 Presenter.CallWindowMessage("Failed", "For this files don't access.");
                 return null;
             }
-            
 
-            
+
+
         }
 
-        private static string GetNameForFile(string pathTab)
-        {
-            string[] elementsPath = pathTab.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
-
-            return elementsPath.Last();
-        }
-
+        /// <summary>
+        /// Возвращает массив директорий, из указанной позиции анализатора файловой системы.
+        /// </summary>
+        /// <param name="numberPosition">Позиция АФС</param>
+        /// <returns>Массив директорий</returns>
         private static DirectoryInfo[] GetDirectories(int numberPosition)
         {
             try
@@ -461,9 +472,13 @@ namespace FlyExplorer.BasicElements
                 TransformPosition((sbyte)numberPosition, "C:\\");
                 return GetDirectories(numberPosition);
             }
-            
+
         }
 
+        /// <summary>
+        /// Удаляет файл по указаному пути, без возможности восстановления.
+        /// </summary>
+        /// <param name="pathFile">Путь к файлу, который нужно удалить</param>
         private static void DeleteFile(string pathFile)
         {
             try
@@ -489,7 +504,7 @@ namespace FlyExplorer.BasicElements
                 Log.Write($"AFS: {e.Message}");
                 Presenter.CallWindowMessage("error", e.Message);
             }
-            
+
         }
 
         /// <summary>
@@ -499,25 +514,34 @@ namespace FlyExplorer.BasicElements
         /// <param name="newPath">Путь куда требуется скопировать</param>
         private static void FileCopyTo(string oldPath, string newPath)
         {
-            if (File.Exists(oldPath))
+            try
             {
-                if (newPath[newPath.Length - 1] != '\\')
+                if (File.Exists(oldPath))
                 {
-                    newPath = newPath + '\\';
+                    if (newPath[newPath.Length - 1] != '\\')
+                    {
+                        newPath = newPath + '\\';
+                    }
+
+                    FileInfo file = new FileInfo(oldPath);
+
+                    file.CopyTo(Path.Combine(newPath, file.Name), true);
                 }
 
-                FileInfo file = new FileInfo(oldPath);
+                if (Directory.Exists(oldPath))
+                {
+                    DirectoryInfo directory = new DirectoryInfo(oldPath);
 
-                file.CopyTo(Path.Combine(newPath, GetNameForFile(oldPath)), true);
+                    CopyDirectories(directory);
+
+                }
             }
-
-            if (Directory.Exists(oldPath))
+            catch (Exception e)
             {
-                DirectoryInfo directory = new DirectoryInfo(oldPath);
-
-                CopyDirectories(directory);
-                
+                Log.Write($"AFS: {e.Message}");
+                Presenter.CallWindowMessage("error", e.Message);
             }
+
 
             void CopyDirectories(DirectoryInfo directory)
             {
@@ -536,6 +560,10 @@ namespace FlyExplorer.BasicElements
             }
         }
 
+        /// <summary>
+        /// Копирует файл в буфер обмена.
+        /// </summary>
+        /// <param name="pathFile">Путь к файлу, который нужно скопировать в буфер обмена</param>
         private static void CopyFileToClipboard(string pathFile)
         {
             if (File.Exists(pathFile) || Directory.Exists(pathFile))
@@ -546,6 +574,10 @@ namespace FlyExplorer.BasicElements
             }
         }
 
+        /// <summary>
+        /// Возвращает текст из буфера обмена, если он там есть.
+        /// </summary>
+        /// <returns>Текст находящийся в буфере обмена</returns>
         private static string GetTextOfClipboard()
         {
             if (Clipboard.ContainsText() == true)
