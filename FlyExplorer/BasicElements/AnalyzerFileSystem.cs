@@ -231,7 +231,7 @@ namespace FlyExplorer.BasicElements
         {
             List<DriveInfo> drives = new List<DriveInfo>(DriveInfo.GetDrives());
 
-            for (int i = 0; i < drives.Capacity; i++)
+            for (int i = 0; i < drives.Count; i++)
             {
                 if (!drives[i].IsReady)
                 {
@@ -521,17 +521,17 @@ namespace FlyExplorer.BasicElements
 
             void CopyDirectories(DirectoryInfo directory)
             {
-                foreach (var dir in directory.GetDirectories())
-                {
-                    foreach (var file in dir.GetFiles())
-                    {
-                        file.CopyTo($"{newPath}\\{dir.Name}");
-                    }
-                }
+                newPath = Path.Combine(newPath, directory.Name);
+                Directory.CreateDirectory(Path.Combine(newPath));
 
                 foreach (var file in directory.GetFiles())
                 {
-                    file.CopyTo($"{newPath}\\{directory.Name}");
+                    file.CopyTo(Path.Combine(newPath, file.Name));
+                }
+
+                foreach (var dir in directory.GetDirectories())
+                {
+                    CopyDirectories(dir);
                 }
             }
         }
