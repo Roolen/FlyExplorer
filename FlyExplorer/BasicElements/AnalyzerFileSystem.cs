@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace FlyExplorer.BasicElements
 {
@@ -438,6 +439,13 @@ namespace FlyExplorer.BasicElements
             
         }
 
+        private static string GetNameForFile(string pathTab)
+        {
+            string[] elementsPath = pathTab.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+
+            return elementsPath.Last();
+        }
+
         private static DirectoryInfo[] GetDirectories(int numberPosition)
         {
             try
@@ -458,33 +466,49 @@ namespace FlyExplorer.BasicElements
 
         private static void DeleteFile(string pathFile)
         {
-            if (File.Exists(pathFile))
+            try
             {
-                FileInfo file = new FileInfo(pathFile);
+                if (File.Exists(pathFile))
+                {
+                    FileInfo file = new FileInfo(pathFile);
 
-                file.Delete();
+                    file.Delete();
+                }
+
+                if (Directory.Exists(pathFile))
+                {
+                    DirectoryInfo directory = new DirectoryInfo(pathFile);
+
+                    directory.Delete(true);
+                }
+
+                Log.Write($"AFS: deleted file {pathFile}");
             }
-
-            if (Directory.Exists(pathFile))
+            catch (Exception e)
             {
-                DirectoryInfo directory = new DirectoryInfo(pathFile);
-
-                directory.Delete(true);
+                Log.Write($"AFS: {e.Message}");
+                Presenter.CallWindowMessage("error", e.Message);
             }
+            
         }
 
+        /// <summary>
+        /// Копирует файл или директорию.
+        /// </summary>
+        /// <param name="oldPath">Файл который требуется скопировать</param>
+        /// <param name="newPath">Путь куда требуется скопировать</param>
         private static void FileCopyTo(string oldPath, string newPath)
         {
-            if (newPath[newPath.Length - 1] != '\\')
-            {
-                newPath = newPath + '\\';
-            }
-
             if (File.Exists(oldPath))
             {
+                if (newPath[newPath.Length - 1] != '\\')
+                {
+                    newPath = newPath + '\\';
+                }
+
                 FileInfo file = new FileInfo(oldPath);
 
-                file.CopyTo(newPath, true);
+                file.CopyTo(Path.Combine(newPath, GetNameForFile(oldPath)), true);
             }
 
             if (Directory.Exists(oldPath))
