@@ -9,7 +9,10 @@
     <Grid x:Name="Grid">
         <Grid.ContextMenu>
             <ContextMenu>
-                <MenuItem x:Name="ContextMenuOpenFile" Header="Open file" Click="OpenFile_Click"/>
+                <MenuItem x:Name="ContextMenuOpenFile" Header="Open" Click="OpenFile_Click"/>
+                <MenuItem x:Name="ContextMenuCopyFile" Header="Copy" Click="ContextMenuCopyFile_Click"/>
+                <MenuItem x:Name="ContextMenuPastFile" Header="Past" Click="ContextMenuPastFile_Click"/>
+                <MenuItem x:Name="ContextMenuDelete" Header="Delete" Click="ContextMenuDelete_Click" />
                 <MenuItem x:Name="ContextMenuProperties" Header="Properties" Click="ContextMenuProperties_Click"/>
             </ContextMenu>
             

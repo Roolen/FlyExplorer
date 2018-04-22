@@ -24,7 +24,7 @@ namespace FlyExplorer.BasicElements
         /// <summary>
         /// Событие вызывается, когда требуется создание новой вкладки.
         /// </summary>
-        static public event NewTab NewTabHandler;
+        public static event NewTab NewTabHandler;
 
         // WinAPI function 
         [DllImport("shell32.dll", EntryPoint = "ExtractIconA", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
@@ -34,12 +34,12 @@ namespace FlyExplorer.BasicElements
         /// Возвращает массив элементов дерева, заполненый элементами дерева файловой системы.
         /// </summary>
         /// <returns>Массив элементов дерева</returns>
-        static public TreeViewButton[] GetDirectorysTree()
+        public static TreeViewButton[] GetDirectorysTree()
         {
             return MakeTreeViewButtonsForLogicalDrives();
         }
 
-        static public TreeViewButton[] GetFavoritesTree()
+        public static TreeViewButton[] GetFavoritesTree()
         {
             return MakeTreeViewButtonsForFavorites();
         }
@@ -49,7 +49,7 @@ namespace FlyExplorer.BasicElements
         /// </summary>
         /// <param name="numberPosition">Позиция АФС</param>
         /// <returns>Панель заполненную элементами</returns>
-        static public WrapPanel GetPanelWithFoldersAndFilesForContentArea(sbyte numberPosition)
+        public static WrapPanel GetPanelWithFoldersAndFilesForContentArea(sbyte numberPosition)
         {
             string[] namesDirectories = AnalyzerFileSystem.GetDirectoriesNameFromPosition(numberPosition);
             string[] namesFiles = AnalyzerFileSystem.GetFilesNameFromPosition(numberPosition);
@@ -86,18 +86,32 @@ namespace FlyExplorer.BasicElements
             return panelWithFoldersAndFiles;
         }
 
+        public static void PastFileOrFolderToContentArea(string pathToCopy)
+        {
+            string path = AnalyzerFileSystem.GetPathFileOrFolderOfClipboard();
+
+            if (File.Exists(path))
+            {
+                AnalyzerFileSystem.CopyFile(path, pathToCopy);
+            }
+            else if (Directory.Exists(path))
+            {
+                AnalyzerFileSystem.CopyFile(path, pathToCopy);
+            }
+        }
+
         /// <summary>
         /// Вызывает окно с сообщением.
         /// </summary>
         /// <param name="title">Заголовок окна</param>
         /// <param name="message">Текст сообщения</param>
-        static public void CallWindowMessage(string title, string message)
+        public static void CallWindowMessage(string title, string message)
         {
             WindowMessage winMessage = new WindowMessage(title, message);
             winMessage.ShowDialog();
         }
 
-        static public ComboBoxItem[] GetButtonsForDriveSwitcher()
+        public static ComboBoxItem[] GetButtonsForDriveSwitcher()
         {
             DriveInfo[] disks = AnalyzerFileSystem.GetAllLogicDisk();
             ComboBoxItem[] buttonItems = new ComboBoxItem[disks.Length];
@@ -124,7 +138,7 @@ namespace FlyExplorer.BasicElements
         /// Вызывает событие создания новой вкладки.
         /// </summary>
         /// <param name="path">Путь новой вкладки</param>
-        static public void SetNewTab(string path)
+        public static void SetNewTab(string path)
         {
             NewTabHandler?.Invoke(path);
 
@@ -138,13 +152,13 @@ namespace FlyExplorer.BasicElements
         /// <param name="fontSize">Размер шрифта</param>
         /// <param name="fontWeight">Тип шрифта</param>
         /// <returns>Текстовый блок</returns>
-        static public TextBlock GetNewTextBox(string text, int fontSize, FontWeight fontWeight) => new TextBlock { Text = text, FontSize = fontSize, FontWeight = fontWeight };
+        public static TextBlock GetNewTextBox(string text, int fontSize, FontWeight fontWeight) => new TextBlock { Text = text, FontSize = fontSize, FontWeight = fontWeight };
 
         /// <summary>
         /// Возвращает массив элементов дерева, заполненый логическими дисками.
         /// </summary>
         /// <returns>Массив элементов дерева</returns>
-        static private TreeViewButton[] MakeTreeViewButtonsForLogicalDrives()
+        private static TreeViewButton[] MakeTreeViewButtonsForLogicalDrives()
         {
             DriveInfo[] disks = AnalyzerFileSystem.GetAllLogicDisk();
 
@@ -163,7 +177,7 @@ namespace FlyExplorer.BasicElements
         /// Возвращает массив элементов дерева, заполненый избранными директориями.
         /// </summary>
         /// <returns>Массив избранных директорий</returns>
-        static private TreeViewButton[] MakeTreeViewButtonsForFavorites()
+        private static TreeViewButton[] MakeTreeViewButtonsForFavorites()
         {
             Dictionary<string, string> favorites = Configurator.GetDictionaryFavoritesValueRegistry();
 
@@ -401,6 +415,8 @@ namespace FlyExplorer.BasicElements
 
             return (hIcon != IntPtr.Zero) ? Icon.FromHandle(hIcon) : null;
         }
+
+
 
     }
 

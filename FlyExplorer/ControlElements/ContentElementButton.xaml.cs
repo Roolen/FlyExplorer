@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,9 +31,21 @@ namespace FlyExplorer.ControlElements
     /// </summary>
     public partial class ContentElementButton : UserControl
     {
+        /// <summary>
+        /// Текст содержащий элемент контента.
+        /// </summary>
         private string textContentElement;
+        /// <summary>
+        /// Путь на который указывает элемент контента.
+        /// </summary>
         private string pathContentElement;
+        /// <summary>
+        /// Тип элемента контента.
+        /// </summary>
         public TypeContentElement typeContentElement;
+        /// <summary>
+        /// Индекс позиции анализатора файловой системы для элемента контента.
+        /// </summary>
         private sbyte positionContentElement;
 
         public string Text
@@ -72,11 +85,11 @@ namespace FlyExplorer.ControlElements
         {
             try
             {
-                if (typeContentElement == TypeContentElement.folder && pathContentElement != null)
+                if (Directory.Exists(PathContentElement))
                 {
                     AnalyzerFileSystem.TransformPosition(positionContentElement, PathContentElement);
                 }
-                else if (typeContentElement == TypeContentElement.file && pathContentElement != null)
+                else if (File.Exists(PathContentElement))
                 {
                     Process.Start(PathContentElement);
                 }
@@ -174,9 +187,46 @@ namespace FlyExplorer.ControlElements
             OpenFileContentElement();
         }
 
+        /// <summary>
+        /// Открытие окна свойств, при нажатие на элемент контекстного меню.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ContextMenuProperties_Click(object sender, RoutedEventArgs e)
         {
             Presenter.OpenWindowInformationOfFile(PathContentElement, typeContentElement);
+        }
+
+        /// <summary>
+        /// Удаление файла, при нажатии на элемент контекстного меню.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ContextMenuDelete_Click(object sender, RoutedEventArgs e)
+        {
+            AnalyzerFileSystem.DeleteSpecifiedFileAndFolder(pathContentElement);
+            AnalyzerFileSystem.Update(positionContentElement);
+        }
+
+        /// <summary>
+        /// Копирование файла в буфер обмена, при нажатие на элемент контекстного меню.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ContextMenuCopyFile_Click(object sender, RoutedEventArgs e)
+        {
+            AnalyzerFileSystem.CopyFileOrFolderToTheClipboard(pathContentElement);
+        }
+
+        /// <summary>
+        /// Вставление файла из буфера обмена, при нажатии на элемент контекстного меню.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ContextMenuPastFile_Click(object sender, RoutedEventArgs e)
+        {
+            Presenter.PastFileOrFolderToContentArea(pathContentElement);
+            AnalyzerFileSystem.Update(positionContentElement);
         }
     }
 }
