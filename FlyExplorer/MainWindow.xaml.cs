@@ -213,6 +213,9 @@ namespace FlyExplorer
             treeView.Items.Add(Presenter.GetNewTextBox("Network", 24, FontWeights.Bold));
         }
 
+        /// <summary>
+        /// Выводит избранные каталоги, в виде дерева элементов.
+        /// </summary>
         private void OutputFavoritesOnTreeView()
         {
             TreeViewButton[] itemsFavorites = Presenter.GetFavoritesTree();
